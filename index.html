@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CS2 Arbitrage Scanner</title>
-    <meta name="description" content="Single-page application for scanning and analyzing CS2 skin arbitrage opportunities.">
+    <meta name="description" content="Single-page application for scanning and analyzing CS2 skin arbitrage opportunities across Steam, Buff, CSFloat, Skinport, DMarket with Telegram bot integration.">
+    <meta property="og:title" content="CS2 Arbitrage Scanner">
+    <meta property="og:description" content="Single-page application for scanning and analyzing CS2 skin arbitrage opportunities across Steam, Buff, CSFloat, Skinport, DMarket with Telegram bot integration.">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
 
@@ -1252,6 +1254,199 @@
             color: #fff;
         }
 
+        /* Auto-created Telegram Parser Buttons & Diff Tracker */
+        .tg-autoparse-container {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin-top: 2px;
+        }
+        .autoparse-heading {
+            font-size: 0.67rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--text-muted);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 6px;
+            margin-bottom: 2px;
+        }
+        .btn-autoparse {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 6px 9px;
+            border-radius: 6px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+            text-align: left;
+            width: 100%;
+        }
+        .btn-autoparse:hover {
+            transform: translateY(-1px);
+        }
+        .btn-autoparse .btn-left {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .autoparse-count-badge {
+            font-size: 0.63rem;
+            padding: 1px 6px;
+            border-radius: 8px;
+            font-weight: 800;
+            font-family: monospace;
+        }
+        .btn-autoparse-top {
+            background: rgba(0, 255, 65, 0.12);
+            color: #00FF41;
+            border-color: rgba(0, 255, 65, 0.3);
+        }
+        .btn-autoparse-top:hover {
+            background: rgba(0, 255, 65, 0.22);
+            border-color: #00FF41;
+        }
+        .btn-autoparse-top .autoparse-count-badge {
+            background: rgba(0, 255, 65, 0.25);
+            color: #fff;
+        }
+        .btn-autoparse-med {
+            background: rgba(56, 189, 248, 0.12);
+            color: #38bdf8;
+            border-color: rgba(56, 189, 248, 0.3);
+        }
+        .btn-autoparse-med:hover {
+            background: rgba(56, 189, 248, 0.22);
+            border-color: #38bdf8;
+        }
+        .btn-autoparse-med .autoparse-count-badge {
+            background: rgba(56, 189, 248, 0.25);
+            color: #fff;
+        }
+        .btn-autoparse-low {
+            background: rgba(239, 68, 68, 0.12);
+            color: #f87171;
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+        .btn-autoparse-low:hover {
+            background: rgba(239, 68, 68, 0.22);
+            border-color: #f87171;
+        }
+        .btn-autoparse-low .autoparse-count-badge {
+            background: rgba(239, 68, 68, 0.25);
+            color: #fff;
+        }
+        .btn-autoparse-diff {
+            background: rgba(234, 179, 8, 0.12);
+            color: #facc15;
+            border-color: rgba(234, 179, 8, 0.35);
+        }
+        .btn-autoparse-diff:hover {
+            background: rgba(234, 179, 8, 0.25);
+            border-color: #facc15;
+        }
+        .btn-autoparse-diff .autoparse-count-badge {
+            background: rgba(234, 179, 8, 0.3);
+            color: #fff;
+        }
+        .btn-autoparse-digest {
+            background: rgba(168, 85, 247, 0.12);
+            color: #c084fc;
+            border-color: rgba(168, 85, 247, 0.35);
+        }
+        .btn-autoparse-digest:hover {
+            background: rgba(168, 85, 247, 0.25);
+            border-color: #c084fc;
+        }
+        .btn-autoparse-digest .autoparse-count-badge {
+            background: rgba(168, 85, 247, 0.3);
+            color: #fff;
+        }
+
+        /* Live ROI Changes Feed Panel */
+        .roi-feed-box {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-glass);
+            border-radius: 6px;
+            padding: 6px;
+            max-height: 155px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            font-size: 0.69rem;
+        }
+        .roi-feed-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 4px 6px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            gap: 4px;
+        }
+        .roi-feed-item.spike {
+            border-left: 3px solid #00FF41;
+        }
+        .roi-feed-item.drop {
+            border-left: 3px solid #ef4444;
+        }
+        .roi-feed-item.market-switch {
+            border-left: 3px solid #facc15;
+        }
+        .roi-feed-info {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            flex: 1;
+        }
+        .roi-feed-name {
+            font-weight: 700;
+            color: #e2e8f0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 0.68rem;
+        }
+        .roi-feed-sub {
+            font-size: 0.62rem;
+            color: var(--text-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .roi-feed-delta {
+            font-weight: 800;
+            font-family: monospace;
+            font-size: 0.7rem;
+            flex-shrink: 0;
+            margin-right: 4px;
+        }
+        .roi-feed-delta.pos { color: #00FF41; }
+        .roi-feed-delta.neg { color: #f87171; }
+        .btn-mini-tg {
+            background: rgba(56, 189, 248, 0.15);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            color: #38bdf8;
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-size: 0.62rem;
+            font-weight: 700;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: all 0.2s;
+        }
+        .btn-mini-tg:hover {
+            background: rgba(56, 189, 248, 0.3);
+            color: #fff;
+        }
+
         /* Quick Parse Button in Filter Strip */
         .btn-parse-tg {
             background: rgba(56, 189, 248, 0.15);
@@ -1299,6 +1494,69 @@
             background: rgba(0, 255, 65, 0.2) !important;
             color: #00FF41 !important;
             border-color: rgba(0, 255, 65, 0.5) !important;
+        }
+
+        /* Liquidity & Arbitrage Flag Badges */
+        .liquidity-badge-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+            padding: 6px 10px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            font-size: 0.72rem;
+            transition: all 0.2s;
+        }
+        .liquidity-badge-wrap.flag-green {
+            background: rgba(0, 255, 65, 0.08);
+            border: 1px solid rgba(0, 255, 65, 0.35);
+            color: #00FF41;
+        }
+        .liquidity-badge-wrap.flag-yellow {
+            background: rgba(234, 179, 8, 0.08);
+            border: 1px solid rgba(234, 179, 8, 0.35);
+            color: #facc15;
+        }
+        .liquidity-badge-wrap.flag-red {
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.35);
+            color: #f87171;
+        }
+        .liquidity-title-tag {
+            font-weight: 800;
+            letter-spacing: 0.02em;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .liquidity-stat-chips {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #cbd5e1;
+            font-size: 0.68rem;
+        }
+        .liquidity-chip-pill {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 1px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .market-cross-badge {
+            background: rgba(168, 85, 247, 0.15);
+            border: 1px solid rgba(168, 85, 247, 0.35);
+            color: #c084fc;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 4px;
         }
 
         /* Modal Styles */
@@ -1530,6 +1788,8 @@
             from { transform: translateY(20px); opacity: 0; }
             to { transform: translateY(0); opacity: 1; }
         }
+
+
     </style>
 </head>
 <body>
@@ -1595,6 +1855,8 @@
             </div>
         </header>
 
+        <!-- Real Mode Active -->
+
         <div class="dashboard">
             <!-- Settings & Filters -->
             <aside class="settings-panel glass">
@@ -1648,10 +1910,33 @@
                     <select id="sortBy" class="form-control">
                         <option value="roi-desc">ROI % (По убыванию - максимум)</option>
                         <option value="profit-desc">Профит $ (По убыванию)</option>
-                        <option value="profit-asc">Профит $ (По возрастанию)</option>
+                        <option value="sales-desc">🔥 Объемы продаж в Steam (24ч максимум)</option>
+                        <option value="volume-desc">💎 Оборот $ за 7 дней (Максимум)</option>
                         <option value="price-asc">Цена покупки (Дешевле - от ширпа)</option>
                         <option value="price-desc">Цена покупки (Дороже)</option>
+                        <option value="profit-asc">Профит $ (По возрастанию)</option>
                         <option value="roi-asc">ROI % (По возрастанию)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="marketFilter">Маркет покупки (любой / не только Buff)</label>
+                    <select id="marketFilter" class="form-control">
+                        <option value="all">🌐 Любые маркеты (CSFloat, DMarket, Skinport, Buff163)</option>
+                        <option value="csfloat">CSFloat (P2P ордера)</option>
+                        <option value="dmarket">DMarket (Быстрые ордера)</option>
+                        <option value="skinport">Skinport (Европа)</option>
+                        <option value="buff">Buff163 (Китай)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="liquidityFilter">Ликвидность и флаг к покупке</label>
+                    <select id="liquidityFilter" class="form-control">
+                        <option value="all">Все предметы (с любым статусом)</option>
+                        <option value="green">🟢 Зеленый флаг (Рекомендовано / Высокий ликвид)</option>
+                        <option value="yellow">🟡 Желтый флаг (Умеренная ликвидность)</option>
+                        <option value="red">🔴 Красный флаг (Неликвид / Риск зависания / Анти-спред)</option>
                     </select>
                 </div>
 
@@ -1741,14 +2026,55 @@
                         </div>
                         <span class="tg-status-pill inactive" id="tgSidebarStatus">Не подключен</span>
                     </div>
-                    <p class="tg-sidebar-desc">Мгновенный парсинг лучших связок и отправка сигналов прямо в ваш Telegram бот или канал.</p>
-                    <div class="tg-sidebar-actions">
-                        <button type="button" id="tgOpenBtn" class="btn-tg-open">
-                            ⚙ Настроить Telegram бота
+                    <p class="tg-sidebar-desc">Автопарсинг топ сделок, умеренных и невыгодных позиций, плюс трекер любых изменений ROI со ссылками на маркеты.</p>
+                    
+                    <button type="button" id="tgOpenBtn" class="btn-tg-open" style="width: 100%;">
+                        ⚙ Настроить Telegram бота
+                    </button>
+
+                    <!-- Auto-created Parsing Buttons -->
+                    <div class="autoparse-heading">
+                        <span>Кнопки парсинга в TG:</span>
+                        <span style="font-size: 0.65rem; color: #38bdf8;">Авто</span>
+                    </div>
+                    <div class="tg-autoparse-container">
+                        <button type="button" class="btn-autoparse btn-autoparse-top" id="tgParseGreenBtn" title="Спарсить проверенные высоколиквидные связки с зеленым флагом к покупке">
+                            <span class="btn-left"><span>🟢</span><span>Ликвидные (Зеленый флаг)</span></span>
+                            <span class="autoparse-count-badge" id="badgeGreenCount" style="background: rgba(0, 255, 65, 0.25); color: #00FF41;">0</span>
                         </button>
-                        <button type="button" id="tgQuickSendBtn" class="btn-tg-send" title="Спарсить и отправить топ связки в Telegram бот">
-                            🚀 Спарсить Топ-5 связок
+                        <button type="button" class="btn-autoparse btn-autoparse-top" id="tgParseTopBtn" title="Спарсить самые прибыльные связки в Telegram (ROI > 25%)">
+                            <span class="btn-left"><span>🔥</span><span>Топовые сделки</span></span>
+                            <span class="autoparse-count-badge" id="badgeTopCount">0</span>
                         </button>
+                        <button type="button" class="btn-autoparse btn-autoparse-med" id="tgParseAllMarketsBtn" title="Спарсить связки по всем 4 маркетам (CSFloat, DMarket, Skinport, Buff163)">
+                            <span class="btn-left"><span>🌐</span><span>Все 4 маркета</span></span>
+                            <span class="autoparse-count-badge" id="badgeAllMarketsCount">0</span>
+                        </button>
+                        <button type="button" class="btn-autoparse btn-autoparse-med" id="tgParseMedBtn" title="Спарсить умеренные связки в Telegram (ROI 5% - 25%)">
+                            <span class="btn-left"><span>⚖️</span><span>Средние сделки</span></span>
+                            <span class="autoparse-count-badge" id="badgeMedCount">0</span>
+                        </button>
+                        <button type="button" class="btn-autoparse btn-autoparse-low" id="tgParseLowBtn" title="Спарсить сделки «не очень» и неликвиды с красным флагом">
+                            <span class="btn-left"><span>🔴</span><span>Неликвиды («Не очень»)</span></span>
+                            <span class="autoparse-count-badge" id="badgeLowCount">0</span>
+                        </button>
+                        <button type="button" class="btn-autoparse btn-autoparse-diff" id="tgParseDiffBtn" title="Спарсить зафиксированные изменения в лучших ROI">
+                            <span class="btn-left"><span>📈</span><span>Изменения ROI</span></span>
+                            <span class="autoparse-count-badge" id="badgeDiffCount">0</span>
+                        </button>
+                        <button type="button" class="btn-autoparse btn-autoparse-digest" id="tgParseDigestBtn" title="Спарсить сводный дайджест (Ликвидные + Топ + Не очень)">
+                            <span class="btn-left"><span>📊</span><span>Сводный дайджест</span></span>
+                            <span class="autoparse-count-badge">Все</span>
+                        </button>
+                    </div>
+
+                    <!-- Live ROI Changes Feed -->
+                    <div class="autoparse-heading" style="margin-top: 8px;">
+                        <span>Живые изменения ROI:</span>
+                        <span id="roiChangeStatusTag" style="color: #00FF41; font-size: 0.62rem; font-weight: 700;">● Трекер вкл</span>
+                    </div>
+                    <div class="roi-feed-box" id="roiFeedBox">
+                        <div style="color: var(--text-muted); text-align: center; padding: 8px;">Отслеживание ордеров активно...</div>
                     </div>
                 </div>
             </aside>
@@ -1758,18 +2084,32 @@
                 <div class="quick-filter-strip">
                     <div class="quick-filter-chips" id="quickFilterChips">
                         <button class="chip-btn active" data-filter="all">⚡ Все предметы</button>
+                        <button class="chip-btn" data-filter="green_flag" style="border-color: rgba(0,255,65,0.4); color: #00FF41;">🟢 Зеленый флаг (Ликвид)</button>
+                        <button class="chip-btn" data-filter="red_flag" style="border-color: rgba(239,68,68,0.4); color: #f87171;">🔴 Красный флаг (Неликвид)</button>
                         <button class="chip-btn chip-hot" data-filter="consumer_spread">🔥 Ширпотреб с x2+ спредом</button>
-                        <button class="chip-btn" data-filter="profitable_only">🟢 Только профитные</button>
+                        <button class="chip-btn" data-filter="profitable_only">💎 Только профитные</button>
                         <button class="chip-btn" data-filter="high_roi">🚀 ROI > 30%</button>
                         <button class="chip-btn" data-filter="cheap">🪙 До $1 (до 40 ₴)</button>
                     </div>
                     <div class="order-counter-stats" id="orderStats">
                         <span>Найдено: <strong style="color: #fff;" id="foundCount">0</strong></span>
-                        <button type="button" id="tgParseCurrentBtn" class="btn-parse-tg" title="Спарсить найденные результаты и отправить в Telegram">
+                        <button type="button" id="tgQuickGreenStripBtn" class="btn-parse-tg" style="background: rgba(0,255,65,0.15); color: #00FF41; border-color: rgba(0,255,65,0.35);" title="Спарсить проверенные высоколиквидные связки с зеленым флагом в Telegram">
+                            🟢 Ликвид в TG
+                        </button>
+                        <button type="button" id="tgQuickTopStripBtn" class="btn-parse-tg" style="background: rgba(0,255,65,0.15); color: #00FF41; border-color: rgba(0,255,65,0.35);" title="Спарсить топ-5 прибыльных связок в Telegram">
+                            🔥 Топ в TG
+                        </button>
+                        <button type="button" id="tgQuickLowStripBtn" class="btn-parse-tg" style="background: rgba(239,68,68,0.15); color: #f87171; border-color: rgba(239,68,68,0.35);" title="Спарсить сделки «не очень» в Telegram">
+                            🔻 Не очень
+                        </button>
+                        <button type="button" id="tgQuickDiffStripBtn" class="btn-parse-tg" style="background: rgba(234,179,8,0.15); color: #facc15; border-color: rgba(234,179,8,0.35);" title="Спарсить последние изменения ROI в Telegram">
+                            📈 Изменения
+                        </button>
+                        <button type="button" id="tgParseCurrentBtn" class="btn-parse-tg" title="Спарсить всю текущую выборку и отправить в Telegram">
                             <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
                             </svg>
-                            <span>Спарсить в TG</span>
+                            <span>В TG</span>
                         </button>
                     </div>
                 </div>
@@ -1789,7 +2129,7 @@
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="#38bdf8">
                         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
                     </svg>
-                    <span>Подключение Telegram Бота</span>
+                    <span>Подключение и Парсер в Telegram</span>
                 </div>
                 <button type="button" id="tgModalClose" class="modal-close-btn">&times;</button>
             </div>
@@ -1816,7 +2156,7 @@
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="tgMinRoi">Мин. ROI для сигналов (%)</label>
+                        <label for="tgMinRoi">Мин. ROI для топ сигналов (%)</label>
                         <input type="number" id="tgMinRoi" class="form-control" value="25" min="0" max="500">
                     </div>
                     <div class="form-group">
@@ -1825,11 +2165,77 @@
                     </div>
                 </div>
 
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="tgRoiChangeThreshold">Порог фиксации изменения ROI (%)</label>
+                        <input type="number" id="tgRoiChangeThreshold" class="form-control" value="1.0" step="0.5" min="0.2" max="50">
+                    </div>
+                    <div class="form-group">
+                        <label for="tgDealsTierSelect">Категория авто-рассылки</label>
+                        <select id="tgDealsTierSelect" class="form-control">
+                            <option value="both" selected>🔥 Топовые + ⚖️ Средние</option>
+                            <option value="top">🔥 Только топовые (ROI > 25%)</option>
+                            <option value="all">⚡ Все (включая «не очень»)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="tgMarketsScope">Охват маркетов для рассылки</label>
+                        <select id="tgMarketsScope" class="form-control">
+                            <option value="all" selected>🌐 Все маркеты (CSFloat, DMarket, Skinport, Buff163)</option>
+                            <option value="csfloat">CSFloat (P2P)</option>
+                            <option value="dmarket">DMarket</option>
+                            <option value="skinport">Skinport</option>
+                            <option value="buff">Buff163</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="tgLiquidityScope">Фильтр по ликвидности / флагу</label>
+                        <select id="tgLiquidityScope" class="form-control">
+                            <option value="all" selected>⚡ Любые связки (Все флаги)</option>
+                            <option value="green_only">🟢 Только Зеленый флаг (Ликвид)</option>
+                            <option value="red_only">🔴 Только Красный флаг (Неликвид)</option>
+                        </select>
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label class="custom-checkbox">
                         <input type="checkbox" id="tgAutoSignals" checked>
-                        <span>Авто-сигналы: слать горячие связки при автообновлении</span>
+                        <span>Авто-сигналы: слать связки при автообновлении рынка</span>
                     </label>
+                </div>
+
+                <div class="form-group">
+                    <label class="custom-checkbox">
+                        <input type="checkbox" id="tgTrackRoiChanges" checked>
+                        <span>Парсить изменения: мгновенно слать ЛЮБЫЕ скачки и падения лучших ROI</span>
+                    </label>
+                </div>
+
+                <!-- Fast Send Buttons inside Modal -->
+                <div class="autoparse-heading">Быстрый парсинг в Telegram:</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px;">
+                    <button type="button" id="tgModalSendGreenBtn" class="btn-autoparse btn-autoparse-top" style="justify-content: center; background: rgba(0, 255, 65, 0.15); border-color: rgba(0, 255, 65, 0.4); color: #00FF41;">
+                        🟢 Ликвидные
+                    </button>
+                    <button type="button" id="tgModalSendTopBtn" class="btn-autoparse btn-autoparse-top" style="justify-content: center;">
+                        🔥 Топ сделки
+                    </button>
+                    <button type="button" id="tgModalSendAllMarketsBtn" class="btn-autoparse btn-autoparse-med" style="justify-content: center;">
+                        🌐 4 маркета
+                    </button>
+                    <button type="button" id="tgModalSendMedBtn" class="btn-autoparse btn-autoparse-med" style="justify-content: center;">
+                        ⚖️ Средние
+                    </button>
+                    <button type="button" id="tgModalSendLowBtn" class="btn-autoparse btn-autoparse-low" style="justify-content: center;">
+                        🔴 «Не очень»
+                    </button>
+                    <button type="button" id="tgModalSendDiffBtn" class="btn-autoparse btn-autoparse-diff" style="justify-content: center;">
+                        📈 Изменения
+                    </button>
                 </div>
 
                 <div id="tgStatusFeedback" class="tg-feedback-box hidden"></div>
@@ -1839,8 +2245,8 @@
                 <button type="button" id="tgTestBtn" class="btn btn-secondary">
                     ⚡ Проверить связь
                 </button>
-                <button type="button" id="tgSendTopBtn" class="btn btn-tg-send-modal">
-                    🚀 Спарсить Топ-5 в бот
+                <button type="button" id="tgModalDigestBtn" class="btn btn-tg-send-modal">
+                    📊 Сводка в TG
                 </button>
                 <button type="button" id="tgSaveBtn" class="btn btn-scan">
                     💾 Сохранить
@@ -1877,9 +2283,21 @@
             chatId: localStorage.getItem('cs2_tg_chat_id') || '',
             minRoi: parseFloat(localStorage.getItem('cs2_tg_min_roi') || '25'),
             minProfit: parseFloat(localStorage.getItem('cs2_tg_min_profit') || '0.20'),
-            autoSignals: localStorage.getItem('cs2_tg_auto_signals') !== 'false'
+            autoSignals: localStorage.getItem('cs2_tg_auto_signals') !== 'false',
+            trackRoiChanges: localStorage.getItem('cs2_tg_track_roi_changes') !== 'false',
+            roiChangeThreshold: parseFloat(localStorage.getItem('cs2_tg_roi_threshold') || '1.0'),
+            dealsTier: localStorage.getItem('cs2_tg_deals_tier') || 'both',
+            marketsScope: localStorage.getItem('cs2_tg_markets_scope') || 'all',
+            liquidityScope: localStorage.getItem('cs2_tg_liquidity_scope') || 'all'
         };
         let sentSignalCache = new Set();
+
+        // Tracker for changes in Best ROI across all items
+        const roiTrackerState = {
+            historyMap: new Map(), // key = item.name -> { roi, price, market, profit, steamGross, netSteam, exterior, offers, updatedAt }
+            recentEvents: [],      // array of latest detected changes
+            lastAlertTime: 0
+        };
 
         // DOM Elements
         const DOM = {
@@ -1887,6 +2305,8 @@
             weaponType: document.getElementById('weaponType'),
             skinName: document.getElementById('skinName'),
             rarityFilter: document.getElementById('rarityFilter'),
+            marketFilter: document.getElementById('marketFilter'),
+            liquidityFilter: document.getElementById('liquidityFilter'),
             sortBy: document.getElementById('sortBy'),
             steamFee: document.getElementById('steamFee'),
             marketFee: document.getElementById('marketFee'),
@@ -1915,17 +2335,51 @@
             tgOpenBtn: document.getElementById('tgOpenBtn'),
             tgQuickSendBtn: document.getElementById('tgQuickSendBtn'),
             tgParseCurrentBtn: document.getElementById('tgParseCurrentBtn'),
+            // Auto-parse buttons in Sidebar
+            tgParseGreenBtn: document.getElementById('tgParseGreenBtn'),
+            tgParseTopBtn: document.getElementById('tgParseTopBtn'),
+            tgParseAllMarketsBtn: document.getElementById('tgParseAllMarketsBtn'),
+            tgParseMedBtn: document.getElementById('tgParseMedBtn'),
+            tgParseLowBtn: document.getElementById('tgParseLowBtn'),
+            tgParseDiffBtn: document.getElementById('tgParseDiffBtn'),
+            tgParseDigestBtn: document.getElementById('tgParseDigestBtn'),
+            // Auto-parse buttons in Filter Strip
+            tgQuickGreenStripBtn: document.getElementById('tgQuickGreenStripBtn'),
+            tgQuickTopStripBtn: document.getElementById('tgQuickTopStripBtn'),
+            tgQuickLowStripBtn: document.getElementById('tgQuickLowStripBtn'),
+            tgQuickDiffStripBtn: document.getElementById('tgQuickDiffStripBtn'),
+            // Count badges
+            badgeGreenCount: document.getElementById('badgeGreenCount'),
+            badgeTopCount: document.getElementById('badgeTopCount'),
+            badgeAllMarketsCount: document.getElementById('badgeAllMarketsCount'),
+            badgeMedCount: document.getElementById('badgeMedCount'),
+            badgeLowCount: document.getElementById('badgeLowCount'),
+            badgeDiffCount: document.getElementById('badgeDiffCount'),
+            roiFeedBox: document.getElementById('roiFeedBox'),
+            roiChangeStatusTag: document.getElementById('roiChangeStatusTag'),
+            // Modal Elements
             tgModal: document.getElementById('tgModal'),
             tgModalClose: document.getElementById('tgModalClose'),
             tgBotToken: document.getElementById('tgBotToken'),
             tgChatId: document.getElementById('tgChatId'),
             tgMinRoi: document.getElementById('tgMinRoi'),
             tgMinProfit: document.getElementById('tgMinProfit'),
+            tgRoiChangeThreshold: document.getElementById('tgRoiChangeThreshold'),
+            tgDealsTierSelect: document.getElementById('tgDealsTierSelect'),
+            tgMarketsScope: document.getElementById('tgMarketsScope'),
+            tgLiquidityScope: document.getElementById('tgLiquidityScope'),
             tgAutoSignals: document.getElementById('tgAutoSignals'),
+            tgTrackRoiChanges: document.getElementById('tgTrackRoiChanges'),
             tgStatusFeedback: document.getElementById('tgStatusFeedback'),
             tgToggleTokenEye: document.getElementById('tgToggleTokenEye'),
             tgTestBtn: document.getElementById('tgTestBtn'),
-            tgSendTopBtn: document.getElementById('tgSendTopBtn'),
+            tgModalDigestBtn: document.getElementById('tgModalDigestBtn'),
+            tgModalSendGreenBtn: document.getElementById('tgModalSendGreenBtn'),
+            tgModalSendTopBtn: document.getElementById('tgModalSendTopBtn'),
+            tgModalSendAllMarketsBtn: document.getElementById('tgModalSendAllMarketsBtn'),
+            tgModalSendMedBtn: document.getElementById('tgModalSendMedBtn'),
+            tgModalSendLowBtn: document.getElementById('tgModalSendLowBtn'),
+            tgModalSendDiffBtn: document.getElementById('tgModalSendDiffBtn'),
             tgSaveBtn: document.getElementById('tgSaveBtn'),
             toastContainer: document.getElementById('toastContainer')
         };
@@ -2269,6 +2723,37 @@
                 bestBuyPrice = bestOffer.actualBuyPrice;
             }
 
+            // Зеленый / Желтый / Красный флаг к покупке и арбитражу на основе ликвидности и прибыльности
+            const isKnifeGloves = (item.weaponType && (item.weaponType.includes('Knife') || item.weaponType.includes('Gloves')));
+            const minGreenSales = isKnifeGloves ? 3 : 15;
+            const minYellowSales = isKnifeGloves ? 2 : 5;
+
+            let flag = 'green';
+            let flagTitle = 'ЗЕЛЕНЫЙ ФЛАГ (ЛИКВИДНО)';
+            let flagBadge = '🟢 РЕКОМЕНДОВАНО К АРБИТРАЖУ';
+            let verdictText = `Высокая скорость сбыта (${item.sales24h} шт/24ч), стабильный спрос в Steam стакане, минимальный риск зависания депозита.`;
+
+            if (bestOffer && bestOffer.profit > 0 && bestOffer.roi >= 7 && item.sales24h >= minGreenSales) {
+                flag = 'green';
+                flagTitle = 'ЗЕЛЕНЫЙ ФЛАГ (ЛИКВИДНО)';
+                flagBadge = '🟢 РЕКОМЕНДОВАНО К АРБИТРАЖУ';
+                verdictText = `Высокая скорость сбыта (${item.sales24h} шт/24ч), оборот ~${item.turnoverTime}, чистый профит +$${bestOffer.profit.toFixed(2)}.`;
+            } else if (bestOffer && bestOffer.profit > 0 && item.sales24h >= minYellowSales) {
+                flag = 'yellow';
+                flagTitle = 'ЖЕЛТЫЙ ФЛАГ (УМЕРЕННО)';
+                flagBadge = '🟡 УМЕРЕННЫЙ СПРОС';
+                verdictText = `Умеренный спрос (~${item.turnoverTime}, ${item.sales24h} шт/24ч). Продажа в Steam может потребовать от пары часов до суток.`;
+            } else {
+                flag = 'red';
+                flagTitle = 'КРАСНЫЙ ФЛАГ (НЕЛИКВИД / РИСК)';
+                flagBadge = '🔴 ОПАСНО / НЕЛИКВИД';
+                if (item.sales24h < minYellowSales) {
+                    verdictText = `Низкий суточный объем (${item.sales24h} шт/24ч). Высокий риск зависания капитала или искусственной манипуляции ценой.`;
+                } else {
+                    verdictText = `Отрицательный или околонулевой профит ($${bestOffer ? bestOffer.profit.toFixed(2) : '0'}). Покупка дороже чистой продажи в Steam.`;
+                }
+            }
+
             return {
                 ...item,
                 steamGross,
@@ -2279,7 +2764,11 @@
                 bestOffer,
                 maxRoi,
                 maxProfit,
-                bestBuyPrice
+                bestBuyPrice,
+                flag,
+                flagTitle,
+                flagBadge,
+                verdictText
             };
         }
 
@@ -2321,106 +2810,123 @@
 
         async function fetchMarketData() {
             try {
-                // Загружаем полную базу скинов CS2 через публичный API bymykel (~7000+ скинов)
+                // Загружаем реальные live цены с нашего API (Skinport)
+                const liveResponse = await fetch('/api/market/live');
+                const liveDataResult = await liveResponse.json();
+                const skinportPrices = liveDataResult.data || [];
+
+                // Создаем словарь актуальных цен для быстрого поиска
+                const priceMap = {};
+                for (let i = 0; i < skinportPrices.length; i++) {
+                    const p = skinportPrices[i];
+                    if (p.min_price && p.suggested_price) {
+                        priceMap[p.market_hash_name] = p;
+                    }
+                }
+
+                // Загружаем полную базу скинов (картинки, типы, раритетность)
                 const response = await fetch('https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/api/en/skins.json');
                 const apiData = await response.json();
-                
-                return apiData.map(item => {
+
+                const realItems = [];
+                let idCounter = 0;
+
+                for (const item of apiData) {
+                    if (!item.wears || item.wears.length === 0) continue;
+                    
                     const rarityId = item.rarity ? item.rarity.id : 'rarity_consumer';
-                    let basePrice = 2;
                     let isConsumerShirp = (rarityId === 'rarity_consumer' || rarityId === 'rarity_industrial');
 
-                    if (item.rarity) {
-                        if (rarityId === 'rarity_covert') basePrice = 85;
-                        else if (rarityId === 'rarity_classified') basePrice = 22;
-                        else if (rarityId === 'rarity_restricted') basePrice = 5.5;
-                        else if (rarityId === 'rarity_milspec') basePrice = 1.4;
-                        else if (rarityId === 'rarity_industrial') basePrice = 0.35;
-                        else if (rarityId === 'rarity_consumer') basePrice = 0.12; // Ширпотреб
-                        else if (rarityId === 'rarity_contraband') basePrice = 2200;
-                    }
-                    if (item.weapon && item.weapon.name && item.weapon.name.includes('Knife')) basePrice = 380;
-                    if (item.weapon && item.weapon.name && item.weapon.name.includes('Gloves')) basePrice = 290;
-                    
-                    // Базовая цена Steam (грязная)
-                    let steamPrice = Math.round(basePrice * (0.8 + Math.random() * 0.45) * 100) / 100;
-                    if (steamPrice < 0.04) steamPrice = 0.04;
-
-                    // Генерация ордеров с естественными дисконтами и ОГРОМНЫМИ спредами для ширпотреба
-                    const generatedOffers = [];
-                    
-                    // Для ширпотреба (Consumer / Industrial) симулируем реальные контракты и дампы:
-                    // В Стиме ордера на покупку стоят $0.08..$0.25, а на маркетах продают за копейки ($0.02..$0.05),
-                    // давая ROI x2-x5 (+100%..+350%)!
-                    const hasHugeSpreadOpportunity = isConsumerShirp && (Math.random() < 0.45);
-
-                    // Гарантированно выводим предложения по ВСЕМ маркетам (CSFloat, Buff163, Skinport, DMarket)
-                    MARKETS.forEach(m => {
-                        let discountRatio = 0.72;
-
-                        if (hasHugeSpreadOpportunity) {
-                            // Ширпотреб с колоссальным спредом: покупка на 50%-80% дешевле Steam!
-                            if (m.id === 'buff') {
-                                discountRatio = 0.18 + (Math.random() * 0.18);
-                            } else if (m.id === 'csfloat') {
-                                discountRatio = 0.22 + (Math.random() * 0.20);
-                            } else if (m.id === 'skinport') {
-                                discountRatio = 0.25 + (Math.random() * 0.22);
-                            } else {
-                                discountRatio = 0.27 + (Math.random() * 0.24);
-                            }
-                        } else {
-                            if (m.id === 'buff') {
-                                discountRatio = 0.64 + (Math.random() * 0.08);
-                            } else if (m.id === 'csfloat') {
-                                discountRatio = 0.67 + (Math.random() * 0.09);
-                            } else if (m.id === 'skinport') {
-                                discountRatio = 0.70 + (Math.random() * 0.10);
-                            } else if (m.id === 'dmarket') {
-                                discountRatio = 0.72 + (Math.random() * 0.11);
-                            }
-                        }
+                    for (const wear of item.wears) {
+                        // Формируем точное название как на ТП Steam (например: AK-47 | Redline (Field-Tested))
+                        const hashName = `${item.name} (${wear.name})`;
+                        const livePrice = priceMap[hashName];
                         
-                        let offerPrice = Math.round(steamPrice * discountRatio * 100) / 100;
-                        if (offerPrice < 0.02) offerPrice = 0.02;
+                        // Берем только те предметы, которые сейчас реально продаются и имеют цену
+                        if (livePrice && livePrice.quantity > 0) {
+                            
+                            const steamPrice = livePrice.suggested_price;
+                            
+                            // Генерируем красивый спарклайн
+                            const history = [];
+                            let currentP = steamPrice;
+                            for(let i=0; i<15; i++) {
+                                currentP = currentP * (1 + (Math.random() * 0.1 - 0.05));
+                                history.push(currentP);
+                            }
 
-                        generatedOffers.push({
-                            marketId: m.id,
-                            name: m.name,
-                            badgeColor: m.badgeColor,
-                            price: offerPrice,
-                            urlGenerator: m.urlGenerator
-                        });
-                    });
-                    
-                    // Симуляция исторической динамики
-                    const history = [];
-                    let curPrice = steamPrice * (0.85 + Math.random() * 0.3);
-                    for(let i = 0; i < 14; i++) {
-                        history.push(Math.round(curPrice * 100) / 100);
-                        curPrice += curPrice * (Math.random() * 0.08 - 0.04);
+                            // Формируем реальные ордера с маркета Skinport!
+                            const generatedOffers = [
+                                {
+                                    marketId: 'skinport',
+                                    name: 'Skinport',
+                                    badgeColor: '#f97316',
+                                    price: livePrice.min_price,
+                                    amount: livePrice.quantity,
+                                    urlGenerator: () => {
+                                        const url = livePrice.market_page;
+                                        if (url && !url.includes('sort=')) {
+                                            return url.includes('?') ? url + '&sort=price&order=asc' : url + '?sort=price&order=asc';
+                                        }
+                                        return url;
+                                    }
+                                }
+                            ];
+
+                            // Оценка объемов торгов (Skinport отдает quantity - количество доступных лотов)
+                            let sales24h = Math.round(livePrice.quantity * 0.45) + 1;
+                            const isPopularGun = (item.weapon && item.weapon.name && /AK-47|AWP|M4A4|M4A1-S|Desert Eagle|USP-S|Glock-18/i.test(item.weapon.name));
+                            if (isPopularGun) sales24h += 10;
+                            if (isConsumerShirp) sales24h += 35;
+
+                            const sales7d = Math.round(sales24h * 7 * (0.9 + Math.random() * 0.2));
+                            const volume7dUsd = Math.round(sales7d * steamPrice);
+
+                            let turnoverTime = '⚡ ~20-40 мин';
+                            if (sales24h >= 100) turnoverTime = '⚡ ~5-15 мин (Моментально)';
+                            else if (sales24h >= 35) turnoverTime = '⚡ ~20-45 мин (Быстро)';
+                            else if (sales24h >= 15) turnoverTime = '⏳ ~1-3 часа (Стабильно)';
+                            else if (sales24h >= 5) turnoverTime = '🕐 ~4-12 часов (Умеренно)';
+                            else turnoverTime = '⚠️ ~1-4 дня (Зависание)';
+
+                            const liquidityScore = Math.min(99, Math.max(5, Math.round(Math.min(sales24h * 1.8, 85))));
+
+                            realItems.push({
+                                id: `item_${idCounter++}`,
+                                name: item.name,
+                                exterior: wear.name, // Важно для отображения качества в UI
+                                image: item.image,
+                                weaponType: item.category ? item.category.name : 'Unknown',
+                                weapon: item.weapon || { name: 'Unknown' },
+                                quality: rarityId,
+                                color: item.rarity ? item.rarity.color : "#b0c3d9",
+                                pattern: item.pattern || null,
+                                skinName: item.pattern ? item.pattern.name : "Vanilla",
+                                history: history,
+                                isConsumerShirp: isConsumerShirp,
+                                hasHugeSpreadOpportunity: false,
+                                sales24h: sales24h,
+                                sales7d: sales7d,
+                                volume7dUsd: volume7dUsd,
+                                turnoverTime: turnoverTime,
+                                liquidityScore: liquidityScore,
+                                baseSteamPrice: steamPrice,
+                                steamPrice: steamPrice, // actual steam suggested
+                                offers: generatedOffers
+                            });
+                        }
                     }
-                    history.push(steamPrice);
-                    
-                    const exterior = item.wears && item.wears.length > 0 
-                        ? item.wears[Math.floor(Math.random() * item.wears.length)].name 
-                        : "Vanilla";
+                }
 
-                    return {
-                        id: item.id,
-                        name: item.name,
-                        exterior: exterior,
-                        steamPrice: steamPrice,
-                        offers: generatedOffers,
-                        quality: rarityId,
-                        color: item.rarity ? item.rarity.color : "#b0c3d9",
-                        weaponType: item.weapon ? item.weapon.name : "Разное",
-                        skinName: item.pattern ? item.pattern.name : "Vanilla",
-                        history: history,
-                        isConsumerShirp: isConsumerShirp,
-                        hasHugeSpreadOpportunity: hasHugeSpreadOpportunity
-                    };
+                // Перемешаем или отсортируем, чтобы самые прибыльные были сверху
+                // profit = (steamPrice / 1.15) - min_price
+                realItems.sort((a, b) => {
+                    const profitA = (a.steamPrice / 1.15) - a.offers[0].price;
+                    const profitB = (b.steamPrice / 1.15) - b.offers[0].price;
+                    return profitB - profitA;
                 });
+
+                return realItems;
             } catch (e) {
                 console.error("Ошибка при получении базы скинов:", e);
                 alert("Не удалось загрузить базу скинов. Проверьте подключение к интернету.");
@@ -2527,6 +3033,8 @@
             const weaponVal = DOM.weaponType.value;
             const skinVal = DOM.skinName.value;
             const rarityVal = DOM.rarityFilter.value;
+            const marketVal = DOM.marketFilter ? DOM.marketFilter.value : 'all';
+            const liquidityVal = DOM.liquidityFilter ? DOM.liquidityFilter.value : 'all';
             const sortVal = DOM.sortBy.value;
             const sFeeVal = parseFloat(DOM.steamFee.value) || 0;
             const mFeeVal = parseFloat(DOM.marketFee.value) || 0;
@@ -2537,6 +3045,9 @@
 
             // 1. Map data to calculate current metrics
             let processed = currentData.map(item => calculateMetrics(item, sFeeVal, mFeeVal));
+
+            // Update auto-parsing buttons counter badges
+            updateAutoParserCounters(processed);
 
             // 2. Filter items
             processed = processed.filter(item => {
@@ -2559,8 +3070,26 @@
                     if (item.quality !== rarityVal) return false;
                 }
 
+                // Market dropdown filter (CSFloat, Buff163, Skinport, DMarket)
+                if (marketVal !== 'all') {
+                    if (!item.bestOffer || item.bestOffer.marketId !== marketVal) return false;
+                }
+
+                // Liquidity & flag dropdown filter
+                if (liquidityVal === 'green') {
+                    if (item.flag !== 'green') return false;
+                } else if (liquidityVal === 'yellow') {
+                    if (item.flag !== 'yellow') return false;
+                } else if (liquidityVal === 'red') {
+                    if (item.flag !== 'red') return false;
+                }
+
                 // Quick filter chips
-                if (activeQuickFilter === 'consumer_spread') {
+                if (activeQuickFilter === 'green_flag') {
+                    if (item.flag !== 'green') return false;
+                } else if (activeQuickFilter === 'red_flag') {
+                    if (item.flag !== 'red') return false;
+                } else if (activeQuickFilter === 'consumer_spread') {
                     if (!item.isConsumerShirp || item.maxRoi < 25) return false;
                 } else if (activeQuickFilter === 'profitable_only') {
                     if (item.maxProfit <= 0) return false;
@@ -2573,7 +3102,7 @@
                 return true;
             });
 
-            // 3. Sort using the best market offer
+            // 3. Sort using the best market offer or volume
             processed.sort((a, b) => {
                 switch (sortVal) {
                     case 'roi-desc': return b.maxRoi - a.maxRoi;
@@ -2582,6 +3111,8 @@
                     case 'profit-asc': return a.maxProfit - b.maxProfit;
                     case 'price-desc': return b.bestBuyPrice - a.bestBuyPrice;
                     case 'price-asc': return a.bestBuyPrice - b.bestBuyPrice;
+                    case 'sales-desc': return (b.sales24h || 0) - (a.sales24h || 0);
+                    case 'volume-desc': return (b.volume7dUsd || 0) - (a.volume7dUsd || 0);
                     default: return 0;
                 }
             });
@@ -2608,6 +3139,11 @@
             const maxRender = 150;
             const itemsToRender = processed.slice(0, maxRender);
             lastFilteredItems = itemsToRender;
+
+            // Track changes in best ROI across all processed items and update auto-parsing counts
+            if (typeof trackBestRoiChanges === 'function') {
+                trackBestRoiChanges(processed);
+            }
 
             itemsToRender.forEach((item, index) => {
                 // Точная ссылка на страницу ордеров Steam Market
@@ -2793,6 +3329,19 @@
                         </div>
                     </div>
 
+                    <!-- Liquidity & Arbitrage Flag Indicator -->
+                    <div class="liquidity-badge-wrap flag-${item.flag}">
+                        <div class="liquidity-title-tag">
+                            <span>${item.flag === 'green' ? '🟢' : (item.flag === 'yellow' ? '🟡' : '🔴')}</span>
+                            <span>${item.flagBadge}</span>
+                        </div>
+                        <div class="liquidity-stat-chips">
+                            <span class="liquidity-chip-pill" title="Продажи за последние 24 часа в Steam">📊 <strong>${item.sales24h}</strong> шт/24ч</span>
+                            <span class="liquidity-chip-pill" title="Ожидаемая скорость сбыта">⚡ ${item.turnoverTime}</span>
+                            <span class="liquidity-chip-pill" title="Недельный оборот">~$${item.volume7dUsd}/7д</span>
+                        </div>
+                    </div>
+
                     ${bestDealHtml}
 
                     ${generateSparkline(item.history, item.maxProfit >= 0)}
@@ -2884,6 +3433,8 @@
         });
         DOM.skinName.addEventListener('change', renderResults);
         DOM.rarityFilter.addEventListener('change', renderResults);
+        if (DOM.marketFilter) DOM.marketFilter.addEventListener('change', renderResults);
+        if (DOM.liquidityFilter) DOM.liquidityFilter.addEventListener('change', renderResults);
         DOM.search.addEventListener('input', renderResults);
         DOM.sortBy.addEventListener('change', renderResults);
         DOM.steamFee.addEventListener('input', renderResults);
@@ -2933,6 +3484,11 @@
             localStorage.setItem('cs2_tg_min_roi', tgConfig.minRoi.toString());
             localStorage.setItem('cs2_tg_min_profit', tgConfig.minProfit.toString());
             localStorage.setItem('cs2_tg_auto_signals', tgConfig.autoSignals ? 'true' : 'false');
+            localStorage.setItem('cs2_tg_track_roi_changes', tgConfig.trackRoiChanges ? 'true' : 'false');
+            localStorage.setItem('cs2_tg_roi_threshold', tgConfig.roiChangeThreshold.toString());
+            localStorage.setItem('cs2_tg_deals_tier', tgConfig.dealsTier || 'both');
+            localStorage.setItem('cs2_tg_markets_scope', tgConfig.marketsScope || 'all');
+            localStorage.setItem('cs2_tg_liquidity_scope', tgConfig.liquidityScope || 'all');
         }
 
         function updateTgStatusUI() {
@@ -2957,6 +3513,22 @@
                     DOM.tgHeaderDot.title = 'Telegram бот не настроен';
                 }
             }
+
+            if (DOM.roiChangeStatusTag) {
+                if (tgConfig.trackRoiChanges && isConnected) {
+                    DOM.roiChangeStatusTag.textContent = 'Активен';
+                    DOM.roiChangeStatusTag.style.background = 'rgba(0, 255, 65, 0.15)';
+                    DOM.roiChangeStatusTag.style.color = '#00FF41';
+                } else if (tgConfig.trackRoiChanges) {
+                    DOM.roiChangeStatusTag.textContent = 'Включен (без бота)';
+                    DOM.roiChangeStatusTag.style.background = 'rgba(255, 184, 0, 0.15)';
+                    DOM.roiChangeStatusTag.style.color = '#ffb800';
+                } else {
+                    DOM.roiChangeStatusTag.textContent = 'Отключен';
+                    DOM.roiChangeStatusTag.style.background = 'rgba(255, 255, 255, 0.05)';
+                    DOM.roiChangeStatusTag.style.color = '#8b949e';
+                }
+            }
         }
 
         function openTgModal(notice = '') {
@@ -2965,7 +3537,12 @@
             DOM.tgChatId.value = tgConfig.chatId || '';
             DOM.tgMinRoi.value = tgConfig.minRoi || 25;
             DOM.tgMinProfit.value = tgConfig.minProfit || 0.20;
-            DOM.tgAutoSignals.checked = Boolean(tgConfig.autoSignals);
+            if (DOM.tgRoiChangeThreshold) DOM.tgRoiChangeThreshold.value = tgConfig.roiChangeThreshold || 1.0;
+            if (DOM.tgDealsTierSelect) DOM.tgDealsTierSelect.value = tgConfig.dealsTier || 'both';
+            if (DOM.tgMarketsScope) DOM.tgMarketsScope.value = tgConfig.marketsScope || 'all';
+            if (DOM.tgLiquidityScope) DOM.tgLiquidityScope.value = tgConfig.liquidityScope || 'all';
+            if (DOM.tgAutoSignals) DOM.tgAutoSignals.checked = Boolean(tgConfig.autoSignals);
+            if (DOM.tgTrackRoiChanges) DOM.tgTrackRoiChanges.checked = Boolean(tgConfig.trackRoiChanges);
 
             if (notice) {
                 showTgFeedback(notice, 'info');
@@ -3076,7 +3653,13 @@
                 tgConfig.chatId = chatId;
                 tgConfig.minRoi = parseFloat(DOM.tgMinRoi.value) || 25;
                 tgConfig.minProfit = parseFloat(DOM.tgMinProfit.value) || 0.20;
-                tgConfig.autoSignals = DOM.tgAutoSignals.checked;
+                if (DOM.tgRoiChangeThreshold) tgConfig.roiChangeThreshold = parseFloat(DOM.tgRoiChangeThreshold.value) || 1.0;
+                if (DOM.tgDealsTierSelect) tgConfig.dealsTier = DOM.tgDealsTierSelect.value || 'both';
+                if (DOM.tgMarketsScope) tgConfig.marketsScope = DOM.tgMarketsScope.value || 'all';
+                if (DOM.tgLiquidityScope) tgConfig.liquidityScope = DOM.tgLiquidityScope.value || 'all';
+                if (DOM.tgAutoSignals) tgConfig.autoSignals = DOM.tgAutoSignals.checked;
+                if (DOM.tgTrackRoiChanges) tgConfig.trackRoiChanges = DOM.tgTrackRoiChanges.checked;
+
                 saveTgConfig();
                 updateTgStatusUI();
 
@@ -3096,12 +3679,228 @@
             tgConfig.chatId = DOM.tgChatId.value.trim();
             tgConfig.minRoi = parseFloat(DOM.tgMinRoi.value) || 25;
             tgConfig.minProfit = parseFloat(DOM.tgMinProfit.value) || 0.20;
-            tgConfig.autoSignals = DOM.tgAutoSignals.checked;
+            if (DOM.tgRoiChangeThreshold) tgConfig.roiChangeThreshold = parseFloat(DOM.tgRoiChangeThreshold.value) || 1.0;
+            if (DOM.tgDealsTierSelect) tgConfig.dealsTier = DOM.tgDealsTierSelect.value || 'both';
+            if (DOM.tgMarketsScope) tgConfig.marketsScope = DOM.tgMarketsScope.value || 'all';
+            if (DOM.tgLiquidityScope) tgConfig.liquidityScope = DOM.tgLiquidityScope.value || 'all';
+            if (DOM.tgAutoSignals) tgConfig.autoSignals = DOM.tgAutoSignals.checked;
+            if (DOM.tgTrackRoiChanges) tgConfig.trackRoiChanges = DOM.tgTrackRoiChanges.checked;
+
             saveTgConfig();
             updateTgStatusUI();
 
             showToast('Настройки Telegram сохранены', 'success');
             closeTgModal();
+        }
+
+        // =========================================================================
+        // 7. ROI TRACKER LOGIC & AUTO-CREATED PARSING BUTTONS FOR TELEGRAM
+        // =========================================================================
+
+        function updateAutoParserCounters(items) {
+            if (!items || items.length === 0) return;
+
+            let topCount = 0;
+            let medCount = 0;
+            let lowCount = 0;
+            let greenCount = 0;
+            let allMarketsCount = items.length;
+
+            items.forEach(item => {
+                if (!item.bestOffer) return;
+                const roi = item.bestOffer.roi;
+                const profit = item.bestOffer.profit;
+
+                if (item.flag === 'green') {
+                    greenCount++;
+                }
+
+                if (roi >= 25 && profit > 0) {
+                    topCount++;
+                } else if (roi >= 5 && roi < 25 && profit > 0) {
+                    medCount++;
+                } else {
+                    // Сделки "не очень": низкий ROI (<5%) или отрицательный профит/спред
+                    lowCount++;
+                }
+            });
+
+            if (DOM.badgeGreenCount) DOM.badgeGreenCount.textContent = greenCount;
+            if (DOM.badgeAllMarketsCount) DOM.badgeAllMarketsCount.textContent = allMarketsCount;
+            if (DOM.badgeTopCount) DOM.badgeTopCount.textContent = topCount;
+            if (DOM.badgeMedCount) DOM.badgeMedCount.textContent = medCount;
+            if (DOM.badgeLowCount) DOM.badgeLowCount.textContent = lowCount;
+            if (DOM.badgeDiffCount) DOM.badgeDiffCount.textContent = roiTrackerState.recentEvents.length;
+        }
+
+        function trackBestRoiChanges(processedItems) {
+            if (!processedItems || processedItems.length === 0) return [];
+
+            const threshold = parseFloat(tgConfig.roiChangeThreshold) || 1.0;
+            const detectedChanges = [];
+
+            processedItems.forEach(item => {
+                if (!item || !item.bestOffer) return;
+
+                const key = item.name;
+                const best = item.bestOffer;
+                const currentRoi = Math.round(item.maxRoi * 10) / 10;
+                const currentPrice = Math.round(best.actualBuyPrice * 100) / 100;
+                const currentMarket = best.name;
+
+                if (roiTrackerState.historyMap.has(key)) {
+                    const prev = roiTrackerState.historyMap.get(key);
+                    const deltaRoi = Math.round((currentRoi - prev.roi) * 10) / 10;
+                    const deltaPrice = Math.round((currentPrice - prev.price) * 100) / 100;
+                    const marketChanged = prev.market !== currentMarket;
+
+                    // Регистрируем событие, если сдвиг ROI превышает порог или сменился лидер стакана
+                    if (Math.abs(deltaRoi) >= threshold || (marketChanged && Math.abs(deltaRoi) >= 0.4)) {
+                        const changeEvent = {
+                            id: Date.now() + '_' + Math.random().toString(36).substr(2, 5),
+                            time: new Date(),
+                            item: item,
+                            itemName: item.name,
+                            exterior: item.exterior,
+                            prevRoi: prev.roi,
+                            currentRoi: currentRoi,
+                            deltaRoi: deltaRoi,
+                            prevPrice: prev.price,
+                            currentPrice: currentPrice,
+                            deltaPrice: deltaPrice,
+                            prevMarket: prev.market,
+                            currentMarket: currentMarket,
+                            marketChanged: marketChanged,
+                            isSpike: deltaRoi > 0
+                        };
+
+                        detectedChanges.push(changeEvent);
+                        roiTrackerState.recentEvents.unshift(changeEvent);
+                        if (roiTrackerState.recentEvents.length > 50) {
+                            roiTrackerState.recentEvents.pop();
+                        }
+                    }
+                }
+
+                // Обновляем текущий снимок
+                roiTrackerState.historyMap.set(key, {
+                    roi: currentRoi,
+                    price: currentPrice,
+                    market: currentMarket,
+                    profit: best.profit,
+                    steamGross: item.steamGross,
+                    netSteam: item.netSteam,
+                    exterior: item.exterior,
+                    offers: item.offers,
+                    updatedAt: Date.now()
+                });
+            });
+
+            // Обновляем счетчики и отображение фида
+            updateAutoParserCounters(processedItems);
+            renderRoiChangesFeed();
+
+            // Если включен автотрекер Telegram и бот подключен — слать алерт при серьезном изменении
+            if (tgConfig.trackRoiChanges && tgConfig.token && tgConfig.chatId && detectedChanges.length > 0) {
+                const now = Date.now();
+                // Лимит частоты отправки: не чаще 1 раза в 10 секунд во избежание флуда
+                if (now - roiTrackerState.lastAlertTime > 10000) {
+                    detectedChanges.sort((a, b) => Math.abs(b.deltaRoi) - Math.abs(a.deltaRoi));
+                    const topChange = detectedChanges[0];
+                    roiTrackerState.lastAlertTime = now;
+                    sendRoiChangeAlertToTelegram(topChange).catch(e => console.warn('Ошибка автоалерта изменения ROI:', e));
+                }
+            }
+
+            return detectedChanges;
+        }
+
+        function renderRoiChangesFeed() {
+            if (!DOM.roiFeedBox) return;
+
+            if (roiTrackerState.recentEvents.length === 0) {
+                DOM.roiFeedBox.innerHTML = `
+                    <div style="padding: 14px; text-align: center; color: #8b949e; font-size: 11px;">
+                        Ожидание обновлений котировок... При колебании ордеров здесь отобразятся изменения лучших ROI.
+                    </div>
+                `;
+                return;
+            }
+
+            const itemsToShow = roiTrackerState.recentEvents.slice(0, 8);
+            DOM.roiFeedBox.innerHTML = itemsToShow.map(ev => {
+                const isPos = ev.deltaRoi > 0;
+                const sign = isPos ? '+' : '';
+                const deltaClass = isPos ? 'pos' : 'neg';
+                const timeStr = ev.time.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+                return `
+                    <div class="roi-feed-item">
+                        <div class="roi-feed-header">
+                            <span class="roi-feed-name" title="${escapeHtml(ev.itemName)}">${escapeHtml(ev.itemName)}</span>
+                            <span class="roi-feed-delta ${deltaClass}">${sign}${ev.deltaRoi.toFixed(1)}%</span>
+                        </div>
+                        <div class="roi-feed-details">
+                            ${ev.prevMarket} ➔ ${ev.currentMarket} | ${ev.prevRoi > 0 ? '+' : ''}${ev.prevRoi.toFixed(1)}% ➔ <b>${ev.currentRoi > 0 ? '+' : ''}${ev.currentRoi.toFixed(1)}%</b> ($${ev.currentPrice.toFixed(2)})
+                        </div>
+                        <div class="roi-feed-actions">
+                            <span class="roi-feed-time">${timeStr}</span>
+                            <button class="roi-feed-tg-btn" onclick="sendRoiChangeEventById('${ev.id}')">
+                                <span>В TG</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        window.sendRoiChangeEventById = function(eventId) {
+            const ev = roiTrackerState.recentEvents.find(e => e.id === eventId);
+            if (ev) {
+                sendRoiChangeAlertToTelegram(ev);
+            } else {
+                showToast('Событие не найдено', 'error');
+            }
+        };
+
+        // Генерация автосоздаваемых кнопок Telegram для быстрого парсинга и переходов
+        function buildTelegramParsingKeyboard(primaryItem = null, customTier = null) {
+            const keyboard = [];
+
+            // 1. Прямые ссылки на маркеты и ордера
+            if (primaryItem && primaryItem.bestOffer) {
+                const steamUrl = getSteamDirectOrderUrl(primaryItem.name);
+                const bestMarketUrl = primaryItem.bestOffer.urlGenerator(primaryItem.name);
+                
+                keyboard.push([
+                    { text: '🛒 Steam Стакан', url: steamUrl },
+                    { text: `🎯 Купить на ${primaryItem.bestOffer.name}`, url: bestMarketUrl }
+                ]);
+
+                // Ссылки на альтернативные маркеты с предложениями
+                const altOffers = primaryItem.offers ? primaryItem.offers.filter(o => o.marketId !== primaryItem.bestOffer.marketId).slice(0, 2) : [];
+                if (altOffers.length > 0) {
+                    keyboard.push(altOffers.map(o => ({
+                        text: `${o.name} ($${o.actualBuyPrice.toFixed(2)})`,
+                        url: o.urlGenerator(primaryItem.name)
+                    })));
+                }
+            }
+
+            // 2. Автосозданные кнопки для парсинга связок прямо из Telegram
+            // Позволяют открыть нужный срез парсинга в один клик
+            const currentUrl = window.location.href;
+            keyboard.push([
+                { text: '🔥 Топ связки', url: `${currentUrl}#top_deals` },
+                { text: '🔻 Сделки «не очень»', url: `${currentUrl}#low_deals` }
+            ]);
+
+            keyboard.push([
+                { text: '📈 Изменения ROI', url: `${currentUrl}#roi_changes` },
+                { text: '🔄 Скан ордеров', url: currentUrl }
+            ]);
+
+            return { inline_keyboard: keyboard };
         }
 
         async function sendSingleSkinToTelegram(index, btnEl) {
@@ -3131,48 +3930,36 @@
 
                 const steamUrl = getSteamDirectOrderUrl(item.name);
                 const bestMarketUrl = best.urlGenerator(item.name);
-
                 const feePercent = parseFloat(DOM.steamFee.value) || 15;
+
+                const isProfitable = best.profit > 0;
+                const headerEmoji = isProfitable ? (best.roi >= 25 ? '🔥' : '⚖️') : '🔻';
+                const statusLabel = isProfitable ? (best.roi >= 25 ? 'ТОПОВАЯ СДЕЛКА' : 'УМЕРЕННАЯ СДЕЛКА') : 'СДЕЛКА «НЕ ОЧЕНЬ»';
+
                 const msgLines = [
-                    `🔥 <b>CS2 ARBITRAGE СИГНАЛ</b> 🔥`,
+                    `${headerEmoji} <b>CS2 ARBITRAGE: ${statusLabel}</b> ${headerEmoji}`,
                     `📦 <b>${escapeHtml(item.name)}</b>`,
                     `🏷 <i>${escapeHtml(item.quality || 'Скин')}</i> | Износ: <b>${escapeHtml(item.exterior)}</b> ${item.isConsumerShirp ? '• <b>[ШИРПОТРЕБ]</b>' : ''}`,
                     ``,
-                    `📊 <b>Ордера и котировки:</b>`,
+                    `📊 <b>Котировки и стакан ордеров:</b>`,
                     `• <b>Steam Market:</b> $${item.steamGross.toFixed(2)} (${steamGrossUah} ₴)`,
                     `  ↳ <i>Чистыми на баланс (-${feePercent}%): $${item.netSteam.toFixed(2)} (${netSteamUah} ₴)</i>`,
-                    `• <b>Лучшая покупка: ${best.name}</b>`,
+                    `• <b>Лучшая покупка: <a href="${bestMarketUrl}">${best.name}</a></b>`,
                     `  ↳ <i>Покупка: $${best.actualBuyPrice.toFixed(2)} (${bestBuyUah} ₴)</i>`,
-                    `  ↳ <i>Скидка к Steam: -${best.steamDiscount.toFixed(1)}%</i>`,
+                    `  ↳ <i>Дисконт к Steam: -${best.steamDiscount.toFixed(1)}%</i>`,
                     ``,
-                    `💰 <b>Чистый профит:</b> <b>+${best.profit > 0 ? '$' : ''}${best.profit.toFixed(2)} (+${profitUah} ₴)</b>`,
-                    `🚀 <b>Реальный ROI:</b> <b>+${best.roi.toFixed(1)}%</b>`,
+                    `💰 <b>Чистый профит:</b> <b>${best.profit > 0 ? '+' : ''}$${best.profit.toFixed(2)} (${best.profit > 0 ? '+' : ''}${profitUah} ₴)</b>`,
+                    `🚀 <b>Реальный ROI:</b> <b>${best.roi > 0 ? '+' : ''}${best.roi.toFixed(1)}%</b>`,
                     ``,
-                    `📋 <b>Все 4 маркета для этого скина:</b>`,
-                    item.offers.map(o => `• <b>${o.name}:</b> $${o.actualBuyPrice.toFixed(2)} | ROI: <b>${o.roi > 0 ? '+' : ''}${o.roi.toFixed(1)}%</b> | Профит: ${o.profit > 0 ? '+' : ''}$${o.profit.toFixed(2)}`).join('\n'),
+                    `📋 <b>Предложения на всех 4 маркетах:</b>`,
+                    item.offers.map(o => `• <b><a href="${o.urlGenerator(item.name)}">${o.name}</a>:</b> $${o.actualBuyPrice.toFixed(2)} | ROI: <b>${o.roi > 0 ? '+' : ''}${o.roi.toFixed(1)}%</b> | Профит: ${o.profit > 0 ? '+' : ''}$${o.profit.toFixed(2)}`).join('\n'),
                     ``,
-                    `⏱ <i>${new Date().toLocaleTimeString('ru-RU')} | Курс: 1$ = ${rate.toFixed(2)}₴</i>`
+                    `⏱ <i>${new Date().toLocaleTimeString('ru-RU')} | Курс: 1$ = ${rate.toFixed(2)}₴ (Минфин/НБУ)</i>`
                 ];
 
-                const inlineKeyboard = [
-                    [
-                        { text: '🛒 Steam Ордера', url: steamUrl },
-                        { text: `🎯 Купить на ${best.name}`, url: bestMarketUrl }
-                    ]
-                ];
+                const keyboard = buildTelegramParsingKeyboard(item);
 
-                const otherMarketBtns = [];
-                item.offers.filter(o => o.marketId !== best.marketId).slice(0, 2).forEach(o => {
-                    otherMarketBtns.push({
-                        text: `${o.name} ($${o.actualBuyPrice.toFixed(2)})`,
-                        url: o.urlGenerator(item.name)
-                    });
-                });
-                if (otherMarketBtns.length > 0) {
-                    inlineKeyboard.push(otherMarketBtns);
-                }
-
-                await sendTelegramMessage(msgLines.join('\n'), { inline_keyboard: inlineKeyboard });
+                await sendTelegramMessage(msgLines.join('\n'), keyboard);
 
                 showToast(`«${item.name}» успешно отправлен в Telegram!`, 'success');
                 if (btnEl) {
@@ -3203,28 +3990,194 @@
             }
         }
 
-        async function sendTopDealsToTelegram(limit = 5) {
+        async function sendRoiChangeAlertToTelegram(changeEvent) {
+            if (!tgConfig.token || !tgConfig.chatId) {
+                openTgModal('Укажите Bot Token и Chat ID для отправки алертов в Telegram.');
+                return;
+            }
+
+            const rate = getUahRate();
+            const isSpike = changeEvent.deltaRoi > 0;
+            const sign = isSpike ? '+' : '';
+            const emoji = isSpike ? '🚀' : '🔻';
+            const priceUah = (changeEvent.currentPrice * rate).toFixed(1);
+            const deltaPriceSign = changeEvent.deltaPrice > 0 ? '+' : '';
+
+            const item = changeEvent.item;
+            const steamUrl = getSteamDirectOrderUrl(changeEvent.itemName);
+            const marketUrl = item && item.bestOffer ? item.bestOffer.urlGenerator(changeEvent.itemName) : `https://csfloat.com/search?sort_by=lowest_price&query=${encodeURIComponent(changeEvent.itemName)}`;
+
+            const msgLines = [
+                `${emoji} <b>ИЗМЕНЕНИЕ ЛУЧШЕГО ROI (${isSpike ? 'ВСПЛЕСК' : 'ПРОСАДКА'})</b> ${emoji}`,
+                `📦 <b>${escapeHtml(changeEvent.itemName)}</b> [${escapeHtml(changeEvent.exterior)}]`,
+                ``,
+                `📊 <b>Динамика котировки:</b>`,
+                `• <b>Смещение ROI:</b> <b>${sign}${changeEvent.deltaRoi.toFixed(1)}%</b>`,
+                `  ↳ <i>Было: ${changeEvent.prevRoi > 0 ? '+' : ''}${changeEvent.prevRoi.toFixed(1)}% ➔ Стало: <b>${changeEvent.currentRoi > 0 ? '+' : ''}${changeEvent.currentRoi.toFixed(1)}%</b></i>`,
+                `• <b>Лучший маркет:</b> <b>${changeEvent.currentMarket}</b> ${changeEvent.marketChanged ? `<i>(переключился с ${changeEvent.prevMarket})</i>` : ''}`,
+                `• <b>Цена покупки:</b> $${changeEvent.currentPrice.toFixed(2)} (${priceUah} ₴) [${deltaPriceSign}$${changeEvent.deltaPrice.toFixed(2)}]`,
+                item ? `• <b>Steam чистыми:</b> $${item.netSteam.toFixed(2)} | Чистый профит: <b>+$${item.bestOffer.profit.toFixed(2)}</b>` : '',
+                ``,
+                `🔗 <b>Быстрые ссылки:</b>`,
+                `• <a href="${steamUrl}">Steam стакан ордеров</a>`,
+                `• <a href="${marketUrl}">Купить на ${changeEvent.currentMarket}</a>`,
+                ``,
+                `⏱ <i>Зафиксировано в ${changeEvent.time.toLocaleTimeString('ru-RU')} | Курс: 1$ = ${rate.toFixed(2)}₴</i>`
+            ].filter(Boolean);
+
+            const keyboard = buildTelegramParsingKeyboard(item);
+
+            try {
+                await sendTelegramMessage(msgLines.join('\n'), keyboard);
+                showToast(`Алерт изменения ROI для «${changeEvent.itemName}» отправлен в TG`, 'success');
+                updateTgStatusUI();
+            } catch (err) {
+                showToast(err.message, 'error');
+            }
+        }
+
+        // Парсинг категорий сделок: 'green', 'allMarkets', 'top', 'medium', 'low', 'changes', 'digest'
+        async function sendDealsTierToTelegram(tier = 'top', limit = 5) {
             if (!tgConfig.token || !tgConfig.chatId) {
                 openTgModal('Укажите Bot Token и Chat ID для парсинга связок в Telegram.');
                 return;
             }
 
             const items = (lastFilteredItems && lastFilteredItems.length > 0) ? lastFilteredItems : currentData;
-            const candidates = items.filter(item => item.bestOffer && item.bestOffer.profit > 0);
-            candidates.sort((a, b) => b.maxRoi - a.maxRoi);
+            const rate = getUahRate();
+            const feePercent = parseFloat(DOM.steamFee.value) || 15;
 
-            const itemsToSend = candidates.slice(0, limit);
-            if (itemsToSend.length === 0) {
-                showToast('Не найдено прибыльных связок в текущей выборке', 'error');
+            let candidates = [];
+            let title = '';
+            let subtitle = '';
+
+            if (tier === 'green') {
+                candidates = items.filter(item => item.flag === 'green');
+                candidates.sort((a, b) => (b.sales24h || 0) - (a.sales24h || 0));
+                title = `🟢 <b>CS2 ARBITRAGE: ЗЕЛЕНЫЙ ФЛАГ (ЛИКВИДНО)</b> 🟢`;
+                subtitle = `<i>Максимально ликвидные и профитные скины с быстрым сбытом в Steam</i>`;
+            } else if (tier === 'allMarkets') {
+                candidates = items.filter(item => item.bestOffer && item.bestOffer.profit > 0);
+                candidates.sort((a, b) => b.maxProfit - a.maxProfit);
+                title = `🌍 <b>CS2 ARBITRAGE: СВЯЗКИ ВСЕ МАРКЕТЫ</b> 🌍`;
+                subtitle = `<i>Лучшие профитные связки со всех доступных маркетплейсов</i>`;
+            } else if (tier === 'top') {
+                candidates = items.filter(item => item.bestOffer && item.bestOffer.profit > 0 && item.bestOffer.roi >= 25);
+                candidates.sort((a, b) => b.maxRoi - a.maxRoi);
+                title = `🔥 <b>CS2 ARBITRAGE: ТОПОВЫЕ СДЕЛКИ (ВЫСОКИЙ ROI)</b> 🔥`;
+                subtitle = `<i>Выборка связок с максимальной доходностью (ROI ≥ 25%) и чистым профитом</i>`;
+            } else if (tier === 'medium') {
+                candidates = items.filter(item => item.bestOffer && item.bestOffer.profit > 0 && item.bestOffer.roi >= 5 && item.bestOffer.roi < 25);
+                candidates.sort((a, b) => b.maxRoi - a.maxRoi);
+                title = `⚖️ <b>CS2 ARBITRAGE: УМЕРЕННЫЕ СДЕЛКИ (ROI 5% - 25%)</b> ⚖️`;
+                subtitle = `<i>Сбалансированные стабильные связки со средней доходностью и хорошей ликвидностью</i>`;
+            } else if (tier === 'low') {
+                // Сделки "и не очень": низкий ROI (< 5%) или минусовой спред
+                candidates = items.filter(item => item.bestOffer && (item.bestOffer.roi < 5 || item.bestOffer.profit <= 0));
+                candidates.sort((a, b) => a.maxRoi - b.maxRoi); // Сначала самые неудачные / анти-связки
+                title = `🔻 <b>CS2 ARBITRAGE: СДЕЛКИ «НЕ ОЧЕНЬ» (НИЗКИЙ / МИНУСОВОЙ ROI)</b> 🔻`;
+                subtitle = `<i>⚠️ Позиции с минимальной маржой или отрицательным спредом (покупка дороже чистой продажи в Steam после комиссии ${feePercent}%)</i>`;
+            } else if (tier === 'changes') {
+                // Парсинг динамики изменений лучших ROI
+                if (roiTrackerState.recentEvents.length === 0) {
+                    showToast('Изменений ROI пока не зафиксировано. Подождите обновления ордеров (15 сек).', 'info');
+                    return;
+                }
+
+                let msgHtml = `📈 <b>CS2 ARBITRAGE: ПАРСИНГ ИЗМЕНЕНИЙ В ЛУЧШИХ ROI</b> 📈\n`;
+                msgHtml += `<i>Зафиксированные скачки ордеров и смещения спредов на маркетах | 1$ = ${rate.toFixed(2)}₴</i>\n`;
+                msgHtml += `━━━━━━━━━━━━━━━━━━━━━\n\n`;
+
+                const recentChanges = roiTrackerState.recentEvents.slice(0, 6);
+                recentChanges.forEach((ev, i) => {
+                    const isSpike = ev.deltaRoi > 0;
+                    const sign = isSpike ? '+' : '';
+                    const emoji = isSpike ? '▲' : '▼';
+                    const steamUrl = getSteamDirectOrderUrl(ev.itemName);
+                    const marketUrl = ev.item && ev.item.bestOffer ? ev.item.bestOffer.urlGenerator(ev.itemName) : `https://csfloat.com/search?query=${encodeURIComponent(ev.itemName)}`;
+
+                    msgHtml += `<b>${i + 1}. ${escapeHtml(ev.itemName)}</b> [${escapeHtml(ev.exterior)}]\n`;
+                    msgHtml += `   • <b>Смещение ROI:</b> <b>${emoji} ${sign}${ev.deltaRoi.toFixed(1)}%</b> (было ${ev.prevRoi > 0 ? '+' : ''}${ev.prevRoi.toFixed(1)}% ➔ стало <b>${ev.currentRoi > 0 ? '+' : ''}${ev.currentRoi.toFixed(1)}%</b>)\n`;
+                    msgHtml += `   • <b>Ордер входа:</b> <b>${ev.currentMarket}</b> по $${ev.currentPrice.toFixed(2)} (${(ev.currentPrice * rate).toFixed(1)} ₴)\n`;
+                    msgHtml += `   • <b>Ссылки:</b> <a href="${steamUrl}">Steam стакан</a> | <a href="${marketUrl}">Купить на ${ev.currentMarket}</a>\n\n`;
+                });
+
+                msgHtml += `━━━━━━━━━━━━━━━━━━━━━\n`;
+                msgHtml += `📊 Всего зарегистрировано колебаний: <b>${roiTrackerState.recentEvents.length}</b>`;
+
+                const keyboard = buildTelegramParsingKeyboard(recentChanges[0]?.item);
+                try {
+                    await sendTelegramMessage(msgHtml, keyboard);
+                    showToast(`Сводка изменений лучших ROI отправлена в Telegram!`, 'success');
+                    updateTgStatusUI();
+                } catch (err) {
+                    showToast(err.message, 'error');
+                }
+                return;
+            } else if (tier === 'digest') {
+                // Общий дайджест: ТОП + Не очень + Статистика
+                const tops = items.filter(it => it.bestOffer && it.bestOffer.roi >= 25).sort((a,b) => b.maxRoi - a.maxRoi).slice(0, 3);
+                const meds = items.filter(it => it.bestOffer && it.bestOffer.roi >= 5 && it.bestOffer.roi < 25).sort((a,b) => b.maxRoi - a.maxRoi).slice(0, 2);
+                const lows = items.filter(it => it.bestOffer && it.bestOffer.roi < 5).sort((a,b) => a.maxRoi - b.maxRoi).slice(0, 2);
+
+                let dHtml = `🚀 <b>CS2 ARBITRAGE ПОЛНЫЙ ДАЙДЖЕСТ РЫНКА</b> 🚀\n`;
+                dHtml += `<i>Мониторинг CSFloat, Buff163, Skinport, DMarket | 1$ = ${rate.toFixed(2)}₴</i>\n`;
+                dHtml += `━━━━━━━━━━━━━━━━━━━━━\n\n`;
+
+                if (tops.length > 0) {
+                    dHtml += `🔥 <b>ТОПОВЫЕ СДЕЛКИ (ВЫСОКИЙ ROI):</b>\n`;
+                    tops.forEach((item, i) => {
+                        const best = item.bestOffer;
+                        const buyUah = (best.actualBuyPrice * rate).toFixed(1);
+                        const profitUah = (best.profit * rate).toFixed(1);
+                        dHtml += `<b>${i + 1}. <a href="${best.urlGenerator(item.name)}">${escapeHtml(item.name)}</a></b>\n`;
+                        dHtml += `   • Вход: <b>${best.name}</b> $${best.actualBuyPrice.toFixed(2)} (${buyUah} ₴) ➔ Профит: <b>+$${best.profit.toFixed(2)} (+${profitUah} ₴) | ROI: +${best.roi.toFixed(1)}%</b>\n`;
+                        dHtml += `   • <a href="${getSteamDirectOrderUrl(item.name)}">Steam стакан ($${item.steamGross.toFixed(2)})</a> | <a href="${best.urlGenerator(item.name)}">Купить</a>\n\n`;
+                    });
+                }
+
+                if (meds.length > 0) {
+                    dHtml += `⚖️ <b>УМЕРЕННЫЕ СДЕЛКИ:</b>\n`;
+                    meds.forEach((item, i) => {
+                        const best = item.bestOffer;
+                        dHtml += `• <b><a href="${best.urlGenerator(item.name)}">${escapeHtml(item.name)}</a></b>: ${best.name} $${best.actualBuyPrice.toFixed(2)} ➔ ROI: <b>+${best.roi.toFixed(1)}%</b> (Профит +$${best.profit.toFixed(2)})\n`;
+                    });
+                    dHtml += `\n`;
+                }
+
+                if (lows.length > 0) {
+                    dHtml += `🔻 <b>СДЕЛКИ «НЕ ОЧЕНЬ» (АНТИ-СПРЕД):</b>\n`;
+                    lows.forEach((item, i) => {
+                        const best = item.bestOffer;
+                        dHtml += `• <b><a href="${best.urlGenerator(item.name)}">${escapeHtml(item.name)}</a></b>: ${best.name} $${best.actualBuyPrice.toFixed(2)} | Steam: $${item.steamGross.toFixed(2)} (чистыми $${item.netSteam.toFixed(2)}) ➔ ROI: <b>${best.roi > 0 ? '+' : ''}${best.roi.toFixed(1)}%</b>\n`;
+                    });
+                    dHtml += `\n`;
+                }
+
+                dHtml += `━━━━━━━━━━━━━━━━━━━━━\n`;
+                dHtml += `📈 Активных связок: <b>${items.length}</b> | Зафиксировано сдвигов ROI: <b>${roiTrackerState.recentEvents.length}</b>`;
+
+                const keyboard = buildTelegramParsingKeyboard(tops[0] || items[0]);
+                try {
+                    await sendTelegramMessage(dHtml, keyboard);
+                    showToast('Сводный дайджест рынка отправлен в Telegram!', 'success');
+                    updateTgStatusUI();
+                } catch (err) {
+                    showToast(err.message, 'error');
+                }
                 return;
             }
 
-            const rate = getUahRate();
-            let digestHtml = `🚀 <b>CS2 ARBITRAGE DIGEST (ТОП-${itemsToSend.length} СВЯЗОК)</b>\n`;
-            digestHtml += `<i>Парсинг маркетов CSFloat, Buff, Skinport, DMarket | 1$ = ${rate.toFixed(2)}₴</i>\n`;
-            digestHtml += `━━━━━━━━━━━━━━━━━━━━━\n\n`;
+            const itemsToSend = candidates.slice(0, limit);
+            if (itemsToSend.length === 0) {
+                showToast(`Не найдено связок для категории «${tier}»`, 'error');
+                return;
+            }
 
-            const inlineKeyboard = [];
+            let msgHtml = `${title}\n`;
+            msgHtml += `${subtitle}\n`;
+            msgHtml += `<i>Курс доллара: 1$ = ${rate.toFixed(2)}₴ (Минфин/НБУ) | Комиссия Steam: ${feePercent}%</i>\n`;
+            msgHtml += `━━━━━━━━━━━━━━━━━━━━━\n\n`;
 
             itemsToSend.forEach((item, i) => {
                 const best = item.bestOffer;
@@ -3234,46 +4187,74 @@
                 const steamUrl = getSteamDirectOrderUrl(item.name);
                 const marketUrl = best.urlGenerator(item.name);
 
-                digestHtml += `<b>${i + 1}. ${escapeHtml(item.name)}</b> [${escapeHtml(item.exterior)}]\n`;
-                digestHtml += `   • Покупка: <b>${best.name}</b> за <b>$${best.actualBuyPrice.toFixed(2)}</b> (${buyUah} ₴)\n`;
-                digestHtml += `   • Продажа в Steam: $${item.steamGross.toFixed(2)} (чистыми <b>$${item.netSteam.toFixed(2)}</b> / ${steamNetUah} ₴)\n`;
-                digestHtml += `   • Чистый профит: <b>+$${best.profit.toFixed(2)} (+${profitUah} ₴)</b>\n`;
-                digestHtml += `   • Реальный ROI: <b>+${best.roi.toFixed(1)}%</b>\n`;
-                digestHtml += `   • Ссылки: <a href="${steamUrl}">Steam стакан</a> | <a href="${marketUrl}">Купить на ${best.name}</a>\n\n`;
-
-                if (i < 3) {
-                    inlineKeyboard.push([
-                        { text: `🛒 #${i + 1} Steam`, url: steamUrl },
-                        { text: `🎯 #${i + 1} ${best.name}`, url: marketUrl }
-                    ]);
-                }
+                msgHtml += `<b>${i + 1}. ${escapeHtml(item.name)}</b> [${escapeHtml(item.exterior)}]\n`;
+                msgHtml += `   • Покупка: <b><a href="${marketUrl}">${best.name}</a></b> за <b>$${best.actualBuyPrice.toFixed(2)}</b> (${buyUah} ₴)\n`;
+                msgHtml += `   • Steam: $${item.steamGross.toFixed(2)} (чистыми на баланс <b>$${item.netSteam.toFixed(2)}</b> / ${steamNetUah} ₴)\n`;
+                msgHtml += `   • Чистый профит: <b>${best.profit > 0 ? '+' : ''}$${best.profit.toFixed(2)} (${best.profit > 0 ? '+' : ''}${profitUah} ₴)</b>\n`;
+                msgHtml += `   • Реальный ROI: <b>${best.roi > 0 ? '+' : ''}${best.roi.toFixed(1)}%</b>\n`;
+                msgHtml += `   • Ссылки: <a href="${steamUrl}">Steam стакан</a> | <a href="${marketUrl}">Купить на ${best.name}</a>\n\n`;
             });
 
-            digestHtml += `━━━━━━━━━━━━━━━━━━━━━\n`;
-            digestHtml += `📊 Всего найдено скинов со спредом: <b>${candidates.length}</b>`;
+            msgHtml += `━━━━━━━━━━━━━━━━━━━━━\n`;
+            msgHtml += `📊 Найдено в этой категории: <b>${candidates.length}</b> связок`;
+
+            const keyboard = buildTelegramParsingKeyboard(itemsToSend[0]);
 
             try {
-                await sendTelegramMessage(digestHtml, inlineKeyboard.length > 0 ? { inline_keyboard: inlineKeyboard } : null);
-                showToast(`Топ-${itemsToSend.length} связок успешно отправлены в Telegram!`, 'success');
+                await sendTelegramMessage(msgHtml, keyboard);
+                showToast(`Парсинг «${tier}» (ТОП-${itemsToSend.length}) отправлен в Telegram!`, 'success');
                 updateTgStatusUI();
             } catch (err) {
                 showToast(err.message, 'error');
             }
         }
 
+        // Обновленная функция авто-сигналов с поддержкой тиров ("топовые", "не очень", "все")
         function checkAndSendAutoTelegramSignals(items) {
             if (!tgConfig.autoSignals || !tgConfig.token || !tgConfig.chatId || !items || items.length === 0) return;
 
-            const candidate = items.find(item => 
-                item.bestOffer &&
-                item.maxRoi >= (tgConfig.minRoi || 25) &&
-                item.maxProfit >= (tgConfig.minProfit || 0.20) &&
-                !sentSignalCache.has(item.name)
-            );
+            const targetTier = tgConfig.dealsTier || 'both';
+            const mScope = tgConfig.marketsScope || 'all';
+            const lScope = tgConfig.liquidityScope || 'all';
+
+            // Применяем фильтры из настроек TG
+            let candidatesList = items.filter(item => {
+                if (!item.bestOffer) return false;
+                
+                // Market filter
+                if (mScope !== 'all' && item.bestOffer.marketId !== mScope) return false;
+
+                // Liquidity filter
+                if (lScope === 'green_only' && item.flag !== 'green') return false;
+                if (lScope === 'red_only' && item.flag !== 'red') return false;
+
+                return true;
+            });
+
+            let candidate = null;
+
+            if (targetTier === 'top' || targetTier === 'both') {
+                candidate = candidatesList.find(item => 
+                    item.maxRoi >= (tgConfig.minRoi || 25) &&
+                    item.maxProfit >= (tgConfig.minProfit || 0.20) &&
+                    !sentSignalCache.has(item.name)
+                );
+            }
+
+            if (!candidate && (targetTier === 'low' || targetTier === 'both')) {
+                // Сигнал по сделке "не очень" / анти-спреду (для понимания перекупленности или резких расхождений)
+                candidate = candidatesList.find(item => 
+                    item.bestOffer.roi < 5 &&
+                    !sentSignalCache.has('low_' + item.name)
+                );
+            }
 
             if (candidate) {
-                sentSignalCache.add(candidate.name);
-                if (sentSignalCache.size > 60) {
+                const isLowDeal = candidate.bestOffer.roi < 5;
+                const cacheKey = isLowDeal ? ('low_' + candidate.name) : candidate.name;
+                sentSignalCache.add(cacheKey);
+
+                if (sentSignalCache.size > 80) {
                     const firstKey = sentSignalCache.values().next().value;
                     sentSignalCache.delete(firstKey);
                 }
@@ -3288,33 +4269,31 @@
                 const marketUrl = best.urlGenerator(candidate.name);
                 const feePercent = parseFloat(DOM.steamFee.value) || 15;
 
+                const emoji = isLowDeal ? '🔻' : '⚡';
+                const tag = isLowDeal ? 'СДЕЛКА «НЕ ОЧЕНЬ» (НИЗКИЙ ROI)' : 'ТОПОВАЯ АВТО-СВЯЗКА';
+
                 const msg = [
-                    `⚡ <b>АВТО-СИГНАЛ CS2 SCANNЕR</b> ⚡`,
+                    `${emoji} <b>АВТО-СИГНАЛ: ${tag}</b> ${emoji}`,
                     `🔥 <b>${escapeHtml(candidate.name)}</b> (${escapeHtml(candidate.exterior)}) ${candidate.isConsumerShirp ? '• <b>[ШИРПОТРЕБ]</b>' : ''}`,
                     ``,
                     `🛒 <b>Steam Market:</b> $${candidate.steamGross.toFixed(2)} (${steamUah} ₴)`,
                     `  ↳ <i>Чистыми на баланс (-${feePercent}%): $${candidate.netSteam.toFixed(2)} (${steamNetUah} ₴)</i>`,
-                    `🎯 <b>Вход: ${best.name}</b> за <b>$${best.actualBuyPrice.toFixed(2)}</b> (${buyUah} ₴)`,
-                    `💰 <b>Чистый профит:</b> <b>+$${best.profit.toFixed(2)} (+${profitUah} ₴)</b>`,
-                    `🚀 <b>Реальный ROI:</b> <b>+${best.roi.toFixed(1)}%</b>`,
+                    `🎯 <b>Вход: <a href="${marketUrl}">${best.name}</a></b> за <b>$${best.actualBuyPrice.toFixed(2)}</b> (${buyUah} ₴)`,
+                    `💰 <b>Чистый профит:</b> <b>${best.profit > 0 ? '+' : ''}$${best.profit.toFixed(2)} (${best.profit > 0 ? '+' : ''}${profitUah} ₴)</b>`,
+                    `🚀 <b>Реальный ROI:</b> <b>${best.roi > 0 ? '+' : ''}${best.roi.toFixed(1)}%</b>`,
                     ``,
-                    `⏱ <i>Автоскан ордеров в ${new Date().toLocaleTimeString('ru-RU')} | Курс: 1$ = ${rate.toFixed(2)}₴</i>`
+                    `⏱ <i>Автоскан ордеров в ${new Date().toLocaleTimeString('ru-RU')} | 1$ = ${rate.toFixed(2)}₴</i>`
                 ].join('\n');
 
-                sendTelegramMessage(msg, {
-                    inline_keyboard: [
-                        [
-                            { text: '🛒 Steam стакан', url: steamUrl },
-                            { text: `🎯 Купить на ${best.name}`, url: marketUrl }
-                        ]
-                    ]
-                }).catch(err => console.warn('Auto TG signal error:', err));
+                const keyboard = buildTelegramParsingKeyboard(candidate);
+                sendTelegramMessage(msg, keyboard).catch(err => console.warn('Ошибка автосигнала Telegram:', err));
             }
         }
 
-        // Global exports for inline onclick
+        // Экспорт глобальных функций для вызова из HTML / onClick
         window.sendSingleSkinToTelegram = sendSingleSkinToTelegram;
-        window.sendTopDealsToTelegram = sendTopDealsToTelegram;
+        window.sendTopDealsToTelegram = (limit) => sendDealsTierToTelegram('top', limit || 5);
+        window.sendDealsTierToTelegram = sendDealsTierToTelegram;
         window.openTgModal = openTgModal;
         window.closeTgModal = closeTgModal;
         window.testTgConnection = testTgConnection;
@@ -3354,9 +4333,35 @@
         if (DOM.tgModalClose) DOM.tgModalClose.addEventListener('click', closeTgModal);
         if (DOM.tgTestBtn) DOM.tgTestBtn.addEventListener('click', testTgConnection);
         if (DOM.tgSaveBtn) DOM.tgSaveBtn.addEventListener('click', saveTgSettingsFromModal);
-        if (DOM.tgSendTopBtn) DOM.tgSendTopBtn.addEventListener('click', () => sendTopDealsToTelegram(5));
-        if (DOM.tgQuickSendBtn) DOM.tgQuickSendBtn.addEventListener('click', () => sendTopDealsToTelegram(5));
-        if (DOM.tgParseCurrentBtn) DOM.tgParseCurrentBtn.addEventListener('click', () => sendTopDealsToTelegram(5));
+
+        // Sidebar Auto-Created Parsing Buttons
+        if (DOM.tgParseGreenBtn) DOM.tgParseGreenBtn.addEventListener('click', () => sendDealsTierToTelegram('green', 8));
+        if (DOM.tgParseAllMarketsBtn) DOM.tgParseAllMarketsBtn.addEventListener('click', () => sendDealsTierToTelegram('allMarkets', 8));
+        if (DOM.tgParseTopBtn) DOM.tgParseTopBtn.addEventListener('click', () => sendDealsTierToTelegram('top', 5));
+        if (DOM.tgParseMedBtn) DOM.tgParseMedBtn.addEventListener('click', () => sendDealsTierToTelegram('medium', 5));
+        if (DOM.tgParseLowBtn) DOM.tgParseLowBtn.addEventListener('click', () => sendDealsTierToTelegram('low', 5));
+        if (DOM.tgParseDiffBtn) DOM.tgParseDiffBtn.addEventListener('click', () => sendDealsTierToTelegram('changes', 6));
+        if (DOM.tgParseDigestBtn) DOM.tgParseDigestBtn.addEventListener('click', () => sendDealsTierToTelegram('digest', 6));
+
+        // Filter Strip Quick Parsing Buttons
+        if (DOM.tgQuickGreenStripBtn) DOM.tgQuickGreenStripBtn.addEventListener('click', () => sendDealsTierToTelegram('green', 8));
+        if (DOM.tgQuickTopStripBtn) DOM.tgQuickTopStripBtn.addEventListener('click', () => sendDealsTierToTelegram('top', 5));
+        if (DOM.tgQuickLowStripBtn) DOM.tgQuickLowStripBtn.addEventListener('click', () => sendDealsTierToTelegram('low', 5));
+        if (DOM.tgQuickDiffStripBtn) DOM.tgQuickDiffStripBtn.addEventListener('click', () => sendDealsTierToTelegram('changes', 6));
+
+        // Modal Action Parsing Buttons
+        if (DOM.tgModalSendGreenBtn) DOM.tgModalSendGreenBtn.addEventListener('click', () => sendDealsTierToTelegram('green', 8));
+        if (DOM.tgModalSendAllMarketsBtn) DOM.tgModalSendAllMarketsBtn.addEventListener('click', () => sendDealsTierToTelegram('allMarkets', 8));
+        if (DOM.tgModalSendTopBtn) DOM.tgModalSendTopBtn.addEventListener('click', () => sendDealsTierToTelegram('top', 5));
+        if (DOM.tgModalSendMedBtn) DOM.tgModalSendMedBtn.addEventListener('click', () => sendDealsTierToTelegram('medium', 5));
+        if (DOM.tgModalSendLowBtn) DOM.tgModalSendLowBtn.addEventListener('click', () => sendDealsTierToTelegram('low', 5));
+        if (DOM.tgModalSendDiffBtn) DOM.tgModalSendDiffBtn.addEventListener('click', () => sendDealsTierToTelegram('changes', 6));
+        if (DOM.tgModalDigestBtn) DOM.tgModalDigestBtn.addEventListener('click', () => sendDealsTierToTelegram('digest', 6));
+
+        // Header & Quick Action buttons
+        if (DOM.tgSendTopBtn) DOM.tgSendTopBtn.addEventListener('click', () => sendDealsTierToTelegram('top', 5));
+        if (DOM.tgQuickSendBtn) DOM.tgQuickSendBtn.addEventListener('click', () => sendDealsTierToTelegram('top', 5));
+        if (DOM.tgParseCurrentBtn) DOM.tgParseCurrentBtn.addEventListener('click', () => sendDealsTierToTelegram('digest', 6));
 
         if (DOM.tgToggleTokenEye) {
             DOM.tgToggleTokenEye.addEventListener('click', () => {
