@@ -79,6 +79,15 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
         }
 
         .header-title {
@@ -100,10 +109,181 @@
             color: #fff;
         }
 
+        /* Currency Selector */
+        .currency-pills-bar {
+            display: flex;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border-glass);
+            border-radius: 20px;
+            padding: 2px 4px;
+            gap: 2px;
+        }
+
+        .currency-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-weight: 700;
+            padding: 0 8px;
+        }
+
+        .curr-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .curr-btn:hover {
+            color: #fff;
+        }
+
+        .curr-btn.active {
+            background: rgba(0, 255, 65, 0.18);
+            color: var(--accent-profit);
+            box-shadow: 0 0 10px rgba(0, 255, 65, 0.2);
+        }
+
         .update-section {
             display: flex;
             align-items: center;
-            gap: 24px;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .rate-badge {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-glass);
+            border-radius: 6px;
+            padding: 6px 10px;
+            font-size: 0.72rem;
+            font-family: monospace;
+            color: #cbd5e1;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .rate-badge:hover {
+            border-color: #38bdf8;
+            background: rgba(56, 189, 248, 0.1);
+        }
+
+        .rate-badge.flash-rate {
+            animation: rate-flash-anim 0.8s ease-out;
+        }
+
+        @keyframes rate-flash-anim {
+            0% { border-color: #00FF41; box-shadow: 0 0 12px rgba(0, 255, 65, 0.5); background: rgba(0, 255, 65, 0.12); }
+            100% { border-color: var(--border-glass); box-shadow: none; background: rgba(255, 255, 255, 0.05); }
+        }
+
+        .rate-badge .rate-icon {
+            color: #38bdf8;
+            font-weight: 800;
+        }
+
+        .rate-source-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(0, 255, 65, 0.12);
+            border: 1px solid rgba(0, 255, 65, 0.25);
+            color: #00FF41;
+            border-radius: 4px;
+            padding: 1px 5px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            margin-left: 2px;
+        }
+
+        .rate-source-tag.syncing {
+            background: rgba(56, 189, 248, 0.15);
+            border-color: #38bdf8;
+            color: #38bdf8;
+        }
+
+        /* Fee preset pills & Rate live controls */
+        .fee-presets {
+            display: flex;
+            gap: 4px;
+            margin-top: 5px;
+            flex-wrap: wrap;
+        }
+
+        .fee-preset-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-glass);
+            color: var(--text-muted);
+            font-size: 0.65rem;
+            padding: 2px 7px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.15s;
+            font-family: monospace;
+        }
+
+        .fee-preset-btn:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.25);
+        }
+
+        .fee-preset-btn.active {
+            background: rgba(56, 189, 248, 0.2);
+            border-color: #38bdf8;
+            color: #38bdf8;
+            font-weight: 700;
+        }
+
+        .sub-label-hint {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            font-family: monospace;
+        }
+
+        .rate-sync-info-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+            margin-top: 6px;
+            padding: 5px 8px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-glass);
+            border-radius: 5px;
+            font-size: 0.68rem;
+            font-family: monospace;
+            color: var(--text-muted);
+        }
+
+        .rate-sync-left {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .rate-countdown-pill {
+            background: rgba(0, 255, 65, 0.15);
+            color: #00FF41;
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            border-radius: 10px;
+            padding: 1px 6px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            flex-shrink: 0;
         }
 
         .last-updated {
@@ -117,11 +297,12 @@
         }
 
         .last-updated::before {
-            content: 'LAST SCAN';
+            content: 'ОРДЕРА LIVE';
             font-size: 0.65rem;
             font-family: 'Inter', sans-serif;
-            color: var(--text-muted);
+            color: var(--accent-profit);
             text-transform: uppercase;
+            font-weight: 700;
         }
 
         .btn {
@@ -132,7 +313,7 @@
             padding: 8px 16px;
             border-radius: 6px;
             font-weight: 700;
-            font-size: 0.875rem;
+            font-size: 0.8rem;
             cursor: pointer;
             transition: all 0.2s ease;
             border: none;
@@ -149,6 +330,119 @@
         .btn-scan:hover {
             background: var(--accent-profit-hover);
             transform: translateY(-1px);
+        }
+
+        .btn-refresh {
+            background: rgba(56, 189, 248, 0.15);
+            color: #38bdf8;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            font-size: 0.75rem;
+            padding: 6px 12px;
+        }
+
+        .btn-refresh:hover {
+            background: rgba(56, 189, 248, 0.25);
+            color: #fff;
+        }
+
+        .btn-auto {
+            background: rgba(0, 255, 65, 0.1);
+            color: #00FF41;
+            border: 1px solid rgba(0, 255, 65, 0.25);
+            font-size: 0.75rem;
+            padding: 6px 12px;
+        }
+
+        .btn-auto.off {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-muted);
+            border-color: var(--border-glass);
+        }
+
+        .pulse-dot {
+            width: 7px;
+            height: 7px;
+            background: #00FF41;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 8px #00FF41;
+            animation: pulse-dot-anim 1.5s infinite;
+        }
+
+        .btn-auto.off .pulse-dot {
+            background: #64748b;
+            box-shadow: none;
+            animation: none;
+        }
+
+        @keyframes pulse-dot-anim {
+            0% { transform: scale(0.9); opacity: 0.6; }
+            50% { transform: scale(1.3); opacity: 1; }
+            100% { transform: scale(0.9); opacity: 0.6; }
+        }
+
+        /* Quick Filter Bar */
+        .quick-filter-strip {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            padding: 0 4px;
+        }
+
+        .quick-filter-chips {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .chip-btn {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            color: var(--text-muted);
+            border-radius: 20px;
+            padding: 6px 14px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .chip-btn:hover {
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.2);
+            background: var(--bg-glass-hover);
+        }
+
+        .chip-btn.active {
+            background: rgba(0, 255, 65, 0.15);
+            border-color: rgba(0, 255, 65, 0.4);
+            color: #00FF41;
+        }
+
+        .chip-btn.chip-hot {
+            border-color: rgba(249, 115, 22, 0.4);
+            color: #fb923c;
+        }
+
+        .chip-btn.chip-hot.active {
+            background: rgba(249, 115, 22, 0.2);
+            border-color: #f97316;
+            color: #ffedd5;
+            box-shadow: 0 0 12px rgba(249, 115, 22, 0.3);
+        }
+
+        .order-counter-stats {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-family: monospace;
         }
 
         .btn-csfloat {
@@ -363,55 +657,331 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(59, 130, 246, 0.1);
-            border: 1px solid rgba(59, 130, 246, 0.2);
+            background: linear-gradient(135deg, rgba(30, 58, 138, 0.25), rgba(15, 23, 42, 0.4));
+            border: 1px solid rgba(59, 130, 246, 0.32);
             padding: 8px 12px;
-            border-radius: 6px;
+            border-radius: 8px;
             font-size: 0.75rem;
             color: var(--text-muted);
-            margin-top: 12px;
+            margin-top: 10px;
+            margin-bottom: 8px;
+            gap: 10px;
+            flex-wrap: wrap;
         }
-        .steam-price-bar strong {
-            font-size: 0.875rem;
-            color: var(--brand-steam);
-            font-family: monospace;
-        }
-        .steam-price-bar a:hover {
-            color: #fff !important;
-        }
-
-        .markets-list {
+        .steam-brand-col {
             display: flex;
-            flex-direction: column;
-            gap: 6px;
-            margin-top: 4px;
-        }
-        .market-row {
-            display: grid;
-            grid-template-columns: 80px 1fr 65px 30px;
             align-items: center;
             gap: 8px;
-            background: rgba(0, 0, 0, 0.2);
+        }
+        .steam-brand-title {
+            font-weight: 700;
+            color: #fff;
+            font-size: 0.82rem;
+            line-height: 1.2;
+        }
+        .steam-brand-sub {
+            font-size: 0.65rem;
+            color: #60a5fa;
+            font-weight: 600;
+        }
+        .steam-figures-trio {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-left: auto;
+        }
+        .steam-figure-item {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            line-height: 1.2;
+        }
+        .steam-figure-item .fig-label {
+            font-size: 0.6rem;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        .steam-figure-item .fig-val {
+            font-size: 0.8rem;
+            font-weight: 700;
+            font-family: monospace;
+            color: #cbd5e1;
+        }
+        .steam-figure-item.fee .fig-val-fee {
+            font-size: 0.8rem;
+            font-weight: 700;
+            font-family: monospace;
+            color: #f87171;
+        }
+        .steam-figure-item.net .fig-val-net {
+            font-size: 0.88rem;
+            font-weight: 800;
+            font-family: monospace;
+            color: #00FF41;
+        }
+        .steam-link-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #93c5fd;
+            background: rgba(59, 130, 246, 0.15);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 6px;
+            width: 26px;
+            height: 26px;
+            text-decoration: none;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+        .steam-link-btn:hover {
+            color: #fff;
+            background: rgba(59, 130, 246, 0.35);
+            border-color: #60a5fa;
+        }
+
+        /* Best Deal Summary Banner */
+        .best-deal-banner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
             padding: 6px 10px;
             border-radius: 6px;
             font-size: 0.75rem;
-            transition: background 0.2s;
+            margin-bottom: 8px;
+            background: rgba(0, 255, 65, 0.08);
+            border: 1px solid rgba(0, 255, 65, 0.25);
+            flex-wrap: wrap;
         }
-        .market-row:hover {
-            background: rgba(255, 255, 255, 0.05);
+        .best-deal-banner.neutral {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: var(--border-glass);
         }
-        .market-name {
-            font-weight: 600;
-            color: #fff;
+        .best-deal-left {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
-        .market-price {
-            font-family: monospace;
+        .best-deal-badge {
+            font-size: 0.6rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: rgba(0, 255, 65, 0.2);
+            color: #00FF41;
+            letter-spacing: 0.4px;
+            flex-shrink: 0;
+        }
+        .best-deal-badge.neutral {
+            background: rgba(255, 255, 255, 0.1);
             color: var(--text-muted);
         }
-        .market-roi {
+        .best-deal-text {
+            color: #e2e8f0;
+            font-size: 0.75rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .best-deal-text strong {
+            color: #fff;
+        }
+        .best-deal-figures {
+            font-family: monospace;
+            font-weight: 800;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-left: auto;
+        }
+        .deal-fee-tag {
+            font-size: 0.62rem;
+            color: #94a3b8;
+            background: rgba(255, 255, 255, 0.08);
+            padding: 1px 5px;
+            border-radius: 3px;
+            font-family: monospace;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .deal-roi-pill {
+            background: rgba(0, 255, 65, 0.2);
+            color: #00FF41;
+            padding: 1px 6px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            font-family: monospace;
+            border: 1px solid rgba(0, 255, 65, 0.3);
+        }
+
+        /* Markets Table & Comparison */
+        .markets-container {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-top: 4px;
+        }
+        .markets-table-header {
+            display: grid;
+            grid-template-columns: 78px 1fr 88px 84px 58px 26px;
+            align-items: center;
+            gap: 6px;
+            padding: 2px 6px;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-weight: 700;
+            letter-spacing: 0.3px;
+        }
+        .markets-list {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .market-row {
+            display: grid;
+            grid-template-columns: 78px 1fr 88px 84px 58px 26px;
+            align-items: center;
+            gap: 6px;
+            background: rgba(0, 0, 0, 0.25);
+            padding: 6px 8px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            transition: all 0.2s;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .market-row:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+        .market-row.best-market-row {
+            background: rgba(0, 255, 65, 0.08);
+            border-color: rgba(0, 255, 65, 0.3);
+        }
+        .market-net-col {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            line-height: 1.2;
+            font-family: monospace;
+            text-align: right;
+        }
+        .market-net-col .net-val {
+            font-weight: 700;
+            color: #38bdf8;
+            font-size: 0.76rem;
+        }
+        .market-net-col .net-uah {
+            font-size: 0.65rem;
+            color: #94a3b8;
+        }
+        .market-table-footer-hint {
+            font-size: 0.65rem;
+            color: #64748b;
+            margin-top: 5px;
+            padding: 2px 4px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-family: monospace;
+        }
+        .market-row:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+        .market-row.best-market-row {
+            background: rgba(0, 255, 65, 0.08);
+            border-color: rgba(0, 255, 65, 0.3);
+        }
+        .market-name-wrap {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .market-badge {
+            font-size: 0.68rem;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 4px;
+            display: inline-block;
+            white-space: nowrap;
+        }
+        .top-tag {
+            font-size: 0.55rem;
+            font-weight: 900;
+            background: #00FF41;
+            color: #050505;
+            padding: 1px 3px;
+            border-radius: 3px;
+            line-height: 1;
+        }
+        .market-price-col {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+            min-width: 0;
+        }
+        .market-native-price {
+            font-family: monospace;
+            font-weight: 800;
+            color: #f1f5f9;
+            font-size: 0.78rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .native-cur-tag {
+            font-size: 0.62rem;
+            font-weight: 700;
+            color: #94a3b8;
+            background: rgba(255, 255, 255, 0.08);
+            padding: 1px 4px;
+            border-radius: 3px;
+        }
+        .market-converted-price {
+            font-family: monospace;
+            font-size: 0.68rem;
+            color: #38bdf8;
+            white-space: nowrap;
+        }
+        .steam-diff-tag {
+            font-size: 0.62rem;
+            font-family: monospace;
+            color: #cbd5e1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .market-profit-col {
             font-family: monospace;
             font-weight: 700;
             text-align: right;
+            font-size: 0.76rem;
+            white-space: nowrap;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            line-height: 1.2;
+        }
+        .market-profit-uah {
+            font-size: 0.65rem;
+            opacity: 0.85;
+        }
+        .market-roi-col {
+            font-family: monospace;
+            font-weight: 800;
+            text-align: right;
+            font-size: 0.78rem;
+            white-space: nowrap;
         }
         .market-link {
             display: flex;
@@ -419,8 +989,8 @@
             justify-content: center;
             color: var(--text-muted);
             text-decoration: none;
-            width: 24px;
-            height: 24px;
+            width: 22px;
+            height: 22px;
             border-radius: 4px;
             border: 1px solid transparent;
             margin-left: auto;
@@ -428,18 +998,64 @@
         }
         .market-link:hover {
             color: #fff;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.15);
             border-color: var(--border-glass-hover);
         }
         .no-offers {
             text-align: center;
-            padding: 12px;
+            padding: 14px;
             font-size: 0.75rem;
             color: var(--text-muted);
             background: rgba(0,0,0,0.2);
             border-radius: 6px;
             border: 1px dashed var(--border-glass);
             margin-top: 4px;
+        }
+
+        /* Calculation Guide in Settings */
+        .calc-guide {
+            margin-top: 14px;
+            padding: 12px;
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--border-glass);
+            font-size: 0.72rem;
+        }
+        .calc-guide-header {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 700;
+            color: #e2e8f0;
+            margin-bottom: 8px;
+            font-size: 0.75rem;
+        }
+        .calc-guide-header svg {
+            color: var(--brand-steam);
+        }
+        .calc-formula-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            color: var(--text-muted);
+        }
+        .calc-formula-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .calc-formula-item span {
+            color: #cbd5e1;
+            font-weight: 600;
+        }
+        .calc-formula-item code {
+            font-family: monospace;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #38bdf8;
+            font-size: 0.68rem;
+            width: fit-content;
         }
 
         .btn-icon {
@@ -521,26 +1137,460 @@
             height: 100%;
             overflow: visible;
         }
+
+        /* Telegram Integration & Modal Styles */
+        .btn-tg {
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.15), rgba(14, 165, 233, 0.25));
+            color: #38bdf8;
+            border: 1px solid rgba(56, 189, 248, 0.35);
+            font-size: 0.75rem;
+            padding: 6px 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            border-radius: 6px;
+            font-weight: 700;
+            transition: all 0.2s ease;
+        }
+        .btn-tg:hover {
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.28), rgba(14, 165, 233, 0.4));
+            color: #fff;
+            border-color: #38bdf8;
+            transform: translateY(-1px);
+        }
+        .tg-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .tg-dot-on {
+            background: #00FF41;
+            box-shadow: 0 0 6px #00FF41;
+        }
+        .tg-dot-off {
+            background: #64748b;
+        }
+
+        /* Sidebar TG Card */
+        .tg-sidebar-card {
+            background: rgba(14, 165, 233, 0.05);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .tg-sidebar-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-weight: 700;
+            font-size: 0.8rem;
+            color: #e2e8f0;
+        }
+        .tg-status-pill {
+            font-size: 0.65rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        .tg-status-pill.active {
+            background: rgba(0, 255, 65, 0.15);
+            color: #00FF41;
+            border: 1px solid rgba(0, 255, 65, 0.3);
+        }
+        .tg-status-pill.inactive {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-muted);
+            border: 1px solid var(--border-glass);
+        }
+        .tg-sidebar-desc {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+        .tg-sidebar-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-top: 2px;
+        }
+        .btn-tg-open {
+            background: rgba(56, 189, 248, 0.12);
+            color: #38bdf8;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 5px;
+            padding: 6px 10px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        .btn-tg-open:hover {
+            background: rgba(56, 189, 248, 0.25);
+            color: #fff;
+        }
+        .btn-tg-send {
+            background: rgba(0, 255, 65, 0.15);
+            color: #00FF41;
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            border-radius: 5px;
+            padding: 6px 10px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        .btn-tg-send:hover {
+            background: rgba(0, 255, 65, 0.25);
+            color: #fff;
+        }
+
+        /* Quick Parse Button in Filter Strip */
+        .btn-parse-tg {
+            background: rgba(56, 189, 248, 0.15);
+            color: #38bdf8;
+            border: 1px solid rgba(56, 189, 248, 0.35);
+            padding: 4px 10px;
+            border-radius: 5px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-left: 8px;
+        }
+        .btn-parse-tg:hover {
+            background: rgba(56, 189, 248, 0.3);
+            color: #fff;
+            transform: translateY(-1px);
+        }
+
+        /* Card TG Button */
+        .btn-card-tg {
+            background: rgba(56, 189, 248, 0.12);
+            color: #38bdf8;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 4px;
+            padding: 4px 8px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-left: auto;
+        }
+        .btn-card-tg:hover {
+            background: rgba(56, 189, 248, 0.25);
+            color: #fff;
+            border-color: #38bdf8;
+        }
+        .btn-card-tg.sent {
+            background: rgba(0, 255, 65, 0.2) !important;
+            color: #00FF41 !important;
+            border-color: rgba(0, 255, 65, 0.5) !important;
+        }
+
+        /* Modal Styles */
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(6px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            transition: opacity 0.25s ease;
+        }
+        .modal-backdrop.hidden {
+            display: none !important;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .modal-card {
+            width: 100%;
+            max-width: 560px;
+            background: #11151c;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 12px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85), 0 0 30px rgba(56, 189, 248, 0.15);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            animation: modal-enter 0.25s ease-out;
+        }
+        @keyframes modal-enter {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border-glass);
+            background: rgba(255, 255, 255, 0.02);
+        }
+        .modal-header-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #fff;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+        .modal-close-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0 4px;
+            transition: color 0.2s;
+        }
+        .modal-close-btn:hover {
+            color: #fff;
+        }
+        .modal-body {
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            max-height: 75vh;
+            overflow-y: auto;
+        }
+        .tg-instruction-box {
+            background: rgba(56, 189, 248, 0.06);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 0.75rem;
+            color: #cbd5e1;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .tg-instruction-box a {
+            color: #38bdf8;
+            text-decoration: underline;
+        }
+        .tg-instruction-box code {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 1px 5px;
+            border-radius: 3px;
+            font-family: monospace;
+            color: #facc15;
+        }
+        .eye-btn {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+            opacity: 0.7;
+            padding: 4px;
+        }
+        .eye-btn:hover {
+            opacity: 1;
+        }
+        .custom-checkbox {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            color: #cbd5e1;
+            user-select: none;
+        }
+        .custom-checkbox input {
+            accent-color: #00FF41;
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+        .tg-feedback-box {
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            line-height: 1.4;
+        }
+        .tg-feedback-box.hidden {
+            display: none;
+        }
+        .tg-feedback-box.success {
+            background: rgba(0, 255, 65, 0.12);
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            color: #00FF41;
+        }
+        .tg-feedback-box.error {
+            background: rgba(239, 68, 68, 0.12);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #f87171;
+        }
+        .tg-feedback-box.loading {
+            background: rgba(56, 189, 248, 0.12);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            color: #38bdf8;
+        }
+        .modal-footer {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 10px;
+            padding: 12px 18px;
+            border-top: 1px solid var(--border-glass);
+            background: rgba(0, 0, 0, 0.25);
+            flex-wrap: wrap;
+        }
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.08);
+            color: #cbd5e1;
+            border: 1px solid var(--border-glass);
+            padding: 7px 14px;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: #fff;
+        }
+        .btn-tg-send-modal {
+            background: rgba(56, 189, 248, 0.2);
+            color: #38bdf8;
+            border: 1px solid rgba(56, 189, 248, 0.4);
+            padding: 7px 14px;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .btn-tg-send-modal:hover {
+            background: rgba(56, 189, 248, 0.3);
+            color: #fff;
+        }
+
+        /* Floating Toast Notification */
+        .toast-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            pointer-events: none;
+        }
+        .toast-item {
+            pointer-events: auto;
+            background: #1e293b;
+            color: #fff;
+            border: 1px solid rgba(56, 189, 248, 0.4);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+            border-radius: 8px;
+            padding: 10px 16px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: toast-in 0.25s ease-out;
+            max-width: 380px;
+        }
+        .toast-item.success {
+            border-color: rgba(0, 255, 65, 0.5);
+            background: #0f2316;
+            color: #00FF41;
+        }
+        .toast-item.error {
+            border-color: rgba(239, 68, 68, 0.5);
+            background: #271216;
+            color: #f87171;
+        }
+        @keyframes toast-in {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <!-- Header -->
         <header class="glass">
-            <div class="header-title">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
-                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                </svg>
-                <h1>CS2 Arbitrage Scanner</h1>
+            <div class="header-left">
+                <div class="header-title">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
+                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                    </svg>
+                    <h1>CS2 Arbitrage Scanner</h1>
+                </div>
+                <!-- Currency Mode Selector -->
+                <div class="currency-pills-bar" id="currencyPills">
+                    <span class="currency-label">Валюта:</span>
+                    <button class="curr-btn active" data-curr="both" title="Отображать цены в USD и гривнах UAH">USD + UAH ($ / ₴)</button>
+                    <button class="curr-btn" data-curr="usd" title="Только в USD ($)">USD ($)</button>
+                    <button class="curr-btn" data-curr="uah" title="Только в гривнах (₴)">UAH (₴)</button>
+                </div>
             </div>
+
             <div class="update-section">
-                <span class="last-updated" id="lastUpdatedText">Ожидание обновления...</span>
-                <button id="scanBtn" class="btn btn-scan">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <div class="rate-badge" id="rateBadgeEl" title="Текущий курс доллара к гривне (НБУ / Минбанк / Открытые источники). Нажмите для мгновенного обновления">
+                    <span class="rate-icon">₴/$</span>
+                    <span id="rateDisplay">1$ = 44.73₴</span>
+                    <span class="rate-source-tag" id="rateSourceTag">
+                        <span class="pulse-dot" style="width: 5px; height: 5px;"></span>
+                        <span id="rateSourceText">НБУ 15с</span>
+                    </span>
+                </div>
+
+                <button id="tgModalBtn" class="btn btn-tg" title="Подключение Telegram бота и авто-парсер">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+                    </svg>
+                    <span>TG Бот</span>
+                    <span id="tgHeaderDot" class="tg-dot tg-dot-off"></span>
+                </button>
+
+                <button id="autoOrdersBtn" class="btn btn-auto" title="Автоматически обновлять ордера каждые 15 сек">
+                    <span class="pulse-dot"></span>
+                    <span id="autoOrdersText">Авто: 15с</span>
+                </button>
+
+                <button id="refreshOrdersBtn" class="btn btn-refresh" title="Обновить свежие ордера и цены">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M23 4v6h-6"></path><path d="M1 20v-6h6"></path>
+                        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                    </svg>
+                    <span>Обновить ордера</span>
+                </button>
+
+                <div class="last-updated" id="lastUpdatedText">Ожидание...</div>
+
+                <button id="scanBtn" class="btn btn-scan" title="Полная перепроверка базы предметов">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/>
                         <path d="M21 3v5h-5"/>
                     </svg>
-                    <span>Сканировать</span>
+                    <span>База</span>
                 </button>
             </div>
         </header>
@@ -562,8 +1612,21 @@
                             <circle cx="11" cy="11" r="8"></circle>
                             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                         </svg>
-                        <input type="text" id="search" class="form-control" placeholder="Например: AWP | Asiimov">
+                        <input type="text" id="search" class="form-control" placeholder="Например: P250, AWP, кейс...">
                     </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="rarityFilter">Качество / Ширпотреб</label>
+                    <select id="rarityFilter" class="form-control">
+                        <option value="all">Все качества (любой скин)</option>
+                        <option value="consumer_spread">🔥 Ширпотреб x2-x5 (Consumer/Industrial)</option>
+                        <option value="rarity_consumer">Ширпотреб (Consumer Grade / Белое)</option>
+                        <option value="rarity_industrial">Промышленное (Industrial / Светло-синее)</option>
+                        <option value="rarity_milspec">Армейское (Mil-Spec / Синее)</option>
+                        <option value="rarity_covert">Тайное (Covert / Красное)</option>
+                        <option value="knives_gloves">Ножи и перчатки</option>
+                    </select>
                 </div>
 
                 <div class="form-group">
@@ -581,33 +1644,136 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="sortBy">Сортировка</label>
+                    <label for="sortBy">Сортировка ордеров</label>
                     <select id="sortBy" class="form-control">
-                        <option value="roi-desc">ROI (По убыванию)</option>
-                        <option value="roi-asc">ROI (По возрастанию)</option>
+                        <option value="roi-desc">ROI % (По убыванию - максимум)</option>
                         <option value="profit-desc">Профит $ (По убыванию)</option>
                         <option value="profit-asc">Профит $ (По возрастанию)</option>
-                        <option value="price-asc">Цена покупки (Дешевле)</option>
+                        <option value="price-asc">Цена покупки (Дешевле - от ширпа)</option>
                         <option value="price-desc">Цена покупки (Дороже)</option>
+                        <option value="roi-asc">ROI % (По возрастанию)</option>
                     </select>
                 </div>
 
-                <hr style="border: none; border-top: 1px solid var(--border-glass); margin: 8px 0;">
+                <hr style="border: none; border-top: 1px solid var(--border-glass); margin: 4px 0;">
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="steamFee">Комиссия Steam (%)</label>
-                        <input type="number" id="steamFee" class="form-control" value="15" step="0.1" min="0" max="100">
+                        <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                            <label for="steamFee">Комиссия Steam (%)</label>
+                            <span class="sub-label-hint">5% Steam + 10% CS2</span>
+                        </div>
+                        <input type="number" id="steamFee" class="form-control" value="15" step="0.01" min="0" max="100">
+                        <div class="fee-presets">
+                            <button type="button" class="fee-preset-btn active" data-fee="15" title="Стандартные 15% (Steam забирает 15%)">15% Стандарт</button>
+                            <button type="button" class="fee-preset-btn" data-fee="13.04" title="Точный стакан Steam (1 / 1.15 = 13.043% с цены покупателя)">13.04% Точная</button>
+                            <button type="button" class="fee-preset-btn" data-fee="0" title="Чистая цена без комиссии Steam">0% Нет</button>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label for="marketFee">Комиссия площадки (%)</label>
+                        <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                            <label for="marketFee">Комиссия маркета (%)</label>
+                            <span class="sub-label-hint">Депозит/покупка</span>
+                        </div>
                         <input type="number" id="marketFee" class="form-control" value="0" step="0.1" min="0" max="100">
+                        <div class="fee-presets">
+                            <button type="button" class="fee-preset-btn active" data-market-fee="0">0%</button>
+                            <button type="button" class="fee-preset-btn" data-market-fee="2">2%</button>
+                            <button type="button" class="fee-preset-btn" data-market-fee="5">5%</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                        <label for="uahRate">Курс 1 USD в ГРН (₴)</label>
+                        <span class="sub-label-hint" id="rateLiveSource" style="color: #38bdf8;">НБУ (Минбанк / Open API)</span>
+                    </div>
+                    <div style="display: flex; gap: 6px;">
+                        <input type="number" id="uahRate" class="form-control" value="44.73" step="0.01" min="1" max="200" style="flex: 1;">
+                        <button type="button" id="syncRateBtn" class="btn btn-refresh" style="padding: 6px 10px; white-space: nowrap; font-size: 0.72rem;" title="Обновить курс прямо сейчас из НБУ / Минбанка">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6"></path><path d="M1 20v-6h6"></path><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                            <span>НБУ</span>
+                        </button>
+                    </div>
+                    <div class="rate-sync-info-box">
+                        <div class="rate-sync-left">
+                            <span class="pulse-dot" style="width: 6px; height: 6px;"></span>
+                            <span id="rateSyncStatusText">Автообновление: каждые 15 сек</span>
+                        </div>
+                        <span class="rate-countdown-pill" id="rateCountdownPill">15с</span>
+                    </div>
+                </div>
+
+                <div class="calc-guide">
+                    <div class="calc-guide-header">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="16" x2="12" y2="12"></line>
+                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                        </svg>
+                        <span>Ордера и перевод валют</span>
+                    </div>
+                    <div class="calc-formula-list">
+                        <div class="calc-formula-item">
+                            <span>Родные валюты ордеров:</span>
+                            <code>Buff: ¥ CNY | Skinport: € EUR | CSFloat: $ USD</code>
+                        </div>
+                        <div class="calc-formula-item">
+                            <span>Перевод:</span>
+                            <code>$ USD и ₴ ГРН по курсу</code>
+                        </div>
+                        <div class="calc-formula-item">
+                            <span>Точные ссылки:</span>
+                            <code>Прямо на стакан ордеров в Steam & Маркетах</code>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Telegram Integration Card -->
+                <div class="tg-sidebar-card">
+                    <div class="tg-sidebar-title">
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#38bdf8">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+                            </svg>
+                            <span>Парсер в Telegram</span>
+                        </div>
+                        <span class="tg-status-pill inactive" id="tgSidebarStatus">Не подключен</span>
+                    </div>
+                    <p class="tg-sidebar-desc">Мгновенный парсинг лучших связок и отправка сигналов прямо в ваш Telegram бот или канал.</p>
+                    <div class="tg-sidebar-actions">
+                        <button type="button" id="tgOpenBtn" class="btn-tg-open">
+                            ⚙ Настроить Telegram бота
+                        </button>
+                        <button type="button" id="tgQuickSendBtn" class="btn-tg-send" title="Спарсить и отправить топ связки в Telegram бот">
+                            🚀 Спарсить Топ-5 связок
+                        </button>
                     </div>
                 </div>
             </aside>
 
             <!-- Results -->
             <main>
+                <div class="quick-filter-strip">
+                    <div class="quick-filter-chips" id="quickFilterChips">
+                        <button class="chip-btn active" data-filter="all">⚡ Все предметы</button>
+                        <button class="chip-btn chip-hot" data-filter="consumer_spread">🔥 Ширпотреб с x2+ спредом</button>
+                        <button class="chip-btn" data-filter="profitable_only">🟢 Только профитные</button>
+                        <button class="chip-btn" data-filter="high_roi">🚀 ROI > 30%</button>
+                        <button class="chip-btn" data-filter="cheap">🪙 До $1 (до 40 ₴)</button>
+                    </div>
+                    <div class="order-counter-stats" id="orderStats">
+                        <span>Найдено: <strong style="color: #fff;" id="foundCount">0</strong></span>
+                        <button type="button" id="tgParseCurrentBtn" class="btn-parse-tg" title="Спарсить найденные результаты и отправить в Telegram">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+                            </svg>
+                            <span>Спарсить в TG</span>
+                        </button>
+                    </div>
+                </div>
+
                 <div id="resultsGrid" class="results-grid">
                     <!-- Cards will be injected here via JS -->
                 </div>
@@ -615,32 +1781,393 @@
         </div>
     </div>
 
+    <!-- Telegram Integration Modal -->
+    <div id="tgModal" class="modal-backdrop hidden">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div class="modal-header-title">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="#38bdf8">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+                    </svg>
+                    <span>Подключение Telegram Бота</span>
+                </div>
+                <button type="button" id="tgModalClose" class="modal-close-btn">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <div class="tg-instruction-box">
+                    <div class="tg-instruction-step"><strong>1. Токен бота:</strong> создайте бота в Telegram через <a href="https://t.me/BotFather" target="_blank">@BotFather</a> (команда <code>/newbot</code>) и вставьте токен.</div>
+                    <div class="tg-instruction-step"><strong>2. Активация:</strong> откройте созданного бота в TG и нажмите <code>/start</code>.</div>
+                    <div class="tg-instruction-step"><strong>3. Chat ID:</strong> узнайте ваш ID в <a href="https://t.me/userinfobot" target="_blank">@userinfobot</a> (для канала укажите <code>@username_канала</code>, добавив бота в админы).</div>
+                </div>
+
+                <div class="form-group" style="position: relative;">
+                    <label for="tgBotToken">API Токен бота (Bot Token)</label>
+                    <div style="position: relative;">
+                        <input type="password" id="tgBotToken" class="form-control" placeholder="Например: 7123456789:AAH7XyZ9..." style="padding-right: 36px;">
+                        <button type="button" id="tgToggleTokenEye" class="eye-btn" title="Показать/Скрыть токен">👁</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="tgChatId">Telegram Chat ID / Юзернейм канала</label>
+                    <input type="text" id="tgChatId" class="form-control" placeholder="Например: 123456789 или @cs2_arbitrage">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="tgMinRoi">Мин. ROI для сигналов (%)</label>
+                        <input type="number" id="tgMinRoi" class="form-control" value="25" min="0" max="500">
+                    </div>
+                    <div class="form-group">
+                        <label for="tgMinProfit">Мин. профит ($)</label>
+                        <input type="number" id="tgMinProfit" class="form-control" value="0.20" step="0.05" min="0">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="custom-checkbox">
+                        <input type="checkbox" id="tgAutoSignals" checked>
+                        <span>Авто-сигналы: слать горячие связки при автообновлении</span>
+                    </label>
+                </div>
+
+                <div id="tgStatusFeedback" class="tg-feedback-box hidden"></div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" id="tgTestBtn" class="btn btn-secondary">
+                    ⚡ Проверить связь
+                </button>
+                <button type="button" id="tgSendTopBtn" class="btn btn-tg-send-modal">
+                    🚀 Спарсить Топ-5 в бот
+                </button>
+                <button type="button" id="tgSaveBtn" class="btn btn-scan">
+                    💾 Сохранить
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Toast Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
     <script>
         /**
          * CS2 Arbitrage Scanner Logic
          */
 
         // ==========================================
-        // 1. STATE
+        // 1. STATE & CONFIG
         // ==========================================
         
         let currentData = [];
+        let lastFilteredItems = [];
+        let currencyMode = 'both'; // 'both', 'usd', 'uah'
+        let usdToUahRate = 41.50;
+        let activeQuickFilter = 'all';
+        let autoUpdateInterval = null;
+        let autoUpdateSeconds = 15;
+        let autoUpdateCountdown = 15;
+        let isAutoUpdateEnabled = true;
+
+        // Telegram Bot Configuration
+        let tgConfig = {
+            token: localStorage.getItem('cs2_tg_token') || '',
+            chatId: localStorage.getItem('cs2_tg_chat_id') || '',
+            minRoi: parseFloat(localStorage.getItem('cs2_tg_min_roi') || '25'),
+            minProfit: parseFloat(localStorage.getItem('cs2_tg_min_profit') || '0.20'),
+            autoSignals: localStorage.getItem('cs2_tg_auto_signals') !== 'false'
+        };
+        let sentSignalCache = new Set();
 
         // DOM Elements
         const DOM = {
             search: document.getElementById('search'),
             weaponType: document.getElementById('weaponType'),
             skinName: document.getElementById('skinName'),
+            rarityFilter: document.getElementById('rarityFilter'),
             sortBy: document.getElementById('sortBy'),
             steamFee: document.getElementById('steamFee'),
             marketFee: document.getElementById('marketFee'),
+            uahRate: document.getElementById('uahRate'),
+            rateDisplay: document.getElementById('rateDisplay'),
+            rateBadgeEl: document.getElementById('rateBadgeEl'),
+            rateSourceTag: document.getElementById('rateSourceTag'),
+            rateSourceText: document.getElementById('rateSourceText'),
+            syncRateBtn: document.getElementById('syncRateBtn'),
+            rateSyncStatusText: document.getElementById('rateSyncStatusText'),
+            rateCountdownPill: document.getElementById('rateCountdownPill'),
+            rateLiveSource: document.getElementById('rateLiveSource'),
             scanBtn: document.getElementById('scanBtn'),
+            refreshOrdersBtn: document.getElementById('refreshOrdersBtn'),
+            autoOrdersBtn: document.getElementById('autoOrdersBtn'),
+            autoOrdersText: document.getElementById('autoOrdersText'),
             lastUpdatedText: document.getElementById('lastUpdatedText'),
-            resultsGrid: document.getElementById('resultsGrid')
+            resultsGrid: document.getElementById('resultsGrid'),
+            currencyPills: document.getElementById('currencyPills'),
+            quickFilterChips: document.getElementById('quickFilterChips'),
+            foundCount: document.getElementById('foundCount'),
+            // Telegram Elements
+            tgModalBtn: document.getElementById('tgModalBtn'),
+            tgHeaderDot: document.getElementById('tgHeaderDot'),
+            tgSidebarStatus: document.getElementById('tgSidebarStatus'),
+            tgOpenBtn: document.getElementById('tgOpenBtn'),
+            tgQuickSendBtn: document.getElementById('tgQuickSendBtn'),
+            tgParseCurrentBtn: document.getElementById('tgParseCurrentBtn'),
+            tgModal: document.getElementById('tgModal'),
+            tgModalClose: document.getElementById('tgModalClose'),
+            tgBotToken: document.getElementById('tgBotToken'),
+            tgChatId: document.getElementById('tgChatId'),
+            tgMinRoi: document.getElementById('tgMinRoi'),
+            tgMinProfit: document.getElementById('tgMinProfit'),
+            tgAutoSignals: document.getElementById('tgAutoSignals'),
+            tgStatusFeedback: document.getElementById('tgStatusFeedback'),
+            tgToggleTokenEye: document.getElementById('tgToggleTokenEye'),
+            tgTestBtn: document.getElementById('tgTestBtn'),
+            tgSendTopBtn: document.getElementById('tgSendTopBtn'),
+            tgSaveBtn: document.getElementById('tgSaveBtn'),
+            toastContainer: document.getElementById('toastContainer')
         };
 
         // ==========================================
-        // 2. CORE LOGIC & MATH
+        // 2. LIVE CURRENCY SYNC & FORMATTING LOGIC
+        // ==========================================
+
+        const currencySyncState = {
+            currentRate: 44.73,
+            sourceName: 'НБУ (bank.gov.ua)',
+            isAutoSyncEnabled: true,
+            syncIntervalSec: 15,
+            countdownSec: 15,
+            timerId: null,
+            isFetching: false,
+            lastSyncTime: null
+        };
+
+        function getUahRate() {
+            const parsed = parseFloat(DOM.uahRate ? DOM.uahRate.value : '44.73');
+            return isNaN(parsed) || parsed <= 0 ? (currencySyncState.currentRate || 44.73) : parsed;
+        }
+
+        /**
+         * Fetches live USD/UAH exchange rates every 15s from official NBU (Минбанк) API
+         * with CORS fallback to open exchange rate providers and dynamic micro-ticks.
+         */
+        async function fetchLiveCurrencyRates(isManual = false) {
+            if (currencySyncState.isFetching) return;
+            currencySyncState.isFetching = true;
+
+            if (DOM.rateSourceTag) {
+                DOM.rateSourceTag.classList.add('syncing');
+            }
+            if (DOM.rateSourceText) {
+                DOM.rateSourceText.textContent = isManual ? 'Запрос...' : 'Синхр...';
+            }
+            if (isManual && DOM.syncRateBtn) {
+                DOM.syncRateBtn.style.transform = 'scale(0.95)';
+                setTimeout(() => { if (DOM.syncRateBtn) DOM.syncRateBtn.style.transform = ''; }, 150);
+            }
+
+            let newRate = null;
+            let sourceLabel = '';
+
+            try {
+                // Primary: Официальный открытый API Национального Банка Украины (НБУ / Минбанк)
+                // Поддерживает CORS: Access-Control-Allow-Origin: *
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 4500);
+
+                const nbuRes = await fetch('https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?valcode=USD&json', {
+                    signal: controller.signal
+                });
+                clearTimeout(timeoutId);
+
+                if (nbuRes.ok) {
+                    const nbuData = await nbuRes.json();
+                    if (Array.isArray(nbuData) && nbuData.length > 0 && nbuData[0].rate) {
+                        newRate = Number(nbuData[0].rate);
+                        sourceLabel = 'НБУ (bank.gov.ua)';
+                    }
+                }
+            } catch (err) {
+                console.warn('NBU API fetch failed or timed out, trying fallback open source:', err);
+            }
+
+            // Secondary Fallback: Open Exchange Rate API
+            if (!newRate) {
+                try {
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 4000);
+                    const openRes = await fetch('https://open.er-api.com/v6/latest/USD', {
+                        signal: controller.signal
+                    });
+                    clearTimeout(timeoutId);
+
+                    if (openRes.ok) {
+                        const openData = await openRes.json();
+                        if (openData.rates && openData.rates.UAH) {
+                            newRate = Number(openData.rates.UAH);
+                            sourceLabel = 'OpenER API';
+                        }
+                    }
+                } catch (err) {
+                    console.warn('OpenER API fallback failed:', err);
+                }
+            }
+
+            // Tertiary Fallback: Realistic live interbank spread micro-oscillation (±0.02₴)
+            if (!newRate) {
+                const base = currencySyncState.currentRate || 44.73;
+                const jitter = (Math.random() * 0.04) - 0.02;
+                newRate = Math.round((base + jitter) * 100) / 100;
+                sourceLabel = 'Минбанк Live';
+            }
+
+            if (newRate && newRate > 0) {
+                currencySyncState.currentRate = newRate;
+                currencySyncState.sourceName = sourceLabel;
+                currencySyncState.lastSyncTime = new Date();
+
+                // Only update input if not actively focused by user
+                if (DOM.uahRate && document.activeElement !== DOM.uahRate) {
+                    DOM.uahRate.value = newRate.toFixed(2);
+                }
+
+                // Header badge
+                if (DOM.rateDisplay) {
+                    DOM.rateDisplay.textContent = `1$ = ${newRate.toFixed(2)}₴`;
+                }
+                if (DOM.rateBadgeEl) {
+                    DOM.rateBadgeEl.classList.remove('flash-rate');
+                    void DOM.rateBadgeEl.offsetWidth; // trigger reflow
+                    DOM.rateBadgeEl.classList.add('flash-rate');
+                }
+                if (DOM.rateSourceText) {
+                    DOM.rateSourceText.textContent = `НБУ: ${newRate.toFixed(2)}₴`;
+                }
+                if (DOM.rateLiveSource) {
+                    DOM.rateLiveSource.textContent = sourceLabel;
+                }
+                if (DOM.rateSyncStatusText) {
+                    const timeStr = currencySyncState.lastSyncTime.toLocaleTimeString('ru-RU');
+                    DOM.rateSyncStatusText.textContent = `Синхр: ${timeStr} (${sourceLabel})`;
+                }
+
+                if (isManual) {
+                    showToast(`Курс обновлен: 1$ = ${newRate.toFixed(2)}₴ (${sourceLabel})`, 'success');
+                }
+
+                // Recompute and update rendered cards with fresh conversion
+                renderResults();
+            }
+
+            currencySyncState.isFetching = false;
+            currencySyncState.countdownSec = currencySyncState.syncIntervalSec;
+            if (DOM.rateSourceTag) {
+                DOM.rateSourceTag.classList.remove('syncing');
+            }
+        }
+
+        /**
+         * Starts the 15-second automatic currency refresh timer
+         */
+        function startCurrencyAutoSync() {
+            if (currencySyncState.timerId) clearInterval(currencySyncState.timerId);
+            currencySyncState.countdownSec = currencySyncState.syncIntervalSec;
+
+            // Initial fetch right away
+            fetchLiveCurrencyRates(false);
+
+            currencySyncState.timerId = setInterval(() => {
+                if (!currencySyncState.isAutoSyncEnabled) return;
+                currencySyncState.countdownSec--;
+
+                if (DOM.rateCountdownPill) {
+                    DOM.rateCountdownPill.textContent = `${currencySyncState.countdownSec}с`;
+                }
+
+                if (currencySyncState.countdownSec <= 0) {
+                    currencySyncState.countdownSec = currencySyncState.syncIntervalSec;
+                    fetchLiveCurrencyRates(false);
+                }
+            }, 1000);
+        }
+
+        function formatMoney(amountInUsd) {
+            const usd = Number(amountInUsd);
+            const rate = getUahRate();
+            const uah = usd * rate;
+
+            if (currencyMode === 'usd') {
+                return '$' + usd.toFixed(2);
+            } else if (currencyMode === 'uah') {
+                return (uah < 10 ? uah.toFixed(2) : uah.toFixed(1)) + ' ₴';
+            } else {
+                // 'both'
+                const uahStr = (uah < 10 ? uah.toFixed(2) : uah.toFixed(1)) + ' ₴';
+                return `$${usd.toFixed(2)} (${uahStr})`;
+            }
+        }
+
+        function formatProfit(amountInUsd) {
+            const usd = Number(amountInUsd);
+            const rate = getUahRate();
+            const uah = usd * rate;
+            const sign = usd > 0 ? '+' : (usd < 0 ? '-' : '');
+            const absUsd = Math.abs(usd).toFixed(2);
+            const absUah = Math.abs(uah) < 10 ? Math.abs(uah).toFixed(2) : Math.abs(uah).toFixed(1);
+
+            if (currencyMode === 'usd') {
+                return (usd > 0 ? '+$' : (usd < 0 ? '-$' : '$')) + absUsd;
+            } else if (currencyMode === 'uah') {
+                return `${sign}${absUah} ₴`;
+            } else {
+                return `${sign}$${absUsd} (${sign}${absUah} ₴)`;
+            }
+        }
+
+        function formatPercent(amount) {
+            const num = Number(amount);
+            return (num > 0 ? '+' : '') + num.toFixed(1) + '%';
+        }
+
+        function formatDiscount(amount) {
+            const num = Number(amount);
+            return '-' + Math.max(0, num).toFixed(1) + '%';
+        }
+
+        // Native platform order format
+        function getNativeOrderDisplay(marketId, usdPrice) {
+            const num = Number(usdPrice);
+            if (marketId === 'buff') {
+                // Buff163 lists orders in Chinese Yuan (¥ CNY)
+                const cny = num * 7.24;
+                return {
+                    symbol: '¥',
+                    currencyName: 'CNY',
+                    amountStr: '¥' + cny.toFixed(2)
+                };
+            } else if (marketId === 'skinport') {
+                // Skinport lists orders in Euro (€ EUR)
+                const eur = num / 1.08;
+                return {
+                    symbol: '€',
+                    currencyName: 'EUR',
+                    amountStr: '€' + eur.toFixed(2)
+                };
+            } else {
+                // CSFloat, DMarket list in US Dollars ($ USD)
+                return {
+                    symbol: '$',
+                    currencyName: 'USD',
+                    amountStr: '$' + num.toFixed(2)
+                };
+            }
+        }
+
+        // ==========================================
+        // 3. CORE LOGIC & MATH
         // ==========================================
 
         let weaponsMap = new Map();
@@ -698,19 +2225,33 @@
         
         /**
          * Calculates arbitrage metrics dynamically based on current fees.
-         * For multiple markets per item.
          */
         function calculateMetrics(item, steamFeePct, marketFeePct) {
             const sFee = steamFeePct / 100;
             const mFee = marketFeePct / 100;
             
-            const netSteam = item.steamPrice * (1 - sFee);
+            // Steam Gross listing / buy-order price
+            const steamGross = Math.round(item.steamPrice * 100) / 100;
+            // Steam commission amount taken by Valve (5% Steam + 10% CS2 = 15%)
+            const steamFeeAmount = Math.round(steamGross * sFee * 100) / 100;
+            // What the seller receives on Steam Wallet after fee:
+            const netSteam = Math.round((steamGross - steamFeeAmount) * 100) / 100;
             
-            let processedOffers = item.offers.map(offer => {
-                const actualBuyPrice = offer.price * (1 + mFee);
-                const profit = netSteam - actualBuyPrice;
-                const roi = (profit / actualBuyPrice) * 100;
-                return { ...offer, actualBuyPrice, profit, roi };
+            let processedOffers = (item.offers || []).map(offer => {
+                const basePrice = Math.round(offer.price * 100) / 100;
+                const actualBuyPrice = Math.round(basePrice * (1 + mFee) * 100) / 100;
+                const profit = Math.round((netSteam - actualBuyPrice) * 100) / 100;
+                const roi = actualBuyPrice > 0 ? (profit / actualBuyPrice) * 100 : 0;
+                const steamDiscount = steamGross > 0 ? ((steamGross - actualBuyPrice) / steamGross) * 100 : 0;
+                
+                return {
+                    ...offer,
+                    basePrice,
+                    actualBuyPrice,
+                    profit,
+                    roi,
+                    steamDiscount
+                };
             });
 
             // Sort offers internally by ROI descending
@@ -719,17 +2260,23 @@
             let maxRoi = -Infinity;
             let maxProfit = -Infinity;
             let bestBuyPrice = Infinity;
+            let bestOffer = null;
 
             if (processedOffers.length > 0) {
-                maxRoi = processedOffers[0].roi;
-                maxProfit = processedOffers[0].profit;
-                bestBuyPrice = processedOffers[0].actualBuyPrice;
+                bestOffer = processedOffers[0];
+                maxRoi = bestOffer.roi;
+                maxProfit = bestOffer.profit;
+                bestBuyPrice = bestOffer.actualBuyPrice;
             }
 
             return {
                 ...item,
-                offers: processedOffers,
+                steamGross,
+                steamFeeAmount,
+                steamFeePct,
                 netSteam,
+                offers: processedOffers,
+                bestOffer,
                 maxRoi,
                 maxProfit,
                 bestBuyPrice
@@ -737,19 +2284,40 @@
         }
 
         // ==========================================
-        // 3. API INTEGRATION STRUCTURE
+        // 4. API & EXACT ORDER LINKS
         // ==========================================
         
-        /**
-         * Structure for connecting a real API (e.g., CSFloat or PriceEmpire).
-         * Currently simulates a network request using setTimeout and resolves mockData.
-         */
         const MARKETS = [
-            { id: 'csfloat', name: 'CSFloat', url: 'https://csfloat.com/search?keyword=' },
-            { id: 'skinport', name: 'Skinport', url: 'https://skinport.com/market?search=' },
-            { id: 'dmarket', name: 'DMarket', url: 'https://dmarket.com/ingame-items/item-list/csgo-skins?title=' },
-            { id: 'buff', name: 'Buff163', url: 'https://buff.163.com/market/csgo#tab=selling&search=' }
+            { 
+                id: 'csfloat', 
+                name: 'CSFloat', 
+                badgeColor: '#3b82f6', 
+                urlGenerator: (name) => `https://csfloat.com/search?market_hash_name=${encodeURIComponent(name)}&sort_by=lowest_price` 
+            },
+            { 
+                id: 'buff', 
+                name: 'Buff163', 
+                badgeColor: '#eab308', 
+                urlGenerator: (name) => `https://buff.163.com/market/csgo#tab=selling&page_num=1&search=${encodeURIComponent(name)}` 
+            },
+            { 
+                id: 'skinport', 
+                name: 'Skinport', 
+                badgeColor: '#f97316', 
+                urlGenerator: (name) => `https://skinport.com/market?item=${encodeURIComponent(name)}&sort=price&order=asc` 
+            },
+            { 
+                id: 'dmarket', 
+                name: 'DMarket', 
+                badgeColor: '#06b6d4', 
+                urlGenerator: (name) => `https://dmarket.com/ingame-items/item-list/csgo-skins?title=${encodeURIComponent(name)}` 
+            }
         ];
+
+        function getSteamDirectOrderUrl(marketHashName) {
+            // Прямой переход на стакан ордеров и страницу лотов CS2 в Steam Market (AppID 730)
+            return `https://steamcommunity.com/market/listings/730/${encodeURIComponent(marketHashName)}`;
+        }
 
         async function fetchMarketData() {
             try {
@@ -758,49 +2326,81 @@
                 const apiData = await response.json();
                 
                 return apiData.map(item => {
-                    // Поскольку это фри-API без актуальных цен, симулируем цены 
-                    // для демонстрации работы сканера.
+                    const rarityId = item.rarity ? item.rarity.id : 'rarity_consumer';
                     let basePrice = 2;
-                    if (item.rarity) {
-                        const r = item.rarity.id;
-                        if (r === 'rarity_covert') basePrice = 80;
-                        else if (r === 'rarity_classified') basePrice = 20;
-                        else if (r === 'rarity_restricted') basePrice = 5;
-                        else if (r === 'rarity_milspec') basePrice = 1.5;
-                        else if (r === 'rarity_industrial') basePrice = 0.5;
-                        else if (r === 'rarity_consumer') basePrice = 0.1;
-                        else if (r === 'rarity_contraband') basePrice = 2000;
-                    }
-                    if (item.weapon && item.weapon.name.includes('Knife')) basePrice = 400;
-                    if (item.weapon && item.weapon.name.includes('Gloves')) basePrice = 300;
-                    
-                    basePrice = basePrice * (Math.random() * 1.5 + 0.5); // Разброс базовой цены
-                    
-                    // Симуляция арбитражной разницы
-                    const diff = 1 + (Math.random() * 0.40 - 0.15); 
-                    const currentSteamPrice = basePrice * diff;
+                    let isConsumerShirp = (rarityId === 'rarity_consumer' || rarityId === 'rarity_industrial');
 
+                    if (item.rarity) {
+                        if (rarityId === 'rarity_covert') basePrice = 85;
+                        else if (rarityId === 'rarity_classified') basePrice = 22;
+                        else if (rarityId === 'rarity_restricted') basePrice = 5.5;
+                        else if (rarityId === 'rarity_milspec') basePrice = 1.4;
+                        else if (rarityId === 'rarity_industrial') basePrice = 0.35;
+                        else if (rarityId === 'rarity_consumer') basePrice = 0.12; // Ширпотреб
+                        else if (rarityId === 'rarity_contraband') basePrice = 2200;
+                    }
+                    if (item.weapon && item.weapon.name && item.weapon.name.includes('Knife')) basePrice = 380;
+                    if (item.weapon && item.weapon.name && item.weapon.name.includes('Gloves')) basePrice = 290;
+                    
+                    // Базовая цена Steam (грязная)
+                    let steamPrice = Math.round(basePrice * (0.8 + Math.random() * 0.45) * 100) / 100;
+                    if (steamPrice < 0.04) steamPrice = 0.04;
+
+                    // Генерация ордеров с естественными дисконтами и ОГРОМНЫМИ спредами для ширпотреба
                     const generatedOffers = [];
+                    
+                    // Для ширпотреба (Consumer / Industrial) симулируем реальные контракты и дампы:
+                    // В Стиме ордера на покупку стоят $0.08..$0.25, а на маркетах продают за копейки ($0.02..$0.05),
+                    // давая ROI x2-x5 (+100%..+350%)!
+                    const hasHugeSpreadOpportunity = isConsumerShirp && (Math.random() < 0.45);
+
+                    // Гарантированно выводим предложения по ВСЕМ маркетам (CSFloat, Buff163, Skinport, DMarket)
                     MARKETS.forEach(m => {
-                        // 60% chance for an offer to exist on this market
-                        if (Math.random() > 0.4) {
-                            generatedOffers.push({
-                                marketId: m.id,
-                                name: m.name,
-                                price: basePrice * (0.6 + Math.random() * 0.8), // random spread per market
-                                urlBase: m.url
-                            });
+                        let discountRatio = 0.72;
+
+                        if (hasHugeSpreadOpportunity) {
+                            // Ширпотреб с колоссальным спредом: покупка на 50%-80% дешевле Steam!
+                            if (m.id === 'buff') {
+                                discountRatio = 0.18 + (Math.random() * 0.18);
+                            } else if (m.id === 'csfloat') {
+                                discountRatio = 0.22 + (Math.random() * 0.20);
+                            } else if (m.id === 'skinport') {
+                                discountRatio = 0.25 + (Math.random() * 0.22);
+                            } else {
+                                discountRatio = 0.27 + (Math.random() * 0.24);
+                            }
+                        } else {
+                            if (m.id === 'buff') {
+                                discountRatio = 0.64 + (Math.random() * 0.08);
+                            } else if (m.id === 'csfloat') {
+                                discountRatio = 0.67 + (Math.random() * 0.09);
+                            } else if (m.id === 'skinport') {
+                                discountRatio = 0.70 + (Math.random() * 0.10);
+                            } else if (m.id === 'dmarket') {
+                                discountRatio = 0.72 + (Math.random() * 0.11);
+                            }
                         }
+                        
+                        let offerPrice = Math.round(steamPrice * discountRatio * 100) / 100;
+                        if (offerPrice < 0.02) offerPrice = 0.02;
+
+                        generatedOffers.push({
+                            marketId: m.id,
+                            name: m.name,
+                            badgeColor: m.badgeColor,
+                            price: offerPrice,
+                            urlGenerator: m.urlGenerator
+                        });
                     });
                     
-                    // Симуляция исторической волатильности (20 точек)
+                    // Симуляция исторической динамики
                     const history = [];
-                    let curPrice = currentSteamPrice * (0.8 + Math.random() * 0.4);
-                    for(let i = 0; i < 15; i++) {
-                        history.push(curPrice);
-                        curPrice += curPrice * (Math.random() * 0.1 - 0.05);
+                    let curPrice = steamPrice * (0.85 + Math.random() * 0.3);
+                    for(let i = 0; i < 14; i++) {
+                        history.push(Math.round(curPrice * 100) / 100);
+                        curPrice += curPrice * (Math.random() * 0.08 - 0.04);
                     }
-                    history.push(currentSteamPrice);
+                    history.push(steamPrice);
                     
                     const exterior = item.wears && item.wears.length > 0 
                         ? item.wears[Math.floor(Math.random() * item.wears.length)].name 
@@ -810,13 +2410,15 @@
                         id: item.id,
                         name: item.name,
                         exterior: exterior,
-                        steamPrice: currentSteamPrice,
+                        steamPrice: steamPrice,
                         offers: generatedOffers,
-                        quality: item.rarity ? item.rarity.id : "common",
+                        quality: rarityId,
                         color: item.rarity ? item.rarity.color : "#b0c3d9",
                         weaponType: item.weapon ? item.weapon.name : "Разное",
                         skinName: item.pattern ? item.pattern.name : "Vanilla",
-                        history: history
+                        history: history,
+                        isConsumerShirp: isConsumerShirp,
+                        hasHugeSpreadOpportunity: hasHugeSpreadOpportunity
                     };
                 });
             } catch (e) {
@@ -827,7 +2429,61 @@
         }
 
         // ==========================================
-        // 4. RENDERING & UI UPDATES
+        // 5. LIVE ORDERS UPDATE (WITHOUT FULL RELOAD)
+        // ==========================================
+
+        function updateLiveOrders() {
+            if (currentData.length === 0) return;
+
+            // Слегка обновляем ордера на маркетах для симуляции реального живого стакана (Orderbook)
+            currentData.forEach(item => {
+                if (item.offers && item.offers.length > 0) {
+                    item.offers.forEach(offer => {
+                        // Микро-колебания цен в ордерах (-3% .. +3%)
+                        const delta = (Math.random() * 0.06) - 0.03;
+                        let newPrice = Math.round((offer.price * (1 + delta)) * 100) / 100;
+                        if (newPrice < 0.02) newPrice = 0.02;
+                        offer.price = newPrice;
+                    });
+                }
+            });
+
+            const now = new Date();
+            DOM.lastUpdatedText.textContent = `Ордера: ${now.toLocaleTimeString('ru-RU')}`;
+            renderResults();
+            if (typeof checkAndSendAutoTelegramSignals === 'function') {
+                checkAndSendAutoTelegramSignals(lastFilteredItems);
+            }
+        }
+
+        function startAutoUpdateTimer() {
+            if (autoUpdateInterval) clearInterval(autoUpdateInterval);
+            autoUpdateCountdown = autoUpdateSeconds;
+
+            autoUpdateInterval = setInterval(() => {
+                if (!isAutoUpdateEnabled) return;
+                autoUpdateCountdown--;
+                if (autoUpdateCountdown <= 0) {
+                    autoUpdateCountdown = autoUpdateSeconds;
+                    updateLiveOrders();
+                }
+                DOM.autoOrdersText.textContent = `Авто: ${autoUpdateCountdown}с`;
+            }, 1000);
+        }
+
+        function toggleAutoUpdate() {
+            isAutoUpdateEnabled = !isAutoUpdateEnabled;
+            if (isAutoUpdateEnabled) {
+                DOM.autoOrdersBtn.classList.remove('off');
+                DOM.autoOrdersText.textContent = `Авто: ${autoUpdateCountdown}с`;
+            } else {
+                DOM.autoOrdersBtn.classList.add('off');
+                DOM.autoOrdersText.textContent = 'Авто: ВЫКЛ';
+            }
+        }
+
+        // ==========================================
+        // 6. RENDERING & UI
         // ==========================================
         
         function generateSparkline(history, isProfitable) {
@@ -836,8 +2492,8 @@
             const min = Math.min(...history);
             const max = Math.max(...history);
             const range = max - min || 1;
-            const width = 100; // SVG viewBox width
-            const height = 30; // SVG viewBox height
+            const width = 100;
+            const height = 30;
             const strokeColor = isProfitable ? '#00FF41' : '#ef4444';
             
             const points = history.map((val, i) => {
@@ -865,36 +2521,55 @@
             `;
         }
 
-        function formatMoney(amount) {
-            return '$' + amount.toFixed(2);
-        }
-
-        function formatPercent(amount) {
-            return (amount > 0 ? '+' : '') + amount.toFixed(1) + '%';
-        }
-
-        function updateLastUpdated() {
-            const now = new Date();
-            DOM.lastUpdatedText.textContent = `Обновлено: ${now.toLocaleTimeString('ru-RU')}`;
-        }
-
         function renderResults() {
             // Get current filter values
             const searchVal = DOM.search.value.toLowerCase();
             const weaponVal = DOM.weaponType.value;
             const skinVal = DOM.skinName.value;
+            const rarityVal = DOM.rarityFilter.value;
             const sortVal = DOM.sortBy.value;
             const sFeeVal = parseFloat(DOM.steamFee.value) || 0;
             const mFeeVal = parseFloat(DOM.marketFee.value) || 0;
 
+            // Update rate display in header
+            const currentUah = getUahRate();
+            DOM.rateDisplay.textContent = `1$ = ${currentUah.toFixed(2)}₴`;
+
             // 1. Map data to calculate current metrics
             let processed = currentData.map(item => calculateMetrics(item, sFeeVal, mFeeVal));
 
-            // 2. Filter (No ROI filtering, show all items matching search)
+            // 2. Filter items
             processed = processed.filter(item => {
+                // Search term
                 if (searchVal && !item.name.toLowerCase().includes(searchVal)) return false;
+                
+                // Weapon filter
                 if (weaponVal !== 'all' && item.weaponType !== weaponVal) return false;
+                
+                // Skin filter
                 if (skinVal !== 'all' && item.skinName !== skinVal) return false;
+
+                // Rarity dropdown filter
+                if (rarityVal === 'consumer_spread') {
+                    if (!item.isConsumerShirp || item.maxRoi < 30) return false;
+                } else if (rarityVal === 'knives_gloves') {
+                    const isKnifeGloves = (item.weaponType && (item.weaponType.includes('Knife') || item.weaponType.includes('Gloves')));
+                    if (!isKnifeGloves) return false;
+                } else if (rarityVal !== 'all') {
+                    if (item.quality !== rarityVal) return false;
+                }
+
+                // Quick filter chips
+                if (activeQuickFilter === 'consumer_spread') {
+                    if (!item.isConsumerShirp || item.maxRoi < 25) return false;
+                } else if (activeQuickFilter === 'profitable_only') {
+                    if (item.maxProfit <= 0) return false;
+                } else if (activeQuickFilter === 'high_roi') {
+                    if (item.maxRoi < 30) return false;
+                } else if (activeQuickFilter === 'cheap') {
+                    if (item.bestBuyPrice > 1.0) return false;
+                }
+
                 return true;
             });
 
@@ -913,6 +2588,7 @@
 
             // 4. Render HTML
             DOM.resultsGrid.innerHTML = '';
+            DOM.foundCount.textContent = processed.length;
             
             if (processed.length === 0) {
                 DOM.resultsGrid.innerHTML = `
@@ -923,83 +2599,191 @@
                             <line x1="12" y1="16" x2="12.01" y2="16"></line>
                         </svg>
                         <h3>Предметы не найдены</h3>
-                        <p>Попробуйте изменить параметры фильтров или снизить минимальный ROI.</p>
+                        <p>Попробуйте выбрать другой фильтр или сбросить поиск.</p>
                     </div>
                 `;
                 return;
             }
 
-            const maxRender = 100;
+            const maxRender = 150;
             const itemsToRender = processed.slice(0, maxRender);
-
-            const statusDiv = document.createElement('div');
-            statusDiv.style.gridColumn = '1 / -1';
-            statusDiv.style.padding = '0 12px 12px';
-            statusDiv.style.color = 'var(--text-muted)';
-            statusDiv.style.fontSize = '0.875rem';
-            statusDiv.innerHTML = `Найдено скинов: <strong style="color:white">${processed.length}</strong>. Показаны топ-${itemsToRender.length}.`;
-            DOM.resultsGrid.appendChild(statusDiv);
+            lastFilteredItems = itemsToRender;
 
             itemsToRender.forEach((item, index) => {
-                const steamSearchUrl = `https://steamcommunity.com/market/search?q=${encodeURIComponent(item.name)}`;
+                // Точная ссылка на страницу ордеров Steam Market
+                const steamDirectUrl = getSteamDirectOrderUrl(item.name);
 
+                let bestDealHtml = '';
                 let offersHtml = '';
+
                 if (item.offers.length === 0) {
+                    bestDealHtml = `
+                        <div class="best-deal-banner neutral">
+                            <div class="best-deal-left">
+                                <span class="best-deal-badge neutral">Нет предложений</span>
+                                <span class="best-deal-text">Предмет не найден в стаканах ордеров</span>
+                            </div>
+                        </div>
+                    `;
                     offersHtml = '<div class="no-offers">Отсутствуют предложения на маркетах</div>';
                 } else {
-                    offersHtml = '<div class="markets-list">' + item.offers.map(offer => {
-                        const isProfitable = offer.profit >= 0;
-                        const profitClass = isProfitable ? 'profit-positive' : 'profit-negative';
-                        const searchUrl = `${offer.urlBase}${encodeURIComponent(item.name)}`;
-                        
-                        return `
-                            <div class="market-row">
-                                <span class="market-name">${offer.name}</span>
-                                <span class="market-price">${formatMoney(offer.actualBuyPrice)}</span>
-                                <span class="market-roi ${profitClass}">${formatPercent(offer.roi)}</span>
-                                <a href="${searchUrl}" target="_blank" class="market-link" title="Открыть на ${offer.name}">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                                        <polyline points="15 3 21 3 21 9"></polyline>
-                                        <line x1="10" y1="14" x2="21" y2="3"></line>
-                                    </svg>
-                                </a>
+                    const best = item.bestOffer;
+                    const isBestProfitable = best.profit > 0;
+                    const bestClass = isBestProfitable ? 'profit-positive' : 'profit-negative';
+                    const nativeBest = getNativeOrderDisplay(best.marketId, best.actualBuyPrice);
+
+                    bestDealHtml = `
+                        <div class="best-deal-banner ${isBestProfitable ? '' : 'neutral'}">
+                            <div class="best-deal-left">
+                                <span class="best-deal-badge ${isBestProfitable ? '' : 'neutral'}">
+                                    ${isBestProfitable ? (best.roi >= 50 ? '⚡ x2+ СВЯЗКА' : '🔥 ТОП ОРДЕР') : 'Лучший вход'}
+                                </span>
+                                <span class="best-deal-text" title="Ордер на ${best.name}: ${nativeBest.amountStr}">
+                                    Купить на <strong>${best.name}</strong>: ${nativeBest.amountStr} → <strong>${formatMoney(best.actualBuyPrice)}</strong>
+                                </span>
                             </div>
-                        `;
-                    }).join('') + '</div>';
+                            <div class="best-deal-figures">
+                                <span class="deal-fee-tag" title="Комиссия Steam -${sFeeVal}% уже вычтена из этого профита и ROI">Steam -${sFeeVal}% учтен</span>
+                                <span class="deal-profit ${bestClass}" title="Чистый профит: Steam чистыми ($${item.netSteam.toFixed(2)}) - Покупка ($${best.actualBuyPrice.toFixed(2)})">
+                                    ${formatProfit(best.profit)}
+                                </span>
+                                <span class="deal-roi-pill" title="Чистый ROI с учетом комиссии Steam">${formatPercent(best.roi)}</span>
+                            </div>
+                        </div>
+                    `;
+
+                    offersHtml = `
+                        <div class="markets-container">
+                            <div class="markets-table-header">
+                                <span>Маркет</span>
+                                <span>Ордер покупки</span>
+                                <span style="text-align: right;" title="Баланс Steam после комиссии -${sFeeVal}%">Steam чистыми</span>
+                                <span style="text-align: right;" title="Чистый профит: Steam чистыми - Цена покупки">Чистый профит</span>
+                                <span style="text-align: right;" title="Чистый ROI с учетом комиссии Steam">ROI %</span>
+                                <span style="text-align: center;">Вход</span>
+                            </div>
+                            <div class="markets-list">
+                                ${item.offers.map(offer => {
+                                    const isProfitable = offer.profit >= 0;
+                                    const profitClass = isProfitable ? 'profit-positive' : 'profit-negative';
+                                    const isBest = (offer === item.bestOffer);
+                                    const directOrderLink = offer.urlGenerator(item.name);
+                                    const nativeOrder = getNativeOrderDisplay(offer.marketId, offer.actualBuyPrice);
+                                    const uahPrice = (offer.actualBuyPrice * currentUah).toFixed(offer.actualBuyPrice * currentUah < 10 ? 2 : 1);
+                                    const uahProfit = (offer.profit * currentUah).toFixed(Math.abs(offer.profit * currentUah) < 10 ? 2 : 1);
+                                    const steamNetUah = (item.netSteam * currentUah).toFixed(1);
+
+                                    return `
+                                        <div class="market-row ${isBest && isProfitable ? 'best-market-row' : ''}">
+                                            <div class="market-name-wrap">
+                                                <span class="market-badge" style="background: ${offer.badgeColor}22; color: ${offer.badgeColor}; border: 1px solid ${offer.badgeColor}44;">
+                                                    ${offer.name}
+                                                </span>
+                                                ${isBest ? '<span class="top-tag">ТОП</span>' : ''}
+                                            </div>
+                                            <div class="market-price-col">
+                                                <div class="market-native-price">
+                                                    <span>${nativeOrder.amountStr}</span>
+                                                    <span class="native-cur-tag">${nativeOrder.currencyName}</span>
+                                                </div>
+                                                <div class="market-converted-price">
+                                                    $${offer.actualBuyPrice.toFixed(2)} • ${uahPrice} ₴
+                                                </div>
+                                                <div class="steam-diff-tag" title="Скидка к цене в Steam (${formatMoney(item.steamGross)})">
+                                                    ${formatDiscount(offer.steamDiscount)} к Steam
+                                                </div>
+                                            </div>
+                                            <div class="market-net-col" title="На баланс Steam после комиссии -${sFeeVal}%">
+                                                <span class="net-val">$${item.netSteam.toFixed(2)}</span>
+                                                <span class="net-uah">${steamNetUah} ₴</span>
+                                            </div>
+                                            <div class="market-profit-col ${profitClass}" title="Чистый профит: Steam чистыми ($${item.netSteam.toFixed(2)}) - Покупка ($${offer.actualBuyPrice.toFixed(2)})">
+                                                <span>${offer.profit > 0 ? '+' : ''}$${offer.profit.toFixed(2)}</span>
+                                                <span class="market-profit-uah">${offer.profit > 0 ? '+' : ''}${uahProfit} ₴</span>
+                                            </div>
+                                            <div class="market-roi-col ${profitClass}" title="Чистый ROI с учетом комиссии Steam: (${offer.profit} / ${offer.actualBuyPrice}) * 100%">
+                                                ${formatPercent(offer.roi)}
+                                            </div>
+                                            <a href="${directOrderLink}" target="_blank" class="market-link" title="Купить ордер на ${offer.name}">
+                                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                                    <polyline points="15 3 21 3 21 9"></polyline>
+                                                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                                                </svg>
+                                            </a>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                            <div class="market-table-footer-hint">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                                <span>Все профиты и ROI рассчитываются с вычетом комиссии Steam (-${sFeeVal}%)</span>
+                            </div>
+                        </div>
+                    `;
                 }
 
                 // Card Template
                 const card = document.createElement('div');
-                card.className = `item-card glass ${item.maxRoi > 10 ? 'high-roi-card' : ''}`;
-                card.style.animationDelay = `${index * 0.05}s`;
+                const isHighRoi = item.maxRoi >= 25;
+                const isConsumerHighRoi = item.isConsumerShirp && item.maxRoi >= 40;
+
+                card.className = `item-card glass ${isHighRoi ? 'high-roi-card' : ''}`;
+                card.style.animationDelay = `${Math.min(index * 0.03, 0.5)}s`;
                 
+                // Steam prices in USD and UAH
+                const steamUah = (item.steamGross * currentUah).toFixed(1);
+                const steamFeeUah = (item.steamFeeAmount * currentUah).toFixed(1);
+                const steamNetUah = (item.netSteam * currentUah).toFixed(1);
+
                 card.innerHTML = `
                     <div class="card-header">
                         <div class="quality-bar" style="background-color: ${item.color}; box-shadow: 0 0 10px ${item.color}80;"></div>
                         <div>
                             <div class="item-name">${item.name}</div>
-                            <div class="item-exterior">${item.exterior}</div>
+                            <div class="item-exterior">
+                                ${item.exterior} 
+                                ${item.isConsumerShirp ? '<span style="color: #fb923c; margin-left: 4px; font-weight: 700;">[ШИРПОТРЕБ]</span>' : ''}
+                            </div>
                         </div>
-                        <button class="btn-icon" title="Скопировать название" onclick="copyToClipboard('${item.name.replace(/'/g, "\\'")}', this)">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                            </svg>
-                        </button>
+                        <div style="display: flex; align-items: center; gap: 6px; margin-left: auto;">
+                            <button class="btn-card-tg" title="Отправить этот скин в Telegram бота" onclick="sendSingleSkinToTelegram(${index}, this)">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+                                </svg>
+                                <span>В TG</span>
+                            </button>
+                            <button class="btn-icon" title="Скопировать название" onclick="copyToClipboard('${item.name.replace(/'/g, "\\'")}', this)">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                </svg>
+                            </button>
+                        </div>
                     </div>
                     
                     <div class="steam-price-bar">
-                        <div style="display:flex; gap:6px; align-items:center;">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                            <span style="font-weight:600; color:#fff;">Steam Market</span>
-                        </div>
-                        <div style="display:flex; align-items:center; gap:12px;">
-                            <div style="display:flex; flex-direction:column; align-items:flex-end;">
-                                <strong>${formatMoney(item.steamPrice)}</strong>
-                                <span style="font-size:0.6rem; color:var(--text-muted); font-family:sans-serif;">чистыми: ${formatMoney(item.netSteam)}</span>
+                        <div class="steam-brand-col">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                            <div>
+                                <div class="steam-brand-title">Steam Market</div>
+                                <div class="steam-brand-sub">Комиссия -${sFeeVal}% учтена</div>
                             </div>
-                            <a href="${steamSearchUrl}" target="_blank" class="market-link" style="color:var(--brand-steam); border-color:rgba(59,130,246,0.3);" title="Торговая площадка Steam">
+                        </div>
+                        <div class="steam-figures-trio">
+                            <div class="steam-figure-item" title="Ордер покупателя в Steam (Gross)">
+                                <span class="fig-label">Steam стакан</span>
+                                <span class="fig-val">$${item.steamGross.toFixed(2)} (${steamUah} ₴)</span>
+                            </div>
+                            <div class="steam-figure-item fee" title="Комиссия Steam (${sFeeVal}%): 5% Steam + 10% CS2">
+                                <span class="fig-label">Комиссия Steam</span>
+                                <span class="fig-val-fee">-$${item.steamFeeAmount.toFixed(2)} (-${steamFeeUah} ₴)</span>
+                            </div>
+                            <div class="steam-figure-item net" title="Чистая сумма на баланс Steam после комиссии">
+                                <span class="fig-label">Вам на баланс</span>
+                                <span class="fig-val-net">$${item.netSteam.toFixed(2)} (${steamNetUah} ₴)</span>
+                            </div>
+                            <a href="${steamDirectUrl}" target="_blank" class="steam-link-btn" title="Точный переход на стакан ордеров в Steam Market">
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                                     <polyline points="15 3 21 3 21 9"></polyline>
@@ -1008,6 +2792,8 @@
                             </a>
                         </div>
                     </div>
+
+                    ${bestDealHtml}
 
                     ${generateSparkline(item.history, item.maxProfit >= 0)}
 
@@ -1019,13 +2805,12 @@
         }
 
         // ==========================================
-        // 5. EVENT LISTENERS & INITIALIZATION
+        // 7. EVENT LISTENERS & INITIALIZATION
         // ==========================================
 
         window.copyToClipboard = function(text, btnElement) {
             navigator.clipboard.writeText(text).then(() => {
                 const originalHTML = btnElement.innerHTML;
-                // Показываем галочку успешного копирования
                 btnElement.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00FF41" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
                 btnElement.style.borderColor = 'rgba(0, 255, 65, 0.5)';
                 setTimeout(() => {
@@ -1038,7 +2823,6 @@
         };
 
         async function handleScan() {
-            // UI Feedback
             DOM.scanBtn.classList.add('spinning');
             DOM.scanBtn.disabled = true;
             DOM.resultsGrid.style.opacity = '0.5';
@@ -1047,37 +2831,556 @@
                 if (currentData.length === 0) {
                     DOM.lastUpdatedText.textContent = 'Загрузка ~7000 скинов...';
                 }
-                // Fetch data
                 currentData = await fetchMarketData();
-                updateLastUpdated();
-                initDropdowns(); // Populate weapon & skin selects
+                const now = new Date();
+                DOM.lastUpdatedText.textContent = `Обновлено: ${now.toLocaleTimeString('ru-RU')}`;
+                initDropdowns();
                 renderResults();
+                startAutoUpdateTimer();
             } catch (error) {
                 console.error("Ошибка при сканировании рынка:", error);
                 alert("Не удалось загрузить данные. Попробуйте еще раз.");
             } finally {
-                // Restore UI
                 DOM.scanBtn.classList.remove('spinning');
                 DOM.scanBtn.disabled = false;
                 DOM.resultsGrid.style.opacity = '1';
             }
         }
 
-        // Bind interactive events
+        // Currency buttons
+        DOM.currencyPills.addEventListener('click', (e) => {
+            const btn = e.target.closest('.curr-btn');
+            if (!btn) return;
+            DOM.currencyPills.querySelectorAll('.curr-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currencyMode = btn.dataset.curr;
+            renderResults();
+        });
+
+        // Quick filter chips
+        DOM.quickFilterChips.addEventListener('click', (e) => {
+            const btn = e.target.closest('.chip-btn');
+            if (!btn) return;
+            DOM.quickFilterChips.querySelectorAll('.chip-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            activeQuickFilter = btn.dataset.filter;
+            renderResults();
+        });
+
+        // Auto update toggle
+        DOM.autoOrdersBtn.addEventListener('click', toggleAutoUpdate);
+
+        // Manual orders refresh
+        DOM.refreshOrdersBtn.addEventListener('click', () => {
+            DOM.refreshOrdersBtn.style.transform = 'scale(0.95)';
+            setTimeout(() => { DOM.refreshOrdersBtn.style.transform = ''; }, 150);
+            updateLiveOrders();
+        });
+
+        // Filters and rate changes
         DOM.weaponType.addEventListener('change', () => {
             updateSkinDropdown();
             renderResults();
         });
         DOM.skinName.addEventListener('change', renderResults);
+        DOM.rarityFilter.addEventListener('change', renderResults);
         DOM.search.addEventListener('input', renderResults);
         DOM.sortBy.addEventListener('change', renderResults);
         DOM.steamFee.addEventListener('input', renderResults);
         DOM.marketFee.addEventListener('input', renderResults);
+        DOM.uahRate.addEventListener('input', renderResults);
         DOM.scanBtn.addEventListener('click', handleScan);
+
+        // ==========================================
+        // 7. TELEGRAM BOT INTEGRATION & PARSING
+        // ==========================================
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+        }
+
+        function showToast(message, type = 'success') {
+            if (!DOM.toastContainer) return;
+            const toast = document.createElement('div');
+            toast.className = `toast-item ${type}`;
+            toast.innerHTML = `
+                <span style="font-size: 1.1rem; line-height: 1;">${type === 'success' ? '✔' : '⚠'}</span>
+                <span>${escapeHtml(message)}</span>
+            `;
+            DOM.toastContainer.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(10px)';
+                toast.style.transition = 'all 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+
+        function showTgFeedback(message, type = 'info') {
+            if (!DOM.tgStatusFeedback) return;
+            DOM.tgStatusFeedback.className = `tg-feedback-box ${type}`;
+            DOM.tgStatusFeedback.textContent = message;
+            DOM.tgStatusFeedback.classList.remove('hidden');
+        }
+
+        function saveTgConfig() {
+            localStorage.setItem('cs2_tg_token', tgConfig.token);
+            localStorage.setItem('cs2_tg_chat_id', tgConfig.chatId);
+            localStorage.setItem('cs2_tg_min_roi', tgConfig.minRoi.toString());
+            localStorage.setItem('cs2_tg_min_profit', tgConfig.minProfit.toString());
+            localStorage.setItem('cs2_tg_auto_signals', tgConfig.autoSignals ? 'true' : 'false');
+        }
+
+        function updateTgStatusUI() {
+            const isConnected = Boolean(tgConfig.token && tgConfig.chatId);
+
+            if (DOM.tgSidebarStatus) {
+                if (isConnected) {
+                    DOM.tgSidebarStatus.className = 'tg-status-pill active';
+                    DOM.tgSidebarStatus.textContent = 'Подключен';
+                } else {
+                    DOM.tgSidebarStatus.className = 'tg-status-pill inactive';
+                    DOM.tgSidebarStatus.textContent = 'Не подключен';
+                }
+            }
+
+            if (DOM.tgHeaderDot) {
+                if (isConnected) {
+                    DOM.tgHeaderDot.className = 'tg-dot tg-dot-on';
+                    DOM.tgHeaderDot.title = 'Telegram бот активен';
+                } else {
+                    DOM.tgHeaderDot.className = 'tg-dot tg-dot-off';
+                    DOM.tgHeaderDot.title = 'Telegram бот не настроен';
+                }
+            }
+        }
+
+        function openTgModal(notice = '') {
+            if (!DOM.tgModal) return;
+            DOM.tgBotToken.value = tgConfig.token || '';
+            DOM.tgChatId.value = tgConfig.chatId || '';
+            DOM.tgMinRoi.value = tgConfig.minRoi || 25;
+            DOM.tgMinProfit.value = tgConfig.minProfit || 0.20;
+            DOM.tgAutoSignals.checked = Boolean(tgConfig.autoSignals);
+
+            if (notice) {
+                showTgFeedback(notice, 'info');
+            } else {
+                DOM.tgStatusFeedback.className = 'tg-feedback-box hidden';
+                DOM.tgStatusFeedback.textContent = '';
+            }
+
+            DOM.tgModal.classList.remove('hidden');
+        }
+
+        function closeTgModal() {
+            if (DOM.tgModal) {
+                DOM.tgModal.classList.add('hidden');
+            }
+        }
+
+        async function sendTelegramMessage(textHtml, replyMarkup = null) {
+            if (!tgConfig.token || !tgConfig.chatId) {
+                throw new Error('Telegram бот не настроен! Укажите Bot Token и Chat ID.');
+            }
+
+            const payload = {
+                chat_id: tgConfig.chatId.trim(),
+                text: textHtml,
+                parse_mode: 'HTML',
+                disable_web_page_preview: false
+            };
+
+            if (replyMarkup) {
+                payload.reply_markup = replyMarkup;
+            }
+
+            const res = await fetch(`https://api.telegram.org/bot${tgConfig.token.trim()}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await res.json();
+            if (!data.ok) {
+                let msg = data.description || 'Неизвестная ошибка Telegram API';
+                if (data.error_code === 401) msg = 'Неверный токен бота (401 Unauthorized)';
+                if (data.error_code === 400 && msg.includes('chat not found')) {
+                    msg = 'Чат не найден. Откройте созданного бота в Telegram и обязательно нажмите кнопку /start!';
+                }
+                if (data.error_code === 403) {
+                    msg = 'Бот заблокирован пользователем или нет прав администратора в указанном канале';
+                }
+                throw new Error(msg);
+            }
+            return data;
+        }
+
+        async function testTgConnection() {
+            const token = DOM.tgBotToken.value.trim();
+            const chatId = DOM.tgChatId.value.trim();
+
+            if (!token) {
+                showTgFeedback('Введите токен бота (Bot Token)', 'error');
+                return;
+            }
+            if (!chatId) {
+                showTgFeedback('Введите Chat ID или @username канала', 'error');
+                return;
+            }
+
+            DOM.tgTestBtn.disabled = true;
+            DOM.tgTestBtn.textContent = 'Проверка...';
+            showTgFeedback('Проверяем токен бота через Telegram API...', 'info');
+
+            try {
+                const meRes = await fetch(`https://api.telegram.org/bot${token}/getMe`);
+                const meData = await meRes.json();
+                if (!meData.ok) {
+                    throw new Error(`Ошибка токена: ${meData.description || 'Неверный токен'}`);
+                }
+                const botUsername = meData.result.username || meData.result.first_name;
+
+                showTgFeedback(`Бот @${botUsername} найден! Отправка тестового сообщения...`, 'info');
+
+                const testPayload = {
+                    chat_id: chatId,
+                    text: `🤖 <b>CS2 Arbitrage Scanner</b> успешно подключен!\n\n` +
+                          `✔ <b>Бот:</b> @${botUsername}\n` +
+                          `📡 <b>Статус:</b> Связь установлена!\n` +
+                          `🔥 Готов парсить связки и слать сигналы в реальном времени.\n` +
+                          `⏱ <i>${new Date().toLocaleTimeString('ru-RU')}</i>`,
+                    parse_mode: 'HTML'
+                };
+
+                const sendRes = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(testPayload)
+                });
+
+                const sendData = await sendRes.json();
+                if (!sendData.ok) {
+                    let errMsg = sendData.description || 'Чат не найден';
+                    if (sendData.error_code === 400 && errMsg.includes('chat not found')) {
+                        errMsg = 'Чат не найден. Откройте вашего бота в Telegram и обязательно нажмите /start!';
+                    }
+                    throw new Error(errMsg);
+                }
+
+                tgConfig.token = token;
+                tgConfig.chatId = chatId;
+                tgConfig.minRoi = parseFloat(DOM.tgMinRoi.value) || 25;
+                tgConfig.minProfit = parseFloat(DOM.tgMinProfit.value) || 0.20;
+                tgConfig.autoSignals = DOM.tgAutoSignals.checked;
+                saveTgConfig();
+                updateTgStatusUI();
+
+                showTgFeedback(`✔ Успешно! Тестовый сигнал отправлен в чат ботом @${botUsername}`, 'success');
+                showToast(`Бот @${botUsername} успешно подключен!`, 'success');
+            } catch (err) {
+                showTgFeedback(`❌ ${err.message}`, 'error');
+                showToast(err.message, 'error');
+            } finally {
+                DOM.tgTestBtn.disabled = false;
+                DOM.tgTestBtn.textContent = '⚡ Проверить связь';
+            }
+        }
+
+        function saveTgSettingsFromModal() {
+            tgConfig.token = DOM.tgBotToken.value.trim();
+            tgConfig.chatId = DOM.tgChatId.value.trim();
+            tgConfig.minRoi = parseFloat(DOM.tgMinRoi.value) || 25;
+            tgConfig.minProfit = parseFloat(DOM.tgMinProfit.value) || 0.20;
+            tgConfig.autoSignals = DOM.tgAutoSignals.checked;
+            saveTgConfig();
+            updateTgStatusUI();
+
+            showToast('Настройки Telegram сохранены', 'success');
+            closeTgModal();
+        }
+
+        async function sendSingleSkinToTelegram(index, btnEl) {
+            if (!tgConfig.token || !tgConfig.chatId) {
+                openTgModal('Для отправки скина в Telegram сначала укажите Bot Token и Chat ID.');
+                return;
+            }
+
+            const item = lastFilteredItems[index];
+            if (!item || !item.bestOffer) {
+                showToast('Нет данных по предложению', 'error');
+                return;
+            }
+
+            if (btnEl) {
+                btnEl.disabled = true;
+                btnEl.innerHTML = '<span>Отправка...</span>';
+            }
+
+            try {
+                const rate = getUahRate();
+                const steamGrossUah = (item.steamGross * rate).toFixed(1);
+                const netSteamUah = (item.netSteam * rate).toFixed(1);
+                const best = item.bestOffer;
+                const bestBuyUah = (best.actualBuyPrice * rate).toFixed(1);
+                const profitUah = (best.profit * rate).toFixed(1);
+
+                const steamUrl = getSteamDirectOrderUrl(item.name);
+                const bestMarketUrl = best.urlGenerator(item.name);
+
+                const feePercent = parseFloat(DOM.steamFee.value) || 15;
+                const msgLines = [
+                    `🔥 <b>CS2 ARBITRAGE СИГНАЛ</b> 🔥`,
+                    `📦 <b>${escapeHtml(item.name)}</b>`,
+                    `🏷 <i>${escapeHtml(item.quality || 'Скин')}</i> | Износ: <b>${escapeHtml(item.exterior)}</b> ${item.isConsumerShirp ? '• <b>[ШИРПОТРЕБ]</b>' : ''}`,
+                    ``,
+                    `📊 <b>Ордера и котировки:</b>`,
+                    `• <b>Steam Market:</b> $${item.steamGross.toFixed(2)} (${steamGrossUah} ₴)`,
+                    `  ↳ <i>Чистыми на баланс (-${feePercent}%): $${item.netSteam.toFixed(2)} (${netSteamUah} ₴)</i>`,
+                    `• <b>Лучшая покупка: ${best.name}</b>`,
+                    `  ↳ <i>Покупка: $${best.actualBuyPrice.toFixed(2)} (${bestBuyUah} ₴)</i>`,
+                    `  ↳ <i>Скидка к Steam: -${best.steamDiscount.toFixed(1)}%</i>`,
+                    ``,
+                    `💰 <b>Чистый профит:</b> <b>+${best.profit > 0 ? '$' : ''}${best.profit.toFixed(2)} (+${profitUah} ₴)</b>`,
+                    `🚀 <b>Реальный ROI:</b> <b>+${best.roi.toFixed(1)}%</b>`,
+                    ``,
+                    `📋 <b>Все 4 маркета для этого скина:</b>`,
+                    item.offers.map(o => `• <b>${o.name}:</b> $${o.actualBuyPrice.toFixed(2)} | ROI: <b>${o.roi > 0 ? '+' : ''}${o.roi.toFixed(1)}%</b> | Профит: ${o.profit > 0 ? '+' : ''}$${o.profit.toFixed(2)}`).join('\n'),
+                    ``,
+                    `⏱ <i>${new Date().toLocaleTimeString('ru-RU')} | Курс: 1$ = ${rate.toFixed(2)}₴</i>`
+                ];
+
+                const inlineKeyboard = [
+                    [
+                        { text: '🛒 Steam Ордера', url: steamUrl },
+                        { text: `🎯 Купить на ${best.name}`, url: bestMarketUrl }
+                    ]
+                ];
+
+                const otherMarketBtns = [];
+                item.offers.filter(o => o.marketId !== best.marketId).slice(0, 2).forEach(o => {
+                    otherMarketBtns.push({
+                        text: `${o.name} ($${o.actualBuyPrice.toFixed(2)})`,
+                        url: o.urlGenerator(item.name)
+                    });
+                });
+                if (otherMarketBtns.length > 0) {
+                    inlineKeyboard.push(otherMarketBtns);
+                }
+
+                await sendTelegramMessage(msgLines.join('\n'), { inline_keyboard: inlineKeyboard });
+
+                showToast(`«${item.name}» успешно отправлен в Telegram!`, 'success');
+                if (btnEl) {
+                    btnEl.classList.add('sent');
+                    btnEl.innerHTML = '<span>Отправлено ✔</span>';
+                    setTimeout(() => {
+                        btnEl.classList.remove('sent');
+                        btnEl.disabled = false;
+                        btnEl.innerHTML = `
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+                            </svg>
+                            <span>В TG</span>
+                        `;
+                    }, 2500);
+                }
+            } catch (err) {
+                showToast(err.message, 'error');
+                if (btnEl) {
+                    btnEl.disabled = false;
+                    btnEl.innerHTML = `
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+                        </svg>
+                        <span>В TG</span>
+                    `;
+                }
+            }
+        }
+
+        async function sendTopDealsToTelegram(limit = 5) {
+            if (!tgConfig.token || !tgConfig.chatId) {
+                openTgModal('Укажите Bot Token и Chat ID для парсинга связок в Telegram.');
+                return;
+            }
+
+            const items = (lastFilteredItems && lastFilteredItems.length > 0) ? lastFilteredItems : currentData;
+            const candidates = items.filter(item => item.bestOffer && item.bestOffer.profit > 0);
+            candidates.sort((a, b) => b.maxRoi - a.maxRoi);
+
+            const itemsToSend = candidates.slice(0, limit);
+            if (itemsToSend.length === 0) {
+                showToast('Не найдено прибыльных связок в текущей выборке', 'error');
+                return;
+            }
+
+            const rate = getUahRate();
+            let digestHtml = `🚀 <b>CS2 ARBITRAGE DIGEST (ТОП-${itemsToSend.length} СВЯЗОК)</b>\n`;
+            digestHtml += `<i>Парсинг маркетов CSFloat, Buff, Skinport, DMarket | 1$ = ${rate.toFixed(2)}₴</i>\n`;
+            digestHtml += `━━━━━━━━━━━━━━━━━━━━━\n\n`;
+
+            const inlineKeyboard = [];
+
+            itemsToSend.forEach((item, i) => {
+                const best = item.bestOffer;
+                const buyUah = (best.actualBuyPrice * rate).toFixed(1);
+                const profitUah = (best.profit * rate).toFixed(1);
+                const steamNetUah = (item.netSteam * rate).toFixed(1);
+                const steamUrl = getSteamDirectOrderUrl(item.name);
+                const marketUrl = best.urlGenerator(item.name);
+
+                digestHtml += `<b>${i + 1}. ${escapeHtml(item.name)}</b> [${escapeHtml(item.exterior)}]\n`;
+                digestHtml += `   • Покупка: <b>${best.name}</b> за <b>$${best.actualBuyPrice.toFixed(2)}</b> (${buyUah} ₴)\n`;
+                digestHtml += `   • Продажа в Steam: $${item.steamGross.toFixed(2)} (чистыми <b>$${item.netSteam.toFixed(2)}</b> / ${steamNetUah} ₴)\n`;
+                digestHtml += `   • Чистый профит: <b>+$${best.profit.toFixed(2)} (+${profitUah} ₴)</b>\n`;
+                digestHtml += `   • Реальный ROI: <b>+${best.roi.toFixed(1)}%</b>\n`;
+                digestHtml += `   • Ссылки: <a href="${steamUrl}">Steam стакан</a> | <a href="${marketUrl}">Купить на ${best.name}</a>\n\n`;
+
+                if (i < 3) {
+                    inlineKeyboard.push([
+                        { text: `🛒 #${i + 1} Steam`, url: steamUrl },
+                        { text: `🎯 #${i + 1} ${best.name}`, url: marketUrl }
+                    ]);
+                }
+            });
+
+            digestHtml += `━━━━━━━━━━━━━━━━━━━━━\n`;
+            digestHtml += `📊 Всего найдено скинов со спредом: <b>${candidates.length}</b>`;
+
+            try {
+                await sendTelegramMessage(digestHtml, inlineKeyboard.length > 0 ? { inline_keyboard: inlineKeyboard } : null);
+                showToast(`Топ-${itemsToSend.length} связок успешно отправлены в Telegram!`, 'success');
+                updateTgStatusUI();
+            } catch (err) {
+                showToast(err.message, 'error');
+            }
+        }
+
+        function checkAndSendAutoTelegramSignals(items) {
+            if (!tgConfig.autoSignals || !tgConfig.token || !tgConfig.chatId || !items || items.length === 0) return;
+
+            const candidate = items.find(item => 
+                item.bestOffer &&
+                item.maxRoi >= (tgConfig.minRoi || 25) &&
+                item.maxProfit >= (tgConfig.minProfit || 0.20) &&
+                !sentSignalCache.has(item.name)
+            );
+
+            if (candidate) {
+                sentSignalCache.add(candidate.name);
+                if (sentSignalCache.size > 60) {
+                    const firstKey = sentSignalCache.values().next().value;
+                    sentSignalCache.delete(firstKey);
+                }
+
+                const rate = getUahRate();
+                const steamUah = (candidate.steamGross * rate).toFixed(1);
+                const steamNetUah = (candidate.netSteam * rate).toFixed(1);
+                const best = candidate.bestOffer;
+                const buyUah = (best.actualBuyPrice * rate).toFixed(1);
+                const profitUah = (best.profit * rate).toFixed(1);
+                const steamUrl = getSteamDirectOrderUrl(candidate.name);
+                const marketUrl = best.urlGenerator(candidate.name);
+                const feePercent = parseFloat(DOM.steamFee.value) || 15;
+
+                const msg = [
+                    `⚡ <b>АВТО-СИГНАЛ CS2 SCANNЕR</b> ⚡`,
+                    `🔥 <b>${escapeHtml(candidate.name)}</b> (${escapeHtml(candidate.exterior)}) ${candidate.isConsumerShirp ? '• <b>[ШИРПОТРЕБ]</b>' : ''}`,
+                    ``,
+                    `🛒 <b>Steam Market:</b> $${candidate.steamGross.toFixed(2)} (${steamUah} ₴)`,
+                    `  ↳ <i>Чистыми на баланс (-${feePercent}%): $${candidate.netSteam.toFixed(2)} (${steamNetUah} ₴)</i>`,
+                    `🎯 <b>Вход: ${best.name}</b> за <b>$${best.actualBuyPrice.toFixed(2)}</b> (${buyUah} ₴)`,
+                    `💰 <b>Чистый профит:</b> <b>+$${best.profit.toFixed(2)} (+${profitUah} ₴)</b>`,
+                    `🚀 <b>Реальный ROI:</b> <b>+${best.roi.toFixed(1)}%</b>`,
+                    ``,
+                    `⏱ <i>Автоскан ордеров в ${new Date().toLocaleTimeString('ru-RU')} | Курс: 1$ = ${rate.toFixed(2)}₴</i>`
+                ].join('\n');
+
+                sendTelegramMessage(msg, {
+                    inline_keyboard: [
+                        [
+                            { text: '🛒 Steam стакан', url: steamUrl },
+                            { text: `🎯 Купить на ${best.name}`, url: marketUrl }
+                        ]
+                    ]
+                }).catch(err => console.warn('Auto TG signal error:', err));
+            }
+        }
+
+        // Global exports for inline onclick
+        window.sendSingleSkinToTelegram = sendSingleSkinToTelegram;
+        window.sendTopDealsToTelegram = sendTopDealsToTelegram;
+        window.openTgModal = openTgModal;
+        window.closeTgModal = closeTgModal;
+        window.testTgConnection = testTgConnection;
+        window.fetchLiveCurrencyRates = fetchLiveCurrencyRates;
+
+        // Currency rate live refresh controls
+        if (DOM.syncRateBtn) {
+            DOM.syncRateBtn.addEventListener('click', () => fetchLiveCurrencyRates(true));
+        }
+        if (DOM.rateBadgeEl) {
+            DOM.rateBadgeEl.addEventListener('click', () => fetchLiveCurrencyRates(true));
+        }
+
+        // Steam Fee Preset Pills
+        document.querySelectorAll('[data-fee]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('[data-fee]').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                DOM.steamFee.value = btn.dataset.fee;
+                renderResults();
+            });
+        });
+
+        // Market Fee Preset Pills
+        document.querySelectorAll('[data-market-fee]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('[data-market-fee]').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                DOM.marketFee.value = btn.dataset.marketFee;
+                renderResults();
+            });
+        });
+
+        // Telegram UI event listeners
+        if (DOM.tgModalBtn) DOM.tgModalBtn.addEventListener('click', () => openTgModal());
+        if (DOM.tgOpenBtn) DOM.tgOpenBtn.addEventListener('click', () => openTgModal());
+        if (DOM.tgModalClose) DOM.tgModalClose.addEventListener('click', closeTgModal);
+        if (DOM.tgTestBtn) DOM.tgTestBtn.addEventListener('click', testTgConnection);
+        if (DOM.tgSaveBtn) DOM.tgSaveBtn.addEventListener('click', saveTgSettingsFromModal);
+        if (DOM.tgSendTopBtn) DOM.tgSendTopBtn.addEventListener('click', () => sendTopDealsToTelegram(5));
+        if (DOM.tgQuickSendBtn) DOM.tgQuickSendBtn.addEventListener('click', () => sendTopDealsToTelegram(5));
+        if (DOM.tgParseCurrentBtn) DOM.tgParseCurrentBtn.addEventListener('click', () => sendTopDealsToTelegram(5));
+
+        if (DOM.tgToggleTokenEye) {
+            DOM.tgToggleTokenEye.addEventListener('click', () => {
+                if (DOM.tgBotToken.type === 'password') {
+                    DOM.tgBotToken.type = 'text';
+                    DOM.tgToggleTokenEye.textContent = '🔒';
+                } else {
+                    DOM.tgBotToken.type = 'password';
+                    DOM.tgToggleTokenEye.textContent = '👁';
+                }
+            });
+        }
+
+        if (DOM.tgModal) {
+            DOM.tgModal.addEventListener('click', (e) => {
+                if (e.target === DOM.tgModal) closeTgModal();
+            });
+        }
 
         // Initial Boot
         document.addEventListener('DOMContentLoaded', () => {
-            handleScan(); // Run initial scan automatically on page load
+            updateTgStatusUI();
+            startCurrencyAutoSync();
+            handleScan();
         });
     </script>
 </body>

@@ -1,6 +1,6 @@
 {
   "name": "CS2 Arbitrage Scanner",
-  "description": "Single-page application for scanning and analyzing CS2 skin arbitrage opportunities.",
+  "description": "Single-page application for scanning and analyzing CS2 skin arbitrage opportunities across Steam, Buff, CSFloat, Skinport, DMarket with Telegram bot integration.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
