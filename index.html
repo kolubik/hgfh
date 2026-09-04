@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS2 Arbitrage Scanner</title>
+    <meta name="description" content="Single-page application for scanning and analyzing CS2 skin arbitrage opportunities.">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
+
+        :root {
+            /* Clean Minimalism Palette */
+            --bg-base: #0B0E12;
+            --bg-header: #0F1217;
+            --bg-panel: #14181F;
+            --bg-input: #1A1F26;
+            
+            --bg-glass: rgba(255, 255, 255, 0.03);
+            --bg-glass-hover: rgba(255, 255, 255, 0.06);
+            --border-glass: rgba(255, 255, 255, 0.08);
+            --border-glass-hover: rgba(255, 255, 255, 0.15);
+            
+            --text-main: #e2e8f0;
+            --text-muted: rgba(255, 255, 255, 0.4);
+            
+            --accent-profit: #00FF41; 
+            --accent-profit-hover: #00D135;
+            --accent-loss: #ef4444;   
+            
+            --brand-steam: #3b82f6;   
+            --brand-csfloat: #f97316; 
+
+            --q-covert: #EB4B4B;
+            --q-classified: #D32EE6;
+            --q-restricted: #8847ff;
+            --q-milspec: #4b69ff;
+            --q-industrial: #5e98d9;
+            --q-consumer: #b0c3d9;
+            --q-gold: #E4AE39;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            min-height: 100vh;
+            line-height: 1.5;
+            overflow-x: hidden;
+            user-select: none;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 0 24px 0;
+        }
+
+        /* Glassmorphism Utilities -> Solid minimalist panels */
+        .glass {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-glass);
+            border-radius: 8px;
+        }
+
+        /* Header */
+        header.glass {
+            background: var(--bg-header);
+            border: none;
+            border-bottom: 1px solid var(--border-glass);
+            border-radius: 0;
+            padding: 16px 32px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-title svg {
+            color: var(--accent-profit);
+        }
+
+        .header-title h1 {
+            font-size: 1.25rem;
+            font-weight: 900;
+            letter-spacing: -0.05em;
+            text-transform: uppercase;
+            font-style: italic;
+            color: #fff;
+        }
+
+        .update-section {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .last-updated {
+            font-size: 0.75rem;
+            font-family: monospace;
+            color: var(--text-main);
+            text-align: right;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+
+        .last-updated::before {
+            content: 'LAST SCAN';
+            font-size: 0.65rem;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            color: white;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+
+        .btn-scan {
+            background: var(--accent-profit);
+            color: #000;
+        }
+
+        .btn-scan:hover {
+            background: var(--accent-profit-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-csfloat {
+            background: rgba(249, 115, 22, 0.1);
+            color: var(--brand-csfloat);
+            border: 1px solid rgba(249, 115, 22, 0.2);
+            font-size: 0.75rem;
+            padding: 6px 12px;
+            flex: 1;
+        }
+
+        .btn-csfloat:hover {
+            background: rgba(249, 115, 22, 0.2);
+        }
+
+        .btn-steam {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--brand-steam);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            font-size: 0.75rem;
+            padding: 6px 12px;
+            flex: 1;
+        }
+
+        .btn-steam:hover {
+            background: rgba(59, 130, 246, 0.2);
+        }
+
+        /* Spin Animation */
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+        .spinning svg {
+            animation: spin 1s linear infinite;
+        }
+
+        /* Layout */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 24px;
+            align-items: start;
+            padding: 0 32px;
+        }
+
+        @media (max-width: 1024px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Settings Panel */
+        .settings-panel {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: sticky;
+            top: 24px;
+        }
+
+        .settings-panel h2 {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .form-control {
+            background: var(--bg-input);
+            border: 1px solid var(--border-glass);
+            border-radius: 4px;
+            padding: 10px 14px;
+            color: var(--text-main);
+            font-size: 0.875rem;
+            font-family: inherit;
+            width: 100%;
+            transition: border-color 0.2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: rgba(0, 255, 65, 0.5);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .input-with-icon {
+            position: relative;
+        }
+
+        .input-with-icon svg {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            opacity: 0.5;
+        }
+
+        .input-with-icon input {
+            padding-left: 36px;
+        }
+        
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+
+        /* Results Grid */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 16px;
+        }
+
+        .item-card {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            transition: all 0.2s ease;
+            animation: fadeIn 0.4s ease-out forwards;
+            opacity: 0;
+            transform: translateY(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .item-card:hover {
+            transform: translateY(-2px);
+            background: var(--bg-glass-hover);
+            border-color: var(--border-glass-hover);
+        }
+
+        /* High ROI Highlight */
+        .high-roi-card {
+            border-color: rgba(0, 255, 65, 0.4);
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.05);
+            animation: fadeIn 0.4s ease-out forwards, pulse-glow 2s infinite alternate;
+        }
+        
+        .high-roi-card::before {
+            content: 'HOT ROI';
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: rgba(0, 255, 65, 0.15);
+            color: #00FF41;
+            font-size: 0.55rem;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-bottom-left-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            z-index: 2;
+        }
+
+        @keyframes pulse-glow {
+            from {
+                box-shadow: 0 0 5px rgba(0, 255, 65, 0.05);
+                border-color: rgba(0, 255, 65, 0.3);
+            }
+            to {
+                box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+                border-color: rgba(0, 255, 65, 0.6);
+            }
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            align-items: flex-start;
+            position: relative;
+            padding-left: 12px;
+        }
+
+        .steam-price-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 12px;
+        }
+        .steam-price-bar strong {
+            font-size: 0.875rem;
+            color: var(--brand-steam);
+            font-family: monospace;
+        }
+        .steam-price-bar a:hover {
+            color: #fff !important;
+        }
+
+        .markets-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-top: 4px;
+        }
+        .market-row {
+            display: grid;
+            grid-template-columns: 80px 1fr 65px 30px;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            transition: background 0.2s;
+        }
+        .market-row:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .market-name {
+            font-weight: 600;
+            color: #fff;
+        }
+        .market-price {
+            font-family: monospace;
+            color: var(--text-muted);
+        }
+        .market-roi {
+            font-family: monospace;
+            font-weight: 700;
+            text-align: right;
+        }
+        .market-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            text-decoration: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            border: 1px solid transparent;
+            margin-left: auto;
+            transition: all 0.2s;
+        }
+        .market-link:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--border-glass-hover);
+        }
+        .no-offers {
+            text-align: center;
+            padding: 12px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            background: rgba(0,0,0,0.2);
+            border-radius: 6px;
+            border: 1px dashed var(--border-glass);
+            margin-top: 4px;
+        }
+
+        .btn-icon {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-glass);
+            border-radius: 4px;
+            color: var(--text-muted);
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex-shrink: 0;
+            padding: 0;
+        }
+
+        .btn-icon:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border-color: var(--border-glass-hover);
+        }
+
+        .quality-bar {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            border-radius: 4px;
+        }
+
+        .item-name {
+            font-weight: 700;
+            font-size: 0.875rem;
+            line-height: 1.3;
+            color: #fff;
+        }
+
+        .item-exterior {
+            font-size: 0.65rem;
+            font-family: monospace;
+            color: var(--text-muted);
+            margin-top: 4px;
+            text-transform: uppercase;
+        }
+
+        .profit-positive { color: var(--accent-profit); }
+        .profit-negative { color: var(--accent-loss); }
+
+        /* Empty State */
+        .empty-state {
+            grid-column: 1 / -1;
+            padding: 60px 20px;
+            text-align: center;
+            color: var(--text-muted);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            background: transparent;
+            border: 1px dashed var(--border-glass);
+        }
+        .empty-state svg {
+            width: 48px;
+            height: 48px;
+            opacity: 0.5;
+        }
+
+        .sparkline-container {
+            height: 36px;
+            width: 100%;
+            margin-top: 4px;
+            margin-bottom: 4px;
+        }
+        .sparkline-svg {
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="glass">
+            <div class="header-title">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                </svg>
+                <h1>CS2 Arbitrage Scanner</h1>
+            </div>
+            <div class="update-section">
+                <span class="last-updated" id="lastUpdatedText">Ожидание обновления...</span>
+                <button id="scanBtn" class="btn btn-scan">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/>
+                        <path d="M21 3v5h-5"/>
+                    </svg>
+                    <span>Сканировать</span>
+                </button>
+            </div>
+        </header>
+
+        <div class="dashboard">
+            <!-- Settings & Filters -->
+            <aside class="settings-panel glass">
+                <h2>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                    </svg>
+                    Фильтры и настройки
+                </h2>
+                
+                <div class="form-group">
+                    <label for="search">Поиск предмета</label>
+                    <div class="input-with-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                        <input type="text" id="search" class="form-control" placeholder="Например: AWP | Asiimov">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="weaponType">Вид оружия</label>
+                    <select id="weaponType" class="form-control">
+                        <option value="all">Все виды</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="skinName">Скин</label>
+                    <select id="skinName" class="form-control" disabled>
+                        <option value="all">Все скины</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="sortBy">Сортировка</label>
+                    <select id="sortBy" class="form-control">
+                        <option value="roi-desc">ROI (По убыванию)</option>
+                        <option value="roi-asc">ROI (По возрастанию)</option>
+                        <option value="profit-desc">Профит $ (По убыванию)</option>
+                        <option value="profit-asc">Профит $ (По возрастанию)</option>
+                        <option value="price-asc">Цена покупки (Дешевле)</option>
+                        <option value="price-desc">Цена покупки (Дороже)</option>
+                    </select>
+                </div>
+
+                <hr style="border: none; border-top: 1px solid var(--border-glass); margin: 8px 0;">
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="steamFee">Комиссия Steam (%)</label>
+                        <input type="number" id="steamFee" class="form-control" value="15" step="0.1" min="0" max="100">
+                    </div>
+                    <div class="form-group">
+                        <label for="marketFee">Комиссия площадки (%)</label>
+                        <input type="number" id="marketFee" class="form-control" value="0" step="0.1" min="0" max="100">
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Results -->
+            <main>
+                <div id="resultsGrid" class="results-grid">
+                    <!-- Cards will be injected here via JS -->
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        /**
+         * CS2 Arbitrage Scanner Logic
+         */
+
+        // ==========================================
+        // 1. STATE
+        // ==========================================
+        
+        let currentData = [];
+
+        // DOM Elements
+        const DOM = {
+            search: document.getElementById('search'),
+            weaponType: document.getElementById('weaponType'),
+            skinName: document.getElementById('skinName'),
+            sortBy: document.getElementById('sortBy'),
+            steamFee: document.getElementById('steamFee'),
+            marketFee: document.getElementById('marketFee'),
+            scanBtn: document.getElementById('scanBtn'),
+            lastUpdatedText: document.getElementById('lastUpdatedText'),
+            resultsGrid: document.getElementById('resultsGrid')
+        };
+
+        // ==========================================
+        // 2. CORE LOGIC & MATH
+        // ==========================================
+
+        let weaponsMap = new Map();
+
+        function initDropdowns() {
+            weaponsMap.clear();
+            currentData.forEach(item => {
+                if (!weaponsMap.has(item.weaponType)) {
+                    weaponsMap.set(item.weaponType, new Set());
+                }
+                if (item.skinName) {
+                    weaponsMap.get(item.weaponType).add(item.skinName);
+                }
+            });
+            
+            const prevWeapon = DOM.weaponType.value;
+            DOM.weaponType.innerHTML = '<option value="all">Все виды</option>';
+            const sortedWeapons = Array.from(weaponsMap.keys()).sort();
+            sortedWeapons.forEach(w => {
+                const opt = document.createElement('option');
+                opt.value = w;
+                opt.textContent = w;
+                DOM.weaponType.appendChild(opt);
+            });
+            
+            if (Array.from(DOM.weaponType.options).some(o => o.value === prevWeapon)) {
+                DOM.weaponType.value = prevWeapon;
+            }
+            
+            updateSkinDropdown();
+        }
+        
+        function updateSkinDropdown() {
+            const selectedWeapon = DOM.weaponType.value;
+            const prevSkin = DOM.skinName.value;
+            DOM.skinName.innerHTML = '<option value="all">Все скины</option>';
+            
+            if (selectedWeapon === 'all') {
+                DOM.skinName.disabled = true;
+            } else {
+                DOM.skinName.disabled = false;
+                const skins = Array.from(weaponsMap.get(selectedWeapon)).sort();
+                skins.forEach(s => {
+                    const opt = document.createElement('option');
+                    opt.value = s;
+                    opt.textContent = s;
+                    DOM.skinName.appendChild(opt);
+                });
+                
+                if (Array.from(DOM.skinName.options).some(o => o.value === prevSkin)) {
+                    DOM.skinName.value = prevSkin;
+                }
+            }
+        }
+        
+        /**
+         * Calculates arbitrage metrics dynamically based on current fees.
+         * For multiple markets per item.
+         */
+        function calculateMetrics(item, steamFeePct, marketFeePct) {
+            const sFee = steamFeePct / 100;
+            const mFee = marketFeePct / 100;
+            
+            const netSteam = item.steamPrice * (1 - sFee);
+            
+            let processedOffers = item.offers.map(offer => {
+                const actualBuyPrice = offer.price * (1 + mFee);
+                const profit = netSteam - actualBuyPrice;
+                const roi = (profit / actualBuyPrice) * 100;
+                return { ...offer, actualBuyPrice, profit, roi };
+            });
+
+            // Sort offers internally by ROI descending
+            processedOffers.sort((a, b) => b.roi - a.roi);
+
+            let maxRoi = -Infinity;
+            let maxProfit = -Infinity;
+            let bestBuyPrice = Infinity;
+
+            if (processedOffers.length > 0) {
+                maxRoi = processedOffers[0].roi;
+                maxProfit = processedOffers[0].profit;
+                bestBuyPrice = processedOffers[0].actualBuyPrice;
+            }
+
+            return {
+                ...item,
+                offers: processedOffers,
+                netSteam,
+                maxRoi,
+                maxProfit,
+                bestBuyPrice
+            };
+        }
+
+        // ==========================================
+        // 3. API INTEGRATION STRUCTURE
+        // ==========================================
+        
+        /**
+         * Structure for connecting a real API (e.g., CSFloat or PriceEmpire).
+         * Currently simulates a network request using setTimeout and resolves mockData.
+         */
+        const MARKETS = [
+            { id: 'csfloat', name: 'CSFloat', url: 'https://csfloat.com/search?keyword=' },
+            { id: 'skinport', name: 'Skinport', url: 'https://skinport.com/market?search=' },
+            { id: 'dmarket', name: 'DMarket', url: 'https://dmarket.com/ingame-items/item-list/csgo-skins?title=' },
+            { id: 'buff', name: 'Buff163', url: 'https://buff.163.com/market/csgo#tab=selling&search=' }
+        ];
+
+        async function fetchMarketData() {
+            try {
+                // Загружаем полную базу скинов CS2 через публичный API bymykel (~7000+ скинов)
+                const response = await fetch('https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/api/en/skins.json');
+                const apiData = await response.json();
+                
+                return apiData.map(item => {
+                    // Поскольку это фри-API без актуальных цен, симулируем цены 
+                    // для демонстрации работы сканера.
+                    let basePrice = 2;
+                    if (item.rarity) {
+                        const r = item.rarity.id;
+                        if (r === 'rarity_covert') basePrice = 80;
+                        else if (r === 'rarity_classified') basePrice = 20;
+                        else if (r === 'rarity_restricted') basePrice = 5;
+                        else if (r === 'rarity_milspec') basePrice = 1.5;
+                        else if (r === 'rarity_industrial') basePrice = 0.5;
+                        else if (r === 'rarity_consumer') basePrice = 0.1;
+                        else if (r === 'rarity_contraband') basePrice = 2000;
+                    }
+                    if (item.weapon && item.weapon.name.includes('Knife')) basePrice = 400;
+                    if (item.weapon && item.weapon.name.includes('Gloves')) basePrice = 300;
+                    
+                    basePrice = basePrice * (Math.random() * 1.5 + 0.5); // Разброс базовой цены
+                    
+                    // Симуляция арбитражной разницы
+                    const diff = 1 + (Math.random() * 0.40 - 0.15); 
+                    const currentSteamPrice = basePrice * diff;
+
+                    const generatedOffers = [];
+                    MARKETS.forEach(m => {
+                        // 60% chance for an offer to exist on this market
+                        if (Math.random() > 0.4) {
+                            generatedOffers.push({
+                                marketId: m.id,
+                                name: m.name,
+                                price: basePrice * (0.6 + Math.random() * 0.8), // random spread per market
+                                urlBase: m.url
+                            });
+                        }
+                    });
+                    
+                    // Симуляция исторической волатильности (20 точек)
+                    const history = [];
+                    let curPrice = currentSteamPrice * (0.8 + Math.random() * 0.4);
+                    for(let i = 0; i < 15; i++) {
+                        history.push(curPrice);
+                        curPrice += curPrice * (Math.random() * 0.1 - 0.05);
+                    }
+                    history.push(currentSteamPrice);
+                    
+                    const exterior = item.wears && item.wears.length > 0 
+                        ? item.wears[Math.floor(Math.random() * item.wears.length)].name 
+                        : "Vanilla";
+
+                    return {
+                        id: item.id,
+                        name: item.name,
+                        exterior: exterior,
+                        steamPrice: currentSteamPrice,
+                        offers: generatedOffers,
+                        quality: item.rarity ? item.rarity.id : "common",
+                        color: item.rarity ? item.rarity.color : "#b0c3d9",
+                        weaponType: item.weapon ? item.weapon.name : "Разное",
+                        skinName: item.pattern ? item.pattern.name : "Vanilla",
+                        history: history
+                    };
+                });
+            } catch (e) {
+                console.error("Ошибка при получении базы скинов:", e);
+                alert("Не удалось загрузить базу скинов. Проверьте подключение к интернету.");
+                return [];
+            }
+        }
+
+        // ==========================================
+        // 4. RENDERING & UI UPDATES
+        // ==========================================
+        
+        function generateSparkline(history, isProfitable) {
+            if (!history || history.length === 0) return '';
+            
+            const min = Math.min(...history);
+            const max = Math.max(...history);
+            const range = max - min || 1;
+            const width = 100; // SVG viewBox width
+            const height = 30; // SVG viewBox height
+            const strokeColor = isProfitable ? '#00FF41' : '#ef4444';
+            
+            const points = history.map((val, i) => {
+                const x = (i / (history.length - 1)) * width;
+                const y = height - ((val - min) / range) * height;
+                return `${x},${y}`;
+            });
+            
+            const pathData = `M ${points.join(' L ')}`;
+            const fillPathData = `${pathData} L ${width},${height} L 0,${height} Z`;
+            
+            return `
+                <div class="sparkline-container">
+                    <svg viewBox="0 0 ${width} ${height}" class="sparkline-svg" preserveAspectRatio="none">
+                        <defs>
+                            <linearGradient id="sparkline-grad-${isProfitable ? 'pos' : 'neg'}" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="${strokeColor}" stop-opacity="0.3" />
+                                <stop offset="100%" stop-color="${strokeColor}" stop-opacity="0" />
+                            </linearGradient>
+                        </defs>
+                        <path d="${fillPathData}" fill="url(#sparkline-grad-${isProfitable ? 'pos' : 'neg'})" stroke="none" />
+                        <path d="${pathData}" fill="none" stroke="${strokeColor}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </div>
+            `;
+        }
+
+        function formatMoney(amount) {
+            return '$' + amount.toFixed(2);
+        }
+
+        function formatPercent(amount) {
+            return (amount > 0 ? '+' : '') + amount.toFixed(1) + '%';
+        }
+
+        function updateLastUpdated() {
+            const now = new Date();
+            DOM.lastUpdatedText.textContent = `Обновлено: ${now.toLocaleTimeString('ru-RU')}`;
+        }
+
+        function renderResults() {
+            // Get current filter values
+            const searchVal = DOM.search.value.toLowerCase();
+            const weaponVal = DOM.weaponType.value;
+            const skinVal = DOM.skinName.value;
+            const sortVal = DOM.sortBy.value;
+            const sFeeVal = parseFloat(DOM.steamFee.value) || 0;
+            const mFeeVal = parseFloat(DOM.marketFee.value) || 0;
+
+            // 1. Map data to calculate current metrics
+            let processed = currentData.map(item => calculateMetrics(item, sFeeVal, mFeeVal));
+
+            // 2. Filter (No ROI filtering, show all items matching search)
+            processed = processed.filter(item => {
+                if (searchVal && !item.name.toLowerCase().includes(searchVal)) return false;
+                if (weaponVal !== 'all' && item.weaponType !== weaponVal) return false;
+                if (skinVal !== 'all' && item.skinName !== skinVal) return false;
+                return true;
+            });
+
+            // 3. Sort using the best market offer
+            processed.sort((a, b) => {
+                switch (sortVal) {
+                    case 'roi-desc': return b.maxRoi - a.maxRoi;
+                    case 'roi-asc': return a.maxRoi - b.maxRoi;
+                    case 'profit-desc': return b.maxProfit - a.maxProfit;
+                    case 'profit-asc': return a.maxProfit - b.maxProfit;
+                    case 'price-desc': return b.bestBuyPrice - a.bestBuyPrice;
+                    case 'price-asc': return a.bestBuyPrice - b.bestBuyPrice;
+                    default: return 0;
+                }
+            });
+
+            // 4. Render HTML
+            DOM.resultsGrid.innerHTML = '';
+            
+            if (processed.length === 0) {
+                DOM.resultsGrid.innerHTML = `
+                    <div class="empty-state glass">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="8" x2="12" y2="12"></line>
+                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                        </svg>
+                        <h3>Предметы не найдены</h3>
+                        <p>Попробуйте изменить параметры фильтров или снизить минимальный ROI.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const maxRender = 100;
+            const itemsToRender = processed.slice(0, maxRender);
+
+            const statusDiv = document.createElement('div');
+            statusDiv.style.gridColumn = '1 / -1';
+            statusDiv.style.padding = '0 12px 12px';
+            statusDiv.style.color = 'var(--text-muted)';
+            statusDiv.style.fontSize = '0.875rem';
+            statusDiv.innerHTML = `Найдено скинов: <strong style="color:white">${processed.length}</strong>. Показаны топ-${itemsToRender.length}.`;
+            DOM.resultsGrid.appendChild(statusDiv);
+
+            itemsToRender.forEach((item, index) => {
+                const steamSearchUrl = `https://steamcommunity.com/market/search?q=${encodeURIComponent(item.name)}`;
+
+                let offersHtml = '';
+                if (item.offers.length === 0) {
+                    offersHtml = '<div class="no-offers">Отсутствуют предложения на маркетах</div>';
+                } else {
+                    offersHtml = '<div class="markets-list">' + item.offers.map(offer => {
+                        const isProfitable = offer.profit >= 0;
+                        const profitClass = isProfitable ? 'profit-positive' : 'profit-negative';
+                        const searchUrl = `${offer.urlBase}${encodeURIComponent(item.name)}`;
+                        
+                        return `
+                            <div class="market-row">
+                                <span class="market-name">${offer.name}</span>
+                                <span class="market-price">${formatMoney(offer.actualBuyPrice)}</span>
+                                <span class="market-roi ${profitClass}">${formatPercent(offer.roi)}</span>
+                                <a href="${searchUrl}" target="_blank" class="market-link" title="Открыть на ${offer.name}">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                        <polyline points="15 3 21 3 21 9"></polyline>
+                                        <line x1="10" y1="14" x2="21" y2="3"></line>
+                                    </svg>
+                                </a>
+                            </div>
+                        `;
+                    }).join('') + '</div>';
+                }
+
+                // Card Template
+                const card = document.createElement('div');
+                card.className = `item-card glass ${item.maxRoi > 10 ? 'high-roi-card' : ''}`;
+                card.style.animationDelay = `${index * 0.05}s`;
+                
+                card.innerHTML = `
+                    <div class="card-header">
+                        <div class="quality-bar" style="background-color: ${item.color}; box-shadow: 0 0 10px ${item.color}80;"></div>
+                        <div>
+                            <div class="item-name">${item.name}</div>
+                            <div class="item-exterior">${item.exterior}</div>
+                        </div>
+                        <button class="btn-icon" title="Скопировать название" onclick="copyToClipboard('${item.name.replace(/'/g, "\\'")}', this)">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <div class="steam-price-bar">
+                        <div style="display:flex; gap:6px; align-items:center;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                            <span style="font-weight:600; color:#fff;">Steam Market</span>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:12px;">
+                            <div style="display:flex; flex-direction:column; align-items:flex-end;">
+                                <strong>${formatMoney(item.steamPrice)}</strong>
+                                <span style="font-size:0.6rem; color:var(--text-muted); font-family:sans-serif;">чистыми: ${formatMoney(item.netSteam)}</span>
+                            </div>
+                            <a href="${steamSearchUrl}" target="_blank" class="market-link" style="color:var(--brand-steam); border-color:rgba(59,130,246,0.3);" title="Торговая площадка Steam">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                    <polyline points="15 3 21 3 21 9"></polyline>
+                                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    ${generateSparkline(item.history, item.maxProfit >= 0)}
+
+                    ${offersHtml}
+                `;
+                
+                DOM.resultsGrid.appendChild(card);
+            });
+        }
+
+        // ==========================================
+        // 5. EVENT LISTENERS & INITIALIZATION
+        // ==========================================
+
+        window.copyToClipboard = function(text, btnElement) {
+            navigator.clipboard.writeText(text).then(() => {
+                const originalHTML = btnElement.innerHTML;
+                // Показываем галочку успешного копирования
+                btnElement.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00FF41" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+                btnElement.style.borderColor = 'rgba(0, 255, 65, 0.5)';
+                setTimeout(() => {
+                    btnElement.innerHTML = originalHTML;
+                    btnElement.style.borderColor = '';
+                }, 1500);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        };
+
+        async function handleScan() {
+            // UI Feedback
+            DOM.scanBtn.classList.add('spinning');
+            DOM.scanBtn.disabled = true;
+            DOM.resultsGrid.style.opacity = '0.5';
+
+            try {
+                if (currentData.length === 0) {
+                    DOM.lastUpdatedText.textContent = 'Загрузка ~7000 скинов...';
+                }
+                // Fetch data
+                currentData = await fetchMarketData();
+                updateLastUpdated();
+                initDropdowns(); // Populate weapon & skin selects
+                renderResults();
+            } catch (error) {
+                console.error("Ошибка при сканировании рынка:", error);
+                alert("Не удалось загрузить данные. Попробуйте еще раз.");
+            } finally {
+                // Restore UI
+                DOM.scanBtn.classList.remove('spinning');
+                DOM.scanBtn.disabled = false;
+                DOM.resultsGrid.style.opacity = '1';
+            }
+        }
+
+        // Bind interactive events
+        DOM.weaponType.addEventListener('change', () => {
+            updateSkinDropdown();
+            renderResults();
+        });
+        DOM.skinName.addEventListener('change', renderResults);
+        DOM.search.addEventListener('input', renderResults);
+        DOM.sortBy.addEventListener('change', renderResults);
+        DOM.steamFee.addEventListener('input', renderResults);
+        DOM.marketFee.addEventListener('input', renderResults);
+        DOM.scanBtn.addEventListener('click', handleScan);
+
+        // Initial Boot
+        document.addEventListener('DOMContentLoaded', () => {
+            handleScan(); // Run initial scan automatically on page load
+        });
+    </script>
+</body>
+</html>
+
