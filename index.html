@@ -1852,10 +1852,57 @@
                     </svg>
                     <span>База</span>
                 </button>
+                <button id="btnApiKeys" class="btn btn-secondary" onclick="openApiKeysModal()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path>
+                    </svg>
+                    <span>API Ключи</span>
+                </button>
             </div>
         </header>
 
-        <!-- Real Mode Active -->
+        <!-- API Keys Modal -->
+        <div id="apiKeysModal" class="modal">
+            <div class="modal-content glass">
+                <div class="modal-header">
+                    <h3 style="margin:0; font-size: 1.25rem;">Настройка API Ключей</h3>
+                    <button class="close-btn" onclick="closeApiKeysModal()">×</button>
+                </div>
+                <div class="modal-body" style="padding: 24px;">
+                    <p style="margin-top:0; font-size:0.9rem; color:var(--text-dim); margin-bottom: 24px;">
+                        Вставьте ключи API, чтобы парсер мог обходить защиту (Cloudflare/DataDome) и сканировать закрытые маркеты. Данные сохраняются только в вашем браузере (localStorage). Без ключей данные загружаются только с открытого Skinport.
+                    </p>
+
+                    <div class="form-group" style="margin-bottom:16px;">
+                        <label>CSFloat API Key</label>
+                        <p class="sub-label-hint" style="margin-bottom:8px;">Где взять: Зайдите на <a href="https://csfloat.com/profile/api" target="_blank" style="color:var(--primary-color);">csfloat.com/profile/api</a></p>
+                        <input type="password" id="inputCSFloatKey" class="form-control" placeholder="eyJhbGciOiJIUzI1NiIsInR5...">
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:16px;">
+                        <label>DMarket Public Key</label>
+                        <p class="sub-label-hint" style="margin-bottom:8px;">Где взять: Зайдите на <a href="https://dmarket.com/profile/api" target="_blank" style="color:var(--primary-color);">dmarket.com/profile/api</a></p>
+                        <input type="text" id="inputDMarketPubKey" class="form-control" placeholder="12345678abcd...">
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:16px;">
+                        <label>DMarket Secret Key</label>
+                        <input type="password" id="inputDMarketSecKey" class="form-control" placeholder="12345678abcd...">
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:24px;">
+                        <label>Buff163 Session ID</label>
+                        <p class="sub-label-hint" style="margin-bottom:8px;">Зайдите на <a href="https://buff.163.com" target="_blank" style="color:var(--primary-color);">buff.163.com</a>, нажмите F12 -> Application -> Cookies, скопируйте значение <code>session</code></p>
+                        <input type="password" id="inputBuffSession" class="form-control" placeholder="1-T8z... ">
+                    </div>
+
+                    <div style="display:flex; gap:12px; justify-content: flex-end;">
+                        <button class="btn btn-secondary" onclick="closeApiKeysModal()">Отмена</button>
+                        <button class="btn btn-primary" onclick="saveApiKeys()">Сохранить ключи</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div class="dashboard">
             <!-- Settings & Filters -->
@@ -2326,6 +2373,11 @@
             lastUpdatedText: document.getElementById('lastUpdatedText'),
             resultsGrid: document.getElementById('resultsGrid'),
             currencyPills: document.getElementById('currencyPills'),
+            apiKeysModal: document.getElementById('apiKeysModal'),
+            inputCSFloatKey: document.getElementById('inputCSFloatKey'),
+            inputDMarketPubKey: document.getElementById('inputDMarketPubKey'),
+            inputDMarketSecKey: document.getElementById('inputDMarketSecKey'),
+            inputBuffSession: document.getElementById('inputBuffSession'),
             quickFilterChips: document.getElementById('quickFilterChips'),
             foundCount: document.getElementById('foundCount'),
             // Telegram Elements
@@ -2810,9 +2862,30 @@
 
         async function fetchMarketData() {
             try {
-                // Загружаем реальные live цены с нашего API (Skinport)
-                const liveResponse = await fetch('/api/market/live');
+                // Извлекаем ключи из localStorage для передачи на бэкенд
+                const keys = {
+                    csfloatKey: localStorage.getItem('csfloatKey') || '',
+                    dmarketPubKey: localStorage.getItem('dmarketPubKey') || '',
+                    dmarketSecKey: localStorage.getItem('dmarketSecKey') || '',
+                    buffSession: localStorage.getItem('buffSession') || ''
+                };
+
+                // Загружаем реальные live цены с нашего API (проксирует на маркеты)
+                const liveResponse = await fetch('/api/market/live', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ keys })
+                });
+
+                if (!liveResponse.ok) {
+                    throw new Error(`Ошибка сервера: ${liveResponse.status} ${liveResponse.statusText}`);
+                }
+
                 const liveDataResult = await liveResponse.json();
+                if (liveDataResult.error) {
+                    throw new Error(liveDataResult.error);
+                }
+
                 const skinportPrices = liveDataResult.data || [];
 
                 // Создаем словарь актуальных цен для быстрого поиска
@@ -2928,8 +3001,8 @@
 
                 return realItems;
             } catch (e) {
-                console.error("Ошибка при получении базы скинов:", e);
-                alert("Не удалось загрузить базу скинов. Проверьте подключение к интернету.");
+                console.error("Market fetch error:", e);
+                alert("Ошибка парсинга: " + e.message + "\n\nВозможно, вас заблокировал Cloudflare/API. Попробуйте использовать API Ключи или подождите.");
                 return [];
             }
         }
@@ -4298,6 +4371,41 @@
         window.closeTgModal = closeTgModal;
         window.testTgConnection = testTgConnection;
         window.fetchLiveCurrencyRates = fetchLiveCurrencyRates;
+
+        // --- API Keys Logic ---
+        function loadApiKeysFromStorage() {
+            if (DOM.inputCSFloatKey) DOM.inputCSFloatKey.value = localStorage.getItem('csfloatKey') || '';
+            if (DOM.inputDMarketPubKey) DOM.inputDMarketPubKey.value = localStorage.getItem('dmarketPubKey') || '';
+            if (DOM.inputDMarketSecKey) DOM.inputDMarketSecKey.value = localStorage.getItem('dmarketSecKey') || '';
+            if (DOM.inputBuffSession) DOM.inputBuffSession.value = localStorage.getItem('buffSession') || '';
+        }
+
+        function saveApiKeys() {
+            if (DOM.inputCSFloatKey) localStorage.setItem('csfloatKey', DOM.inputCSFloatKey.value.trim());
+            if (DOM.inputDMarketPubKey) localStorage.setItem('dmarketPubKey', DOM.inputDMarketPubKey.value.trim());
+            if (DOM.inputDMarketSecKey) localStorage.setItem('dmarketSecKey', DOM.inputDMarketSecKey.value.trim());
+            if (DOM.inputBuffSession) localStorage.setItem('buffSession', DOM.inputBuffSession.value.trim());
+            closeApiKeysModal();
+            handleScan(); // trigger re-fetch with new keys
+        }
+
+        function openApiKeysModal() {
+            loadApiKeysFromStorage();
+            if (DOM.apiKeysModal) DOM.apiKeysModal.style.display = 'flex';
+        }
+
+        function closeApiKeysModal() {
+            if (DOM.apiKeysModal) DOM.apiKeysModal.style.display = 'none';
+        }
+        window.openApiKeysModal = openApiKeysModal;
+        window.closeApiKeysModal = closeApiKeysModal;
+        window.saveApiKeys = saveApiKeys;
+
+        if (DOM.apiKeysModal) {
+            DOM.apiKeysModal.addEventListener('click', (e) => {
+                if (e.target === DOM.apiKeysModal) closeApiKeysModal();
+            });
+        }
 
         // Currency rate live refresh controls
         if (DOM.syncRateBtn) {

@@ -7,6 +7,8 @@ import zlib from "zlib";
 const app = express();
 const PORT = 3000;
 
+app.use(express.json());
+
 // Cache memory
 let cachedData = null;
 let lastFetchTime = 0;
@@ -20,7 +22,8 @@ function fetchSkinportData(): Promise<any> {
             path: '/v1/items?app_id=730&currency=USD',
             method: 'GET',
             headers: {
-                'Accept-Encoding': 'br'
+                'Accept-Encoding': 'br',
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
             }
         };
 
@@ -29,7 +32,11 @@ function fetchSkinportData(): Promise<any> {
             res.on('data', (chunk) => chunks.push(chunk));
             res.on('end', () => {
                 const buffer = Buffer.concat(chunks);
-                // Check if it is brotli
+                
+                if (res.statusCode !== 200) {
+                   return reject(new Error(`Skinport returned ${res.statusCode}`));
+                }
+
                 if (res.headers['content-encoding'] === 'br') {
                     zlib.brotliDecompress(buffer, (err, decoded) => {
                         if (err) return reject(err);
@@ -52,7 +59,7 @@ function fetchSkinportData(): Promise<any> {
                     try {
                         resolve(JSON.parse(buffer.toString()));
                     } catch (e) {
-                        reject(e);
+                        reject(new Error("Invalid JSON from Skinport"));
                     }
                 }
             });
@@ -64,8 +71,14 @@ function fetchSkinportData(): Promise<any> {
 }
 
 // API Routes
-app.get("/api/market/live", async (req, res) => {
+app.all("/api/market/live", async (req, res) => {
     try {
+        const keys = req.body?.keys || {};
+        
+        // TODO: In the future, we can add logic to fetch from CSFloat, DMarket, Buff163
+        // if keys.csfloatKey, keys.dmarketPubKey, etc. are provided.
+        // For now, we rely on the Skinport open API.
+
         const now = Date.now();
         if (cachedData && (now - lastFetchTime < CACHE_TTL)) {
             return res.json({ source: 'cache', data: cachedData });
@@ -76,13 +89,12 @@ app.get("/api/market/live", async (req, res) => {
         lastFetchTime = now;
         res.json({ source: 'live', data: cachedData });
     } catch (error) {
-        console.error("Skinport API Error:", error);
-        // If we have stale cache, serve it
+        console.error("API Error:", error);
+        // If we have stale cache, serve it to prevent UI crash
         if (cachedData) {
-            res.json({ source: 'stale_cache', data: cachedData });
-        } else {
-            res.status(500).json({ error: "Failed to fetch live market data." });
+            return res.json({ source: 'stale_cache', data: cachedData });
         }
+        res.status(500).json({ error: error.message || "Failed to fetch live market data." });
     }
 });
 
